@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
-import logo from './logo.svg';
-import './App.css';
+import FlatButton from 'material-ui/FlatButton';
+import RightArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import Search from 'material-ui/svg-icons/action/search';
+import Polls from './Polls';
 
-class App extends Component {
+class Index extends Component {
   state = {
     drawerOpen: true
   }
@@ -17,26 +17,31 @@ class App extends Component {
   render() {
     const appBarWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
     return (
-      <MuiThemeProvider className="App">
+      <MuiThemeProvider>
 
         <AppBar
           style={{backgroundColor: '#fff', width: appBarWidth}}
           titleStyle={{color: '#333'}}
           title="PollVault"
           showMenuIconButton={false}
-          iconElementRight={<RaisedButton label="Toggle Filters" onClick={this.handleToggle.bind(this)} />}
+          iconElementRight={
+            <FlatButton
+              title='Toggle Filters'
+              icon={this.state.drawerOpen ? <RightArrow color='#333' /> : <Search color='#333' />}
+              onClick={this.handleToggle.bind(this)} />
+          }
         />
 
-        <div>
+        <Polls />
+
+        <section>
           <Drawer open={this.state.drawerOpen} openSecondary={true}>
-            <MenuItem>Menu Item</MenuItem>
-            <MenuItem>Menu Item 2</MenuItem>
           </Drawer>
-        </div>
+        </section>
 
       </MuiThemeProvider>
     );
   }
 }
 
-export default App;
+export default Index;
