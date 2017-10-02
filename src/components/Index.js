@@ -15,12 +15,12 @@ class Index extends Component {
   handleToggle = () => this.setState({drawerOpen: !this.state.drawerOpen})
 
   render() {
-    const appBarWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
+    const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
     return (
       <MuiThemeProvider>
 
         <AppBar
-          style={{backgroundColor: '#fff', width: appBarWidth}}
+          style={{backgroundColor: '#fff', width: contentWidth}}
           titleStyle={{color: '#333'}}
           title="PollVault"
           showMenuIconButton={false}
@@ -32,7 +32,7 @@ class Index extends Component {
           }
         />
 
-        <Polls />
+        <Polls contentWidth={contentWidth} />
 
         <section>
           <Drawer open={this.state.drawerOpen} openSecondary={true}>
