@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
-import Index from './Index'
+import React from 'react';
+import { Route } from 'react-router-dom'
+import Index from './Index';
+import Show from './Show';
+import { BrowserRouter, Switch } from 'react-router-dom';
 
-class App extends Component {
-  render() {
-    return (
-      <Index />
-    )
-  }
-}
+const App = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={Index} />
+      <Route exact path="/polls/:pollId" component={Show} />
+    </Switch>
+  </BrowserRouter>
+);
 
 export default App;

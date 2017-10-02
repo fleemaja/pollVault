@@ -11,7 +11,7 @@ class Polls extends Component {
     return (
       <section style={{width: this.props.contentWidth, textAlign: 'center'}}>
         {
-          this.props.polls.map(p => <Poll title={p.title} />)
+          this.props.polls.map(p => <Poll poll={p} />)
         }
       </section>
     )

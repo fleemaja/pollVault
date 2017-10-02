@@ -12,3 +12,7 @@ export const fetchPolls = () => dispatch => (
     .getPolls()
     .then(polls => dispatch(receivePolls(polls)))
 );
+
+export const fetchPoll = (id) => (
+  PollsStorage.getPoll(id)
+)

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
+import { Link } from 'react-router-dom';
 
 class Poll extends Component {
   render() {
+    const poll = this.props.poll
     return (
-      <Paper style={style}>
-        <h2>{ this.props.title }</h2>
+      <Paper style={style} zDepth={1} >
+        <Link to={`/polls/${poll.id}`}>
+          <h2>{ poll.title }</h2>
+        </Link>
       </Paper>
     )
   }
