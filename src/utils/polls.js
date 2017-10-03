@@ -18,6 +18,7 @@ export function getPolls() {
 }
 
 export function getPoll(id) {
+  // Only these show pages will work for now since they are hardcoded
   const polls = [
     {
       id: '0',
@@ -34,4 +35,13 @@ export function getPoll(id) {
   ]
   const poll = polls.filter(p => p.id === id)
   return poll.length > 0 ? poll[0] : null;
+}
+
+export function addPoll(poll) {
+  const id = Math.random() * (2**64);
+  const p = {
+    id,
+    title: poll.title
+  }
+  return Promise.resolve(p)
 }

@@ -3,19 +3,45 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import RightArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Search from 'material-ui/svg-icons/action/search';
 import Polls from './Polls';
+import Dialog from 'material-ui/Dialog';
+import AddPollForm from './AddPollForm';
 
 class Index extends Component {
   state = {
-    drawerOpen: true
+    drawerOpen: true,
+    addPollModalOpen: false
   }
 
-  handleToggle = () => this.setState({drawerOpen: !this.state.drawerOpen})
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+
+  handleDrawerToggle = () =>
+    this.setState({drawerOpen: !this.state.drawerOpen})
 
   render() {
     const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        disabled={true}
+        onClick={this.handleClose}
+      />,
+    ];
     return (
       <MuiThemeProvider>
 
@@ -28,7 +54,7 @@ class Index extends Component {
             <FlatButton
               title='Toggle Filters'
               icon={this.state.drawerOpen ? <RightArrow color='#333' /> : <Search color='#333' />}
-              onClick={this.handleToggle.bind(this)} />
+              onClick={this.handleDrawerToggle.bind(this)} />
           }
         />
 
@@ -36,6 +62,20 @@ class Index extends Component {
 
         <section>
           <Drawer open={this.state.drawerOpen} openSecondary={true}>
+            <RaisedButton
+              label='+ Add New Poll'
+              primary={true}
+              fullWidth={true}
+              onClick={this.handleOpen}
+             />
+            <Dialog
+              title="Add New Poll"
+              actions={actions}
+              modal={true}
+              open={this.state.open}
+            >
+              <AddPollForm />
+            </Dialog>
           </Drawer>
         </section>
 
