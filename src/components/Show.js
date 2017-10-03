@@ -5,13 +5,16 @@ import { getCommentsByPoll } from '../actions/comments';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
 import Comments from './Comments';
+import AddCommentForm from './AddCommentForm';
 
 class Show extends Component {
   state = {
-    title: ''
+    title: '',
+    pollId: ''
   }
   componentWillMount() {
     const pollId = this.props.match.params.pollId;
+    this.setState({ pollId })
     const poll = fetchPoll(pollId)
     this.props.getCommentsByPoll(pollId);
     if (poll) {
@@ -19,7 +22,7 @@ class Show extends Component {
     }
   }
   render() {
-    const { title } = this.state
+    const { title, pollId } = this.state
     const comments = this.props.comments
     return (
       <MuiThemeProvider>
@@ -27,6 +30,7 @@ class Show extends Component {
           <Paper style={style} zDepth={1} >
             <h2>{ title }</h2>
           </Paper>
+          <AddCommentForm parentId={pollId}/>
           <Comments comments={comments} />
         </section>
       </MuiThemeProvider>

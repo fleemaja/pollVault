@@ -20,3 +20,12 @@ export function getCommentsByPoll(pollId) {
   const cs = comments.filter(c => c.parentId === pollId)
   return Promise.resolve(cs)
 }
+
+export function addComment(parentId, comment) {
+  const c = {
+    parentId,
+    author: comment.author,
+    body: comment.body
+  }
+  return Promise.resolve(c)
+}
