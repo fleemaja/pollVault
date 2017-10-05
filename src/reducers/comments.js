@@ -1,6 +1,7 @@
 import {
   RECEIVE_COMMENTS,
-  ADD_COMMENT
+  ADD_COMMENT,
+  DELETE_COMMENT
 } from '../actions/comments';
 
 export function comments(state = [], action) {
@@ -14,6 +15,8 @@ export function comments(state = [], action) {
         action.comment,
         ...state
       ]
+    case DELETE_COMMENT :
+      return state.filter(comment => (comment.id !== action.id))
     default :
       return state
   }

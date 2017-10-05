@@ -1,6 +1,7 @@
 import {
   RECEIVE_POLLS,
-  ADD_POLL
+  ADD_POLL,
+  DELETE_POLL
 } from '../actions/polls';
 
 export function polls(state = [], action) {
@@ -14,6 +15,8 @@ export function polls(state = [], action) {
         action.poll,
         ...state
       ]
+    case DELETE_POLL :
+      return state.filter(poll => (poll.id !== action.id))
     default :
       return state
   }

@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
+import RaisedButton from 'material-ui/RaisedButton';
+import { connect } from 'react-redux';
+import { apiPollDelete } from '../actions/polls';
 
 class Poll extends Component {
+
+  deletePoll = () => {
+    const poll = this.props.poll;
+    const pollId = poll.id;
+    this.props.deletePoll(pollId);
+  }
+
   render() {
     const poll = this.props.poll
     return (
@@ -10,6 +20,10 @@ class Poll extends Component {
         <Link to={`/polls/${poll.id}`}>
           <h2>{ poll.title }</h2>
         </Link>
+        <RaisedButton
+          label='Delete'
+          onClick={this.deletePoll.bind(this)}
+        />
       </Paper>
     )
   }
@@ -23,4 +37,13 @@ const style = {
   display: 'inline-block'
 };
 
-export default Poll;
+function mapDispatchToProps(dispatch) {
+  return {
+    deletePoll: (id) => dispatch(apiPollDelete(id))
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Poll);
