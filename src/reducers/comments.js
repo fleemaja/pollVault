@@ -2,7 +2,8 @@ import {
   RECEIVE_COMMENTS,
   ADD_COMMENT,
   DELETE_COMMENT,
-  EDIT_COMMENT
+  EDIT_COMMENT,
+  VOTE_COMMENT
 } from '../actions/comments';
 
 export function comments(state = [], action) {
@@ -22,6 +23,13 @@ export function comments(state = [], action) {
       return state.map(comment =>
         (comment.id === action.id)
           ? {...comment, 'body': action.comment}
+          : comment
+      )
+    case VOTE_COMMENT :
+      const vote = action.voteType === 'up' ? 1 : -1;
+      return state.map(comment =>
+        (comment.id === action.id)
+          ? {...comment, 'votes': comment.votes + vote}
           : comment
       )
     default :

@@ -4,6 +4,7 @@ export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
+export const VOTE_COMMENT = "VOTE_COMMENT";
 
 export const receiveComments = comments => ({
   type: RECEIVE_COMMENTS,
@@ -32,6 +33,14 @@ export function editComment(id, comment) {
   }
 };
 
+export function voteComment(id, voteType) {
+  return {
+    type: VOTE_COMMENT,
+    id,
+    voteType
+  }
+}
+
 export const getCommentsByPoll = (commentId) => dispatch => (
   CommentsStorage
     .getCommentsByPoll(commentId)
@@ -42,6 +51,10 @@ export const apiAddComment = (parentId, comment) => dispatch => (
   CommentsStorage
       .addComment(parentId, comment)
       .then(c => dispatch(addComment(c)))
+);
+
+export const apiVoteComment = (id, voteType) => dispatch => (
+  dispatch(voteComment(id, voteType))
 );
 
 export const apiEditComment = (id, comment) => dispatch => (

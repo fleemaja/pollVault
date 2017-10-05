@@ -3,19 +3,22 @@ const comments = [
     id: '0',
     parentId: '0',
     body: 'Hi there! I am a COMMENT.',
-    author: 'thingtwo'
+    author: 'thingtwo',
+    votes: 3
   },
   {
     id: '1',
     parentId: '1',
     body: 'Comments. Are. Cool.',
-    author: 'thingone'
+    author: 'thingone',
+    votes: -7
   },
   {
     id: '2',
     parentId: '1',
     body: 'Shimmy Shimmy Cocoa Puff',
-    author: 'thingtwo'
+    author: 'thingtwo',
+    votes: 31
   }
 ]
 
