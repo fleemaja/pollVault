@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
-import { apiPollDelete } from '../actions/polls';
+import { apiPollDelete, apiVotePoll } from '../actions/polls';
 import Dialog from 'material-ui/Dialog';
 import EditPollForm from './EditPollForm';
 
@@ -28,6 +28,12 @@ class Poll extends Component {
     this.props.deletePoll(pollId);
   }
 
+  vote = () => {
+    const poll = this.props.poll;
+    const pollId = poll.id;
+    this.props.vote(pollId);
+  }
+
   render() {
     const poll = this.props.poll
     const actions = [
@@ -39,9 +45,15 @@ class Poll extends Component {
     ];
     return (
       <Paper style={style} zDepth={1} >
+        <strong>{ poll.votes } votes</strong>
         <Link to={`/polls/${poll.id}`}>
           <h2>{ poll.title }</h2>
         </Link>
+        <RaisedButton
+          primary={true}
+          label='Vote'
+          onClick={this.vote}
+         />
         <RaisedButton
           label='Edit'
           onClick={this.handleOpen}
@@ -75,7 +87,8 @@ const style = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deletePoll: (id) => dispatch(apiPollDelete(id))
+    deletePoll: (id) => dispatch(apiPollDelete(id)),
+    vote: (id) => dispatch(apiVotePoll(id))
   }
 }
 

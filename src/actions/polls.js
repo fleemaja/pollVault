@@ -4,6 +4,7 @@ export const RECEIVE_POLLS = "RECEIVE_POLLS";
 export const ADD_POLL = "ADD_POLL";
 export const DELETE_POLL = "DELETE_POLL";
 export const EDIT_POLL = "EDIT_POLL";
+export const VOTE_POLL = "VOTE_POLL";
 
 export const receivePolls = polls => ({
   type: RECEIVE_POLLS,
@@ -31,6 +32,13 @@ export function editPoll(poll) {
   }
 };
 
+export function votePoll(id) {
+  return {
+    type: VOTE_POLL,
+    id
+  }
+};
+
 export const fetchPolls = () => dispatch => (
   PollsStorage
     .getPolls()
@@ -49,6 +57,10 @@ export const apiEditPoll = (poll) => dispatch => (
 
 export const apiPollDelete = (id) => dispatch => (
   dispatch(pollDelete(id))
+);
+
+export const apiVotePoll = (id) => dispatch => (
+  dispatch(votePoll(id))
 );
 
 export const fetchPoll = (id) => (

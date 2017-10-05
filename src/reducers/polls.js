@@ -2,7 +2,8 @@ import {
   RECEIVE_POLLS,
   ADD_POLL,
   DELETE_POLL,
-  EDIT_POLL
+  EDIT_POLL,
+  VOTE_POLL
 } from '../actions/polls';
 
 export function polls(state = [], action) {
@@ -20,8 +21,14 @@ export function polls(state = [], action) {
       return state.filter(poll => (poll.id !== action.id))
     case EDIT_POLL :
       return state.map(poll =>
-        (poll.id === action.poll.id)
-          ? {...action.poll}
+        (poll.id === action.id)
+          ? {...poll, 'title': action.poll.title}
+          : poll
+      )
+    case VOTE_POLL :
+      return state.map(poll =>
+        (poll.id === action.id)
+          ? {...poll, 'votes': poll.votes + 1}
           : poll
       )
     default :
