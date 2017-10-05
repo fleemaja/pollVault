@@ -12,6 +12,7 @@ class Show extends Component {
     title: '',
     pollId: ''
   }
+  
   componentWillMount() {
     const pollId = this.props.match.params.pollId;
     this.setState({ pollId })

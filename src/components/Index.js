@@ -11,12 +11,14 @@ import Dialog from 'material-ui/Dialog';
 import AddPollForm from './AddPollForm';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 class Index extends Component {
   state = {
     drawerOpen: true,
     addPollModalOpen: false,
-    sortKey: 'votes'
+    sortKey: 'votes',
+    category: 'all'
   }
 
   handleOpen = () =>
@@ -30,6 +32,9 @@ class Index extends Component {
 
   handleSortKeyChange = (event, index, value) =>
     this.setState({sortKey: value});
+
+  handleCategoryChange = (e) =>
+    this.setState({ category: e.target.value })
 
   render() {
     const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
@@ -58,11 +63,38 @@ class Index extends Component {
 
         <Polls
           sortKey={this.state.sortKey}
+          category={this.state.category}
           contentWidth={contentWidth} />
 
         <section>
           <Drawer open={this.state.drawerOpen} openSecondary={true}>
-            <section style={{width: '100%', height: '64px', borderBottom: '1px solid #ccc'}}></section>
+            <section style={{width: '100%', height: '64px', borderBottom: '1px solid #ccc'}}>
+            </section>
+            <label for="category" style={{marginTop: '40px'}}>
+              <p>Category</p>
+              <RadioButtonGroup
+                name="category"
+                id="category"
+                defaultSelected="all"
+                onChange={this.handleCategoryChange.bind(this)}>
+                <RadioButton
+                  value="all"
+                  label="All Categories"
+                />
+                <RadioButton
+                  value="sports"
+                  label="Sports"
+                />
+                <RadioButton
+                  value="food"
+                  label="Food"
+                />
+                <RadioButton
+                  value="movies"
+                  label="Movies"
+                />
+              </RadioButtonGroup>
+            </label>
             <RaisedButton
               label='+ Add New Poll'
               primary={true}
