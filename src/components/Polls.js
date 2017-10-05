@@ -8,10 +8,13 @@ class Polls extends Component {
     this.props.getPolls();
   }
   render() {
+    const sortByKey = (sortKey) => (a, b) => a[sortKey] < b[sortKey];
     return (
       <section style={{width: this.props.contentWidth, textAlign: 'center'}}>
         {
-          this.props.polls.map(p => <Poll poll={p} />)
+          this.props.polls
+            .sort(sortByKey(this.props.sortKey))
+            .map(p => <Poll poll={p} />)
         }
       </section>
     )

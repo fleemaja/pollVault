@@ -3,17 +3,20 @@ export function getPolls() {
     {
       id: 0,
       title: 'NBA or NHL?',
-      votes: 4
+      votes: 4,
+      timestamp: 0
     },
     {
       id: 1,
       title: 'Apples or Oranges?',
-      votes: 3
+      votes: 3,
+      timestamp: 1
     },
     {
       id: 2,
       title: 'Tacos or Burritos?',
-      votes: 7
+      votes: 7,
+      timestamp: 2
     }
   ]
   const pollsPromise = Promise.resolve(polls)
@@ -26,17 +29,20 @@ export function getPoll(id) {
     {
       id: 0,
       title: 'NBA or NHL?',
-      votes: 4
+      votes: 4,
+      timestamp: 0
     },
     {
       id: 1,
       title: 'Apples or Oranges?',
-      votes: 3
+      votes: 3,
+      timestamp: 1
     },
     {
       id: 2,
       title: 'Tacos or Burritos?',
-      votes: 7
+      votes: 7,
+      timestamp: 2
     }
   ]
   const poll = polls.filter(p => p.id === id)
