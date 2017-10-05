@@ -54,7 +54,8 @@ export function addPoll(poll) {
   const p = {
     id,
     title: poll.title,
-    votes: 0
+    votes: 0,
+    timestamp: 3
   }
   return Promise.resolve(p)
 }

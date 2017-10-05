@@ -4,21 +4,24 @@ const comments = [
     parentId: '0',
     body: 'Hi there! I am a COMMENT.',
     author: 'thingtwo',
-    votes: 3
+    votes: 3,
+    timestamp: 0
   },
   {
     id: '1',
     parentId: '1',
     body: 'Comments. Are. Cool.',
     author: 'thingone',
-    votes: -7
+    votes: -7,
+    timestamp: 1
   },
   {
     id: '2',
     parentId: '1',
     body: 'Shimmy Shimmy Cocoa Puff',
     author: 'thingtwo',
-    votes: 31
+    votes: 31,
+    timestamp: 2
   }
 ]
 
@@ -33,7 +36,9 @@ export function addComment(parentId, comment) {
     id,
     parentId,
     author: comment.author,
-    body: comment.body
+    body: comment.body,
+    votes: 0,
+    timestamp: 3
   }
   return Promise.resolve(c)
 }
