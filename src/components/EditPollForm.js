@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import { apiAddPoll } from '../actions/polls';
+import { apiEditPoll } from '../actions/polls';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-class AddPollForm extends Component {
+class EditPollForm extends Component {
   state = {
     title: ''
+  }
+
+  componentWillMount = () => {
+    const poll = this.props.poll;
+    this.setState({ title: poll.title })
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
+    const id = this.props.poll.id;
     const { title } = this.state;
     if (title !== '') {
-      this.props.addPoll({ title })
-      this.props.handleClose()
+      this.props.editPoll({ id, title });
+      this.props.handleClose();
       this.setState({ title: '' })
     }
   }
@@ -46,11 +52,11 @@ class AddPollForm extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addPoll: (poll) => dispatch(apiAddPoll(poll))
+    editPoll: (poll) => dispatch(apiEditPoll(poll))
   }
 }
 
 export default connect(
   null,
   mapDispatchToProps
-)(AddPollForm);
+)(EditPollForm);

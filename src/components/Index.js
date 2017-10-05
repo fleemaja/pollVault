@@ -17,11 +17,11 @@ class Index extends Component {
   }
 
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({addPollModalOpen: true});
   };
 
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({addPollModalOpen: false});
   };
 
   handleDrawerToggle = () =>
@@ -34,13 +34,7 @@ class Index extends Component {
         label="Cancel"
         primary={true}
         onClick={this.handleClose}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        disabled={true}
-        onClick={this.handleClose}
-      />,
+      />
     ];
     return (
       <MuiThemeProvider>
@@ -72,9 +66,9 @@ class Index extends Component {
               title="Add New Poll"
               actions={actions}
               modal={true}
-              open={this.state.open}
+              open={this.state.addPollModalOpen}
             >
-              <AddPollForm />
+              <AddPollForm handleClose={this.handleClose.bind(this)}/>
             </Dialog>
           </Drawer>
         </section>

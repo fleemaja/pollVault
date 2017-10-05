@@ -3,6 +3,7 @@ import * as PollsStorage from '../utils/polls'
 export const RECEIVE_POLLS = "RECEIVE_POLLS";
 export const ADD_POLL = "ADD_POLL";
 export const DELETE_POLL = "DELETE_POLL";
+export const EDIT_POLL = "EDIT_POLL";
 
 export const receivePolls = polls => ({
   type: RECEIVE_POLLS,
@@ -23,6 +24,13 @@ export function pollDelete(id) {
   }
 };
 
+export function editPoll(poll) {
+  return {
+    type: EDIT_POLL,
+    poll
+  }
+};
+
 export const fetchPolls = () => dispatch => (
   PollsStorage
     .getPolls()
@@ -33,6 +41,10 @@ export const apiAddPoll = (poll) => dispatch => (
   PollsStorage
     .addPoll(poll)
     .then(p => dispatch(addPoll(p)))
+);
+
+export const apiEditPoll = (poll) => dispatch => (
+  dispatch(editPoll(poll))
 );
 
 export const apiPollDelete = (id) => dispatch => (
