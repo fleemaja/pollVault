@@ -6,13 +6,14 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm';
+import AppBar from 'material-ui/AppBar';
 
 class Show extends Component {
   state = {
     title: '',
     pollId: ''
   }
-  
+
   componentWillMount() {
     const pollId = this.props.match.params.pollId;
     this.setState({ pollId })
@@ -27,6 +28,12 @@ class Show extends Component {
     const comments = this.props.comments
     return (
       <MuiThemeProvider>
+        <AppBar
+          style={{backgroundColor: '#fff'}}
+          titleStyle={{color: '#333'}}
+          title="PollVault"
+          showMenuIconButton={false}
+        />
         <section>
           <Paper style={style} zDepth={1} >
             <h2>{ title }</h2>
