@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { apiCommentDelete, apiVoteComment } from '../actions/comments';
 import Dialog from 'material-ui/Dialog';
 import EditCommentForm from './EditCommentForm';
-import UpArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
-import DownArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import Like from 'material-ui/svg-icons/action/thumb-up';
+import Dislike from 'material-ui/svg-icons/action/thumb-down';
+import Avatar from 'material-ui/Avatar';
 
 class Comment extends Component {
 
@@ -44,20 +45,22 @@ class Comment extends Component {
       />
     ];
     return (
-      <section>
+      <section style={{textAlign: 'left', marginBottom: 20}}>
+        <Avatar style={{marginRight: 10}}>A</Avatar>
+        <strong>{ comment.author }</strong>
+        <span style={{marginLeft: 10}}>4 hours ago</span>
+        <p>{ comment.body }</p>
+        <strong>{ comment.votes}</strong>
         <FlatButton
           title='Upvote'
-          icon={<UpArrow />}
+          icon={<Like />}
           onClick={() => this.vote('up')}
          />
-         <strong>{ comment.votes}</strong>
          <FlatButton
            title='Downvote'
-           icon={<DownArrow />}
+           icon={<Dislike />}
            onClick={() => this.vote('down')}
           />
-        <strong>{ comment.author }</strong>
-        <p>{ comment.body }</p>
         <RaisedButton
           label='Edit'
           onClick={this.handleOpen}

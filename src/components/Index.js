@@ -12,6 +12,7 @@ import AddPollForm from './AddPollForm';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import TextField from 'material-ui/TextField';
 
 class Index extends Component {
   state = {
@@ -68,7 +69,12 @@ class Index extends Component {
 
         <section>
           <Drawer open={this.state.drawerOpen} openSecondary={true}>
-            <section style={{width: '100%', height: '64px', borderBottom: '1px solid #ccc'}}>
+            <section style={{position: 'relative', display: 'inline-block', marginTop: 25}}>
+             <Search style={{position: 'absolute', left: 0, top: 15, width: 20, height: 20}}/>
+             <TextField
+                  style={{textIndent: 30}}
+                  hintText="Search"
+              />
             </section>
             <label for="category" style={{marginTop: '40px'}}>
               <p>Category</p>
