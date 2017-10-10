@@ -32,10 +32,11 @@ export function editPoll(poll) {
   }
 };
 
-export function votePoll(id) {
+export function votePoll(id, option) {
   return {
     type: VOTE_POLL,
-    id
+    id,
+    option
   }
 };
 
@@ -59,8 +60,8 @@ export const apiPollDelete = (id) => dispatch => (
   dispatch(pollDelete(id))
 );
 
-export const apiVotePoll = (id) => dispatch => (
-  dispatch(votePoll(id))
+export const apiVotePoll = (id, option) => dispatch => (
+  dispatch(votePoll(id, option))
 );
 
 export const fetchPoll = (id) => (

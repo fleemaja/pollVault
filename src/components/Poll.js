@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { apiPollDelete, apiVotePoll } from '../actions/polls';
 import Dialog from 'material-ui/Dialog';
 import EditPollForm from './EditPollForm';
+import Option from './Option';
 
 class Poll extends Component {
 
@@ -28,10 +29,10 @@ class Poll extends Component {
     this.props.deletePoll(pollId);
   }
 
-  vote = () => {
+  vote = (option) => {
     const poll = this.props.poll;
     const pollId = poll.id;
-    this.props.vote(pollId);
+    this.props.vote(pollId, option);
   }
 
   render() {
@@ -45,15 +46,17 @@ class Poll extends Component {
     ];
     return (
       <Paper style={style} zDepth={1} >
-        <strong>{ poll.votes } votes</strong>
         <Link to={`/polls/${poll.id}`}>
           <h2>{ poll.title }</h2>
         </Link>
-        <RaisedButton
-          primary={true}
-          label='Vote'
-          onClick={this.vote}
-         />
+        {
+          poll.options.map(o =>
+            <Option
+              vote={() => this.vote(o.text)}
+              option={o}
+            />
+          )
+        }
         <RaisedButton
           label='Edit'
           onClick={this.handleOpen}
@@ -88,7 +91,7 @@ const style = {
 function mapDispatchToProps(dispatch) {
   return {
     deletePoll: (id) => dispatch(apiPollDelete(id)),
-    vote: (id) => dispatch(apiVotePoll(id))
+    vote: (id, option) => dispatch(apiVotePoll(id, option))
   }
 }
 

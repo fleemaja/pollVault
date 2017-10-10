@@ -17,16 +17,18 @@ class Comments extends Component {
     const sortByKey = (sortKey) => (a, b) => a[sortKey] < b[sortKey];
     return (
       <section>
-        <h2 style={{margin: 20, color: '#777'}}>{ comments.length } Comments</h2>
-        <SelectField
-          floatingLabelText="Sort By"
-          value={this.state.sortKey}
-          onChange={this.handleSortKeyChange}
-          style={{width: 150, marginLeft: '40px'}}
-        >
-          <MenuItem value='votes' primaryText='Most Votes' />
-          <MenuItem value='timestamp' primaryText='Most Recent' />
-        </SelectField>
+        <section>
+          <h2 style={{margin: 20, display: 'inline-block', verticalAlign: 'middle', color: '#333'}}>{ comments.length } Comments</h2>
+          <SelectField
+            floatingLabelText="Sort By"
+            value={this.state.sortKey}
+            onChange={this.handleSortKeyChange}
+            style={{width: 150, marginLeft: '40px', display: 'inline-block', verticalAlign: 'middle',}}
+          >
+            <MenuItem value='votes' primaryText='Most Votes' />
+            <MenuItem value='timestamp' primaryText='Most Recent' />
+          </SelectField>
+        </section>
         <Paper style={style} zDepth={1} >
           {
             comments
@@ -40,7 +42,7 @@ class Comments extends Component {
 }
 
 const style = {
-  width: 600,
+  maxWidth: 900,
   margin: 20,
   padding: 20,
   textAlign: 'center',

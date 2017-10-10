@@ -28,7 +28,12 @@ export function polls(state = [], action) {
     case VOTE_POLL :
       return state.map(poll =>
         (poll.id === action.id)
-          ? {...poll, 'votes': poll.votes + 1}
+          ? {...poll, votes: poll.votes + 1,
+             options: poll.options.map((option) =>
+              (option.text === action.option) ?
+              { ...option, votes: option.votes + 1 } :
+              option
+            )}
           : poll
       )
     default :

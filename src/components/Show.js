@@ -7,10 +7,11 @@ import { connect } from 'react-redux';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm';
 import AppBar from 'material-ui/AppBar';
+import Poll from './Poll'
 
 class Show extends Component {
   state = {
-    title: '',
+    poll: '',
     pollId: ''
   }
 
@@ -20,11 +21,12 @@ class Show extends Component {
     const poll = fetchPoll(pollId)
     this.props.getCommentsByPoll(pollId);
     if (poll) {
-      this.setState({ title: poll.title })
+      this.setState({ poll })
     }
   }
+
   render() {
-    const { title, pollId } = this.state
+    const { poll, pollId } = this.state
     const comments = this.props.comments
     return (
       <MuiThemeProvider>
@@ -35,9 +37,7 @@ class Show extends Component {
           showMenuIconButton={false}
         />
         <section>
-          <Paper style={style} zDepth={1} >
-            <h2>{ title }</h2>
-          </Paper>
+          <Poll poll={poll} />
           <AddCommentForm parentId={pollId}/>
           <Comments comments={comments} />
         </section>
