@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { apiSignupUser } from '../actions/users';
 import validateInput from '../utils/validations/signup';
+import { addFlashMessage } from '../actions/flashMessages';
 
 class Signup extends Component {
 
@@ -37,6 +38,10 @@ class Signup extends Component {
       this.props.signupUser(this.state)
         .then(message => {
           if (message.isValid) {
+            this.props.addFlashMessage({
+              type: 'success',
+              text: 'You Have Successfully Signed Up!'
+            })
             this.props.handleClose()
           } else {
             this.setState({ errors: message.errors, isLoading: false })
@@ -102,7 +107,8 @@ class Signup extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    signupUser: (user) => dispatch(apiSignupUser(user))
+    signupUser: (user) => dispatch(apiSignupUser(user)),
+    addFlashMessage: (message) => dispatch(addFlashMessage(message))
   }
 }
 
