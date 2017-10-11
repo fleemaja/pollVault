@@ -12,7 +12,9 @@ class Signup extends Component {
     username: '',
     email: '',
     password: '',
-    passwordConfirmation: ''
+    passwordConfirmation: '',
+    errors: {},
+    isLoading: false
   }
 
   handleInput(e) {
@@ -21,11 +23,13 @@ class Signup extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.setState({ errors: {}, isLoading: true })
     this.props.signupUser(this.state)
+      .then(message => this.setState({ errors: message.errors, isLoading: false }))
   }
 
   render() {
-    const { username, email, password, passwordConfirmation } = this.state
+    const { username, email, password, passwordConfirmation, errors } = this.state
 
     return (
       <MuiThemeProvider>
@@ -44,6 +48,7 @@ class Signup extends Component {
               onChange={this.handleInput.bind(this)}
               hintText="Username"
               floatingLabelText="Username"
+              errorText={errors['username']}
               style={{display: 'block'}}
             />
             <TextField
@@ -52,6 +57,7 @@ class Signup extends Component {
               onChange={this.handleInput.bind(this)}
               hintText="Email"
               floatingLabelText="Email"
+              errorText={errors['email']}
               style={{display: 'block'}}
             />
             <TextField
@@ -61,6 +67,7 @@ class Signup extends Component {
               onChange={this.handleInput.bind(this)}
               hintText="Password"
               floatingLabelText="Password"
+              errorText={errors['password']}
               style={{display: 'block'}}
             />
             <TextField
@@ -70,9 +77,14 @@ class Signup extends Component {
               onChange={this.handleInput.bind(this)}
               hintText="Password Confirmation"
               floatingLabelText="Password Confirmation"
+              errorText={errors['passwordConfirmation']}
               style={{display: 'block'}}
             />
-            <RaisedButton label="Submit" onClick={this.handleSubmit.bind(this)} />
+            <RaisedButton
+              style={{marginTop: 40}}
+              disabled={this.state.isLoading}
+              label="Submit"
+              onClick={this.handleSubmit.bind(this)} />
           </form>
         </section>
       </MuiThemeProvider>

@@ -22,7 +22,8 @@ export const signup = (user) =>
     body: JSON.stringify({
       'username': user.username,
       'email': user.email,
-      'password': user.password
+      'password': user.password,
+      'passwordConfirmation': user.passwordConfirmation
     })
   }).then(res => res.json())
     .then(data => data)
