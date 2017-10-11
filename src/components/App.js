@@ -10,7 +10,6 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={Index} />
       <Route exact path="/polls/:pollId" component={Show} />
-      <Route exact path="/signup" component={Signup} />
     </Switch>
   </BrowserRouter>
 );

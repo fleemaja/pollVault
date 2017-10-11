@@ -13,12 +13,13 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
-import { Link } from 'react-router-dom';
+import Signup from './Signup';
 
 class Index extends Component {
   state = {
     drawerOpen: true,
     addPollModalOpen: false,
+    signupModalOpen: false,
     sortKey: 'votes',
     category: 'all'
   }
@@ -28,6 +29,12 @@ class Index extends Component {
 
   handleClose = () =>
     this.setState({addPollModalOpen: false});
+
+  handleSignupOpen = () =>
+    this.setState({signupModalOpen: true});
+
+  handleSignupClose = () =>
+    this.setState({signupModalOpen: false});
 
   handleDrawerToggle = () =>
     this.setState({drawerOpen: !this.state.drawerOpen})
@@ -45,6 +52,13 @@ class Index extends Component {
         label="Cancel"
         primary={true}
         onClick={this.handleClose}
+      />
+    ];
+    const signupActions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleSignupClose}
       />
     ];
     return (
@@ -126,7 +140,20 @@ class Index extends Component {
               <MenuItem value='votes' primaryText='Most Votes' />
               <MenuItem value='timestamp' primaryText='Most Recent' />
             </SelectField>
-            <Link to="/signup">Signup</Link>
+            <RaisedButton
+              label='Signup'
+              onClick={this.handleSignupOpen}
+              style={{marginLeft: '40px', marginTop: '40px'}}
+             />
+            <Dialog
+              title="Signup"
+              actions={signupActions}
+              autoScrollBodyContent={true}
+              modal={true}
+              open={this.state.signupModalOpen}
+            >
+              <Signup handleClose={this.handleSignupClose.bind(this)}/>
+            </Dialog>
           </Drawer>
         </section>
 
