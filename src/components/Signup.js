@@ -3,6 +3,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
+import { connect } from 'react-redux';
+import { apiSignupUser } from '../actions/users';
 
 class Signup extends Component {
 
@@ -19,7 +21,7 @@ class Signup extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    alert(JSON.stringify(this.state))
+    this.props.signupUser(this.state)
   }
 
   render() {
@@ -78,4 +80,13 @@ class Signup extends Component {
   }
 }
 
-export default Signup
+function mapDispatchToProps(dispatch) {
+  return {
+    signupUser: (user) => dispatch(apiSignupUser(user))
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Signup);
