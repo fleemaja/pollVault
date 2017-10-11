@@ -14,6 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
 import Signup from './Signup';
+import FlashMessagesList from './FlashMessagesList';
 
 class Index extends Component {
   state = {
@@ -76,6 +77,7 @@ class Index extends Component {
               onClick={this.handleDrawerToggle.bind(this)} />
           }
         />
+        <FlashMessagesList />
 
         <Polls
           sortKey={this.state.sortKey}

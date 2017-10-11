@@ -1,6 +1,6 @@
 import {
   ADD_FLASH_MESSAGE
-} from './actions/flashMessages';
+} from '../actions/flashMessages';
 import shortid from 'shortid';
 
 export function flashMessages(state = [], action) {
