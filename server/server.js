@@ -1,48 +1,22 @@
-require('dotenv').config()
+const mongoose = require('mongoose');
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const config = require('./config')
-const polls = require('./polls')
-const users = require('./users')
-const comments = require('./comments')
+// import environmental variables from our variables.env file
+require('dotenv').config({ path: 'variables.env' });
 
-const app = express()
+// Connect to our Database and handle an bad connections
+mongoose.connect(process.env.DATABASE);
+mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
+mongoose.connection.on('error', (err) => {
+  console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
+});
 
-app.use(express.static('public'))
-app.use(cors())
+// READY?! Let's go!
+require('./models/User');
 
-app.get('/', (req, res) => {
-  res.send('hello world')
-})
 
-app.use((req, res, next) => {
-  const token = req.get('Authorization')
-
-  if (token) {
-    req.token = token
-    next()
-  } else {
-    res.status(403).send({
-      error: 'Please provide an Authorization header to identify yourself (can be whatever you want)'
-    })
-  }
-})
-
-app.post('/api/users', bodyParser.json(), (req, res) => {
-    users.signup(req.token, req.body)
-      .then(
-          (data) => res.send(data),
-          (error) => {
-              console.error(error)
-              res.status(500).send({
-                 error: 'There was an error.'
-          })
-        }
-      )
-})
-
-app.listen(config.port, () => {
-  console.log('Server listening on port %s, Ctrl+C to stop', config.port)
-})
+// Start our app!
+const app = require('./app');
+app.set('port', process.env.PORT || 7777);
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${server.address().port}`);
+});
