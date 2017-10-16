@@ -25,8 +25,15 @@ export const login = (user) =>
     },
     body: JSON.stringify({
       'username': user.username,
-      'email': user.email,
       'password': user.password
     })
   }).then(res => res.json())
+    .then(data => data)
+
+export const logout = () =>
+  fetch(`api/logout`)
+    .then(res => {
+      alert("FETCHED")
+      res.json()
+    })
     .then(data => data)

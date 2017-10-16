@@ -16,6 +16,8 @@ import TextField from 'material-ui/TextField';
 import Signup from './Signup';
 import Login from './Login';
 import FlashMessagesList from './FlashMessagesList';
+import { apiLogoutUser } from '../actions/users';
+import { connect } from 'react-redux';
 
 class Index extends Component {
   state = {
@@ -55,6 +57,7 @@ class Index extends Component {
     this.setState({ category: e.target.value })
 
   render() {
+    const user = this.props.user
     const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
     const actions = [
       <FlatButton
@@ -79,6 +82,8 @@ class Index extends Component {
     ];
     return (
       <MuiThemeProvider>
+
+        <p> { JSON.stringify(this.props.user) }</p>
 
         <AppBar
           style={{backgroundColor: '#fff', width: contentWidth}}
@@ -157,34 +162,44 @@ class Index extends Component {
               <MenuItem value='votes' primaryText='Most Votes' />
               <MenuItem value='timestamp' primaryText='Most Recent' />
             </SelectField>
-            <RaisedButton
-              label='Signup'
-              onClick={this.handleSignupOpen}
-              style={{marginLeft: '40px', marginTop: '40px'}}
-             />
-            <Dialog
-              title="Signup"
-              actions={signupActions}
-              autoScrollBodyContent={true}
-              modal={true}
-              open={this.state.signupModalOpen}
-            >
-              <Signup handleClose={this.handleSignupClose.bind(this)}/>
-            </Dialog>
-            <RaisedButton
-              label='Login'
-              onClick={this.handleLoginOpen}
-              style={{marginLeft: '40px', marginTop: '40px'}}
-             />
-            <Dialog
-              title="Login"
-              actions={loginActions}
-              autoScrollBodyContent={true}
-              modal={true}
-              open={this.state.loginModalOpen}
-            >
-              <Login handleClose={this.handleLoginClose.bind(this)}/>
-            </Dialog>
+            {
+              user.authenticated ?
+                <RaisedButton
+                  label='Logout'
+                  onClick={() => this.props.logoutUser()}
+                  style={{marginLeft: '40px', marginTop: '40px'}}
+                 /> :
+                 <section>
+                   <RaisedButton
+                     label='Signup'
+                     onClick={this.handleSignupOpen}
+                     style={{marginLeft: '40px', marginTop: '40px', display: 'block'}}
+                    />
+                   <Dialog
+                     title="Signup"
+                     actions={signupActions}
+                     autoScrollBodyContent={true}
+                     modal={true}
+                     open={this.state.signupModalOpen}
+                   >
+                     <Signup handleClose={this.handleSignupClose.bind(this)}/>
+                   </Dialog>
+                   <RaisedButton
+                     label='Login'
+                     onClick={this.handleLoginOpen}
+                     style={{marginLeft: '40px', marginTop: '40px'}}
+                    />
+                   <Dialog
+                     title="Login"
+                     actions={loginActions}
+                     autoScrollBodyContent={true}
+                     modal={true}
+                     open={this.state.loginModalOpen}
+                   >
+                     <Login handleClose={this.handleLoginClose.bind(this)}/>
+                   </Dialog>
+                </section>
+            }
           </Drawer>
         </section>
 
@@ -193,4 +208,17 @@ class Index extends Component {
   }
 }
 
-export default Index;
+function mapStateToProps ({ user }) {
+  return { user }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logoutUser: () => dispatch(apiLogoutUser())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Index);

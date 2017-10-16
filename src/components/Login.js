@@ -9,7 +9,7 @@ import { addFlashMessage } from '../actions/flashMessages';
 class Login extends Component {
 
   state = {
-    identifier: '',
+    username: '',
     password: '',
     errors: {},
     isLoading: false
@@ -35,32 +35,34 @@ class Login extends Component {
       this.setState({ errors: {}, isLoading: true })
       this.props.loginUser(this.state)
         .then(res => {
-          if (res.isValid) {
+          alert(JSON.stringify(res))
+          if (res.success) {
             this.props.addFlashMessage({
               type: 'success',
               text: 'You Have Successfully Logged in!'
             })
             this.props.handleClose()
           } else {
-            this.setState({ errors: message.errors, isLoading: false })
+            const errors = { message: res.message }
+            this.setState({ errors, isLoading: false })
           }
         })
     }
   }
 
   render() {
-    const { identifier, password, errors } = this.state
+    const { username, password, errors } = this.state
 
     return (
       <section style={{margin: 20}}>
         <form>
           <TextField
-            value={identifier}
-            name='identifier'
+            value={username}
+            name='username'
             onChange={this.handleInput.bind(this)}
-            hintText="Username or Email"
-            floatingLabelText="Username or Email"
-            errorText={errors['identifier']}
+            hintText="Username"
+            floatingLabelText="Username"
+            errorText={errors['username']}
             style={{display: 'block'}}
           />
           <TextField

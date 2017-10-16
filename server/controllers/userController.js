@@ -56,8 +56,8 @@ exports.validateRegister = (req, res, next) => {
 };
 
 exports.validateLogin = (req, res, next) => {
-  req.sanitizeBody('identifier');
-  req.checkBody('identifier', 'You must supply a username or email').notEmpty();
+  req.sanitizeBody('username');
+  req.checkBody('username', 'You must supply a username').notEmpty();
   req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
 
   const errors = req.validationErrors();

@@ -7,8 +7,8 @@ function isEmpty(obj) {
 
 export default function validateInput(data) {
   let errors = {};
-  if (Validator.isEmpty(data.identifier)) {
-    errors.identifier = 'Username or email is required'
+  if (Validator.isEmpty(data.username)) {
+    errors.username = 'Username is required'
   }
   if (Validator.isEmpty(data.password)) {
     errors.password = 'Password is required'
