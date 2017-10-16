@@ -14,6 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
 import Signup from './Signup';
+import Login from './Login';
 import FlashMessagesList from './FlashMessagesList';
 
 class Index extends Component {
@@ -21,6 +22,7 @@ class Index extends Component {
     drawerOpen: true,
     addPollModalOpen: false,
     signupModalOpen: false,
+    loginModalOpen: false,
     sortKey: 'votes',
     category: 'all'
   }
@@ -36,6 +38,12 @@ class Index extends Component {
 
   handleSignupClose = () =>
     this.setState({signupModalOpen: false});
+
+  handleLoginOpen = () =>
+    this.setState({loginModalOpen: true});
+
+  handleLoginClose = () =>
+    this.setState({loginModalOpen: false});
 
   handleDrawerToggle = () =>
     this.setState({drawerOpen: !this.state.drawerOpen})
@@ -60,6 +68,13 @@ class Index extends Component {
         label="Cancel"
         primary={true}
         onClick={this.handleSignupClose}
+      />
+    ];
+    const loginActions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleLoginClose}
       />
     ];
     return (
@@ -155,6 +170,20 @@ class Index extends Component {
               open={this.state.signupModalOpen}
             >
               <Signup handleClose={this.handleSignupClose.bind(this)}/>
+            </Dialog>
+            <RaisedButton
+              label='Login'
+              onClick={this.handleLoginOpen}
+              style={{marginLeft: '40px', marginTop: '40px'}}
+             />
+            <Dialog
+              title="Login"
+              actions={loginActions}
+              autoScrollBodyContent={true}
+              modal={true}
+              open={this.state.loginModalOpen}
+            >
+              <Login handleClose={this.handleLoginClose.bind(this)}/>
             </Dialog>
           </Drawer>
         </section>
