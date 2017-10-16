@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const passport = require('passport');
 const promisify = require('es6-promisify');
 const flash = require('connect-flash');
@@ -18,11 +19,12 @@ require('./handlers/passport');
 const app = express();
 
 // view engine setup
-// app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
+//app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
 // app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work great too
 
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+app.use(cors());
 
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.json());
@@ -73,16 +75,16 @@ app.use('/', routes);
 app.use(errorHandlers.notFound);
 
 // One of our error handlers will see if these errors are just validation errors
-app.use(errorHandlers.flashValidationErrors);
+//app.use(errorHandlers.flashValidationErrors);
 
 // Otherwise this was a really bad error we didn't expect! Shoot eh
-if (app.get('env') === 'development') {
+//if (app.get('env') === 'development') {
   /* Development Error Handler - Prints stack trace */
-  app.use(errorHandlers.developmentErrors);
-}
+//   app.use(errorHandlers.developmentErrors);
+// }
 
 // production error handler
-app.use(errorHandlers.productionErrors);
+// app.use(errorHandlers.productionErrors);
 
 // done! we export it so we can start the site in start.js
 module.exports = app;

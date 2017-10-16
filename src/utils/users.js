@@ -1,29 +1,17 @@
-const api = "http://localhost:5001"
-
-const uuidv1 = require('uuid/v1');
-
-// Generate a unique token for storing your bookshelf data on the backend server.
-let token = localStorage.haddoken
-if (!token)
-  token = localStorage.haddoken = Math.random().toString(36).substr(-8)
-
-const headers = {
-  'Accept': 'application/json',
-  'Authorization': token
-}
+const api = 'http://localhost:5001';
 
 export const signup = (user) =>
-  fetch(`${api}/api/users`, {
+  fetch(`${api}/api/register`, {
     method: 'POST',
     headers: {
-      ...headers,
+      'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       'username': user.username,
       'email': user.email,
       'password': user.password,
-      'passwordConfirmation': user.passwordConfirmation
+      'password-confirm': user.passwordConfirmation
     })
   }).then(res => res.json())
     .then(data => data)

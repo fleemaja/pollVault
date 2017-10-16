@@ -22,8 +22,6 @@ const userSchema = new Schema({
     trim: true
   },
   photo: String,
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
   upvotes: [
     { type: mongoose.Schema.ObjectId, ref: 'Comment' }
   ]

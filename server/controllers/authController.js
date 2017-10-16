@@ -5,16 +5,14 @@ const User = mongoose.model('User');
 const promisify = require('es6-promisify');
 
 exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
   failureFlash: 'Failed Login!',
-  successRedirect: '/',
   successFlash: 'You are now logged in!'
 });
 
 exports.logout = (req, res) => {
   req.logout(); // passport method
-  req.flash('success', 'You are now logged out!');
-  res.redirect('/');
+  // req.flash('success', 'You are now logged out!');
+  res.json({ 'success': 'You are now logged out!' });
 };
 
 exports.isLoggedIn = (req, res, next) => {
@@ -22,8 +20,8 @@ exports.isLoggedIn = (req, res, next) => {
     next();
     return;
   }
-  req.flash('error', 'You must be logged in to do that!');
-  res.redirect('/login');
+  //req.flash('error', 'You must be logged in to do that!');
+  res.json({'error': 'You must be logged in to do that!'});
 };
 
 exports.confirmedPasswords = (req, res, next) => {
@@ -31,6 +29,6 @@ exports.confirmedPasswords = (req, res, next) => {
     next();
     return;
   }
-  req.flash('error', 'Passwords do not match!');
-  res.redirect('back');
+  // req.flash('error', 'Passwords do not match!');
+  res.json({'error': 'Passwords do not match!'});
 };

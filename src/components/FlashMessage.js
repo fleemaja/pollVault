@@ -16,7 +16,7 @@ class FlashMessage extends Component {
       <Snackbar
           open={this.state.open}
           message={text}
-          autoHideDuration={7000}
+          autoHideDuration={4000}
           onRequestClose={this.handleRequestClose}
         />
     )
