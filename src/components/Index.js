@@ -144,6 +144,7 @@ class Index extends Component {
              />
             <Dialog
               title="Add New Poll"
+              autoScrollBodyContent={true}
               actions={actions}
               modal={true}
               open={this.state.addPollModalOpen}

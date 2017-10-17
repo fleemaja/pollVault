@@ -10,10 +10,10 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 // API
 router.get('/api/polls', catchErrors(pollController.getPolls));
-router.get('/polls/page/:page', catchErrors(pollController.getPolls));
+router.get('/api/polls/page/:page', catchErrors(pollController.getPolls));
 //router.get('/api/add', authController.isLoggedIn, pollController.addPoll);
 router.post('/api/add', authController.isLoggedIn, catchErrors(pollController.createPoll));
-router.post('/add/:id', authController.isLoggedIn, catchErrors(pollController.updatePoll));
+router.post('/api/add/:id', authController.isLoggedIn, catchErrors(pollController.updatePoll));
 //router.get('/polls/:id/edit', catchErrors(pollController.editPoll));
 //router.get('/poll/:slug', catchErrors(pollController.getPollBySlug));
 

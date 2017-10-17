@@ -14,6 +14,8 @@ require('./models/Choice');
 require('./models/Poll');
 require('./models/User');
 require('./models/Vote');
+require('./models/Comment');
+require('./models/Reply');
 
 
 // Start our app!

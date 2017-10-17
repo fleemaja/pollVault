@@ -30,7 +30,6 @@ exports.login = function(req, res, next) {
 }
 
 exports.logout = (req, res) => {
-  console.log("SEACREST OUTTTTTTTT")
   req.logout()
 	return res.json({ success: true })
 };
