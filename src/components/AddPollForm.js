@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import { categories } from '../helpers';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 class AddPollForm extends Component {
   constructor(props) {
@@ -14,6 +17,7 @@ class AddPollForm extends Component {
   get initialState() {
       return {
         title: '',
+        category: '',
         numberOfInputs: 2,
         inputs: [
           {
@@ -31,12 +35,12 @@ class AddPollForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { title, inputs } = this.state;
+    const { title, category, inputs } = this.state;
     const options = inputs.map(i => i['value']).filter(v => v !== '');
-    if (title !== '' && options.length >= 2) {
-      this.props.addPoll({ title, options })
+    if (title !== '' && category !== '' && options.length >= 2) {
+      this.props.addPoll({ title, category, options })
       this.props.handleClose()
-      this.state(this.initialState);
+      this.setState(this.initialState);
     }
   }
 
@@ -49,6 +53,9 @@ class AddPollForm extends Component {
 
     this.setState(updatedState)
   }
+
+  handleCategoryChange = (event, index, value) =>
+    this.setState({category: value});
 
   appendInput() {
     const { inputs, numberOfInputs } = this.state
@@ -71,7 +78,7 @@ class AddPollForm extends Component {
   }
 
   render() {
-    const { title, inputs, numberOfInputs } = this.state
+    const { title, category, inputs, numberOfInputs } = this.state
     return (
       <section style={{margin: 20}}>
         <form>
@@ -83,6 +90,18 @@ class AddPollForm extends Component {
             floatingLabelText="Poll Title"
             style={{display: 'block'}}
           />
+          <SelectField
+            floatingLabelText="Category"
+            value={category}
+            name="category"
+            onChange={this.handleCategoryChange}
+          >
+            {
+              categories.map(c =>
+                <MenuItem value={c} primaryText={c} />
+              )
+            }
+          </SelectField>
           {
             inputs.map(i =>
               <TextField

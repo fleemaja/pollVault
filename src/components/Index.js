@@ -57,7 +57,7 @@ class Index extends Component {
     this.setState({ category: e.target.value })
 
   render() {
-    const user = this.props.user
+    const auth = this.props.auth
     const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
     const actions = [
       <FlatButton
@@ -162,10 +162,10 @@ class Index extends Component {
               <MenuItem value='timestamp' primaryText='Most Recent' />
             </SelectField>
             {
-              user.authenticated ?
+              auth.isAuthenticated ?
                 <section>
                   <p>
-                    Logged in as <strong>{ user.username }</strong>
+                    Logged in as <strong>{ auth.user.username }</strong>
                   </p>
                   <RaisedButton
                     label='Logout'
@@ -212,8 +212,8 @@ class Index extends Component {
   }
 }
 
-function mapStateToProps ({ user }) {
-  return { user }
+function mapStateToProps ({ auth }) {
+  return { auth }
 }
 
 function mapDispatchToProps(dispatch) {

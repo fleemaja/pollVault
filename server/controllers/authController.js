@@ -1,6 +1,7 @@
 const passport = require('passport');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const User = mongoose.model('User');
 const promisify = require('es6-promisify');
 
@@ -24,7 +25,11 @@ exports.login = function(req, res, next) {
 			if(loginErr) {
 				return res.json({ success: false, message: loginErr })
 			}
-			return res.json({ success: true, message: "authentication succeeded" })
+			const token = jwt.sign({
+          id: user._id,
+          username: user.username
+        }, process.env.jwtSecret);
+      res.json({ token });
 		})
 	})(req, res, next)
 }
@@ -36,12 +41,43 @@ exports.logout = (req, res) => {
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) { // passport method
-    next();
+		next();
     return;
   }
   //req.flash('error', 'You must be logged in to do that!');
   res.json({'error': 'You must be logged in to do that!'});
 };
+
+exports.authenticate = (req, res, next) => {
+  const authorizationHeader = req.headers['authorization'];
+  let token;
+
+  if (authorizationHeader) {
+    token = authorizationHeader.split(' ')[1];
+  }
+
+  if (token) {
+    jwt.verify(token, process.env.jwtSecret, (err, decoded) => {
+      if (err) {
+        res.status(401).json({ error: 'Failed to authenticate' });
+      } else {
+				// find user with decoded user's id
+				User.findOne({ id: decoded.id }).then((err, user) => {
+					if (!user) {
+						res.status(404).json({ error: 'No such user' });
+					} else {
+						req.user = user;
+						next();
+					}
+				})
+      }
+    });
+  } else {
+    res.status(403).json({
+      error: 'No token provided'
+    });
+  }
+}
 
 exports.confirmedPasswords = (req, res, next) => {
   if (req.body.password === req.body['password-confirm']) {

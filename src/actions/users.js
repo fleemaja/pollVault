@@ -1,15 +1,13 @@
-import * as UsersStorage from '../utils/users'
+import * as UsersStorage from '../utils/users';
 
-export const LOGIN_USER = "LOGIN_USER";
-export const LOGOUT_USER = "LOGOUT_USER";
+import { setAuthorizationToken } from '../utils/setAuthorizationToken';
+import jwtDecode from 'jwt-decode';
 
-export const loginUser = user => ({
-  type: LOGIN_USER,
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+
+export const setCurrentUser = user => ({
+  type: SET_CURRENT_USER,
   user
-});
-
-export const logoutUser = () => ({
-  type: LOGOUT_USER
 });
 
 export const apiSignupUser = (user) => dispatch => (
@@ -20,18 +18,22 @@ export const apiLoginUser = (user) => dispatch => (
   UsersStorage
     .login(user)
     .then(res => {
-      if (res.success) {
-        dispatch(loginUser(user))
+        const token = res.token;
+        localStorage.setItem('jwtToken', token);
+        setAuthorizationToken(token);
+        dispatch(setCurrentUser(jwtDecode(token)));
+        return res
       }
-      return res
-    })
+    )
 );
 
 export const apiLogoutUser = () => dispatch => {
   UsersStorage
     .logout()
-    .then((res) => {
-      dispatch(logoutUser())
+    .then(res => {
+      localStorage.removeItem('jwtToken');
+      setAuthorizationToken(false);
+      dispatch(setCurrentUser({}));
       return res
     })
 }

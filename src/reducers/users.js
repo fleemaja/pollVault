@@ -1,14 +1,16 @@
-import { LOGIN_USER, LOGOUT_USER } from '../actions/users';
+import { SET_CURRENT_USER } from '../actions/users';
+import { isEmpty } from '../helpers';
 
-export function user(state = { authenticated: false, username: "" }, action) {
+export function auth(state = { isAuthenticated: false, user: {} }, action) {
   switch(action.type) {
-    case LOGIN_USER :
-      return Object.assign({}, state, { authenticated: true, username: action.user.username })
-    case LOGOUT_USER :
-      return Object.assign({}, state, { authenticated: false, username: "" })
+    case SET_CURRENT_USER :
+      return {
+        isAuthenticated: !isEmpty(action.user),
+        user: action.user
+      };
     default :
       return state
   }
 }
 
-export default user;
+export default auth;

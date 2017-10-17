@@ -9,6 +9,10 @@ import reducer from './reducers'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk';
 
+import { setAuthorizationToken } from './utils/setAuthorizationToken';
+import jwtDecode from 'jwt-decode';
+import { setCurrentUser } from './actions/users';
+
 const logger = store => next => action => {
   console.group(action.type)
   console.info('dispatching', action)
@@ -27,6 +31,11 @@ const store = createStore(
     applyMiddleware(thunk)
   )
 )
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+}
 
 ReactDOM.render(
     <Provider store={store}>

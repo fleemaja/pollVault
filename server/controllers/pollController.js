@@ -21,8 +21,9 @@ exports.createPoll = async (req, res) => {
   const poll = await (new Poll(req.body)).save();
   // I don't think this is the best way to create poll choices...
   const choices = await createChoices(req.body.choices, poll._id);
-  req.flash('success', `Successfully created poll: "${poll.title}"!`);
-  res.redirect(`/poll/${poll.slug}`);
+  // req.flash('success', `Successfully created poll: "${poll.title}"!`);
+  // res.redirect(`/poll/${poll.slug}`);
+  res.json({ "success": `Successfully created poll: "${poll.title}"!` })
 };
 
 exports.getPolls = async (req, res) => {

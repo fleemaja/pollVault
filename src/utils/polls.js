@@ -1,3 +1,5 @@
+const api = 'http://localhost:5001';
+
 const polls = [
   {
     id: '0',
@@ -63,13 +65,19 @@ export function getPoll(id) {
   return poll.length > 0 ? poll[0] : null;
 }
 
-export function addPoll(poll) {
-  const id = Math.random() * (2**64);
-  const p = {
-    id,
-    title: poll.title,
-    votes: 0,
-    timestamp: 3
-  }
-  return Promise.resolve(p)
+export const addPoll = (poll) => {
+  alert(JSON.stringify(poll))
+  fetch(`${api}/api/add`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      title: poll.title,
+      category: poll.category,
+      choices: poll.choices
+    })
+  }).then(res => res.json())
+    .then(data => data)
 }

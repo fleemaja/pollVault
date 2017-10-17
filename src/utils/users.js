@@ -31,6 +31,6 @@ export const login = (user) =>
     .then(data => data)
 
 export const logout = () =>
-  fetch(`api/logout`)
+  fetch(`${api}/api/logout`)
     .then(res => res.json())
     .then(data => data)
