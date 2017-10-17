@@ -83,8 +83,6 @@ class Index extends Component {
     return (
       <MuiThemeProvider>
 
-        <p> { JSON.stringify(this.props.user) }</p>
-
         <AppBar
           style={{backgroundColor: '#fff', width: contentWidth}}
           titleStyle={{color: '#333'}}
@@ -164,16 +162,21 @@ class Index extends Component {
             </SelectField>
             {
               user.authenticated ?
-                <RaisedButton
-                  label='Logout'
-                  onClick={() => this.props.logoutUser()}
-                  style={{marginLeft: '40px', marginTop: '40px'}}
-                 /> :
+                <section>
+                  <p>
+                    Logged in as <strong>{ user.username }</strong>
+                  </p>
+                  <RaisedButton
+                    label='Logout'
+                    onClick={() => this.props.logoutUser()}
+                    style={{marginLeft: '40px', marginTop: '40px'}}
+                   />
+                 </section> :
                  <section>
                    <RaisedButton
                      label='Signup'
                      onClick={this.handleSignupOpen}
-                     style={{marginLeft: '40px', marginTop: '40px', display: 'block'}}
+                     style={{marginLeft: '40px', marginTop: '40px'}}
                     />
                    <Dialog
                      title="Signup"

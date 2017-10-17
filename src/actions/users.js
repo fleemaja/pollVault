@@ -28,11 +28,9 @@ export const apiLoginUser = (user) => dispatch => (
 );
 
 export const apiLogoutUser = () => dispatch => {
-  alert("LOGGING OUT")
   UsersStorage
     .logout()
     .then((res) => {
-      alert("LOGOUT THEN THINGY")
       dispatch(logoutUser())
       return res
     })

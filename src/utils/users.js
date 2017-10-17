@@ -32,8 +32,5 @@ export const login = (user) =>
 
 export const logout = () =>
   fetch(`api/logout`)
-    .then(res => {
-      alert("FETCHED")
-      res.json()
-    })
+    .then(res => res.json())
     .then(data => data)

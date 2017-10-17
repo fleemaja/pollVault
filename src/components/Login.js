@@ -35,7 +35,6 @@ class Login extends Component {
       this.setState({ errors: {}, isLoading: true })
       this.props.loginUser(this.state)
         .then(res => {
-          alert(JSON.stringify(res))
           if (res.success) {
             this.props.addFlashMessage({
               type: 'success',

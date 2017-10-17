@@ -10,8 +10,10 @@ mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
 });
 
-// READY?! Let's go!
+require('./models/Choice');
+require('./models/Poll');
 require('./models/User');
+require('./models/Vote');
 
 
 // Start our app!
