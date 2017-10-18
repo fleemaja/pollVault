@@ -47,9 +47,9 @@ class Comment extends Component {
     return (
       <section style={{textAlign: 'left', marginBottom: 20}}>
         <Avatar style={{marginRight: 10}}>A</Avatar>
-        <strong>{ comment.author }</strong>
+        <strong>{ comment.author.username }</strong>
         <span style={{marginLeft: 10}}>4 hours ago</span>
-        <p>{ comment.body }</p>
+        <p>{ comment.text }</p>
         <strong>{ comment.votes}</strong>
         <FlatButton
           title='Upvote'

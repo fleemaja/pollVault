@@ -7,17 +7,17 @@ import RaisedButton from 'material-ui/RaisedButton';
 class AddCommentForm extends Component {
   state = {
     author: '',
-    body: ''
+    text: ''
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { author, body } = this.state;
+    const { text } = this.state;
     const parentId = this.props.parentId;
-    if (author !== '' && body !== '') {
-      this.props.addComment(parentId, { author, body });
-      this.setState({ author: '', body: '' })
+    if (parentId !== '' && text !== '') {
+      this.props.addComment(parentId, { text });
+      this.setState({ text: '' })
     }
   }
 
@@ -32,22 +32,14 @@ class AddCommentForm extends Component {
   }
 
   render() {
-    const { author, body } = this.state
+    const { text } = this.state
     return (
       <section style={{margin: 20}}>
         <h2>Add Comment</h2>
         <form>
           <TextField
-            value={author}
-            name='author'
-            onChange={this.handleInput.bind(this)}
-            hintText="Author"
-            floatingLabelText="Author"
-            style={{display: 'block'}}
-          />
-          <TextField
-            value={body}
-            name='body'
+            value={text}
+            name='text'
             onChange={this.handleInput.bind(this)}
             hintText="Comment"
             floatingLabelText="Comment"

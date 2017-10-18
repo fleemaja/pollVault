@@ -41,16 +41,14 @@ export function voteComment(id, voteType) {
   }
 }
 
-export const getCommentsByPoll = (commentId) => dispatch => (
-  CommentsStorage
-    .getCommentsByPoll(commentId)
-    .then(comments => dispatch(receiveComments(comments)))
+export const setComments = (comments) => dispatch => (
+  dispatch(receiveComments(comments))
 );
 
 export const apiAddComment = (parentId, comment) => dispatch => (
   CommentsStorage
       .addComment(parentId, comment)
-      .then(c => dispatch(addComment(c)))
+      .then(res => dispatch(addComment(res.data.comment)))
 );
 
 export const apiVoteComment = (id, voteType) => dispatch => (

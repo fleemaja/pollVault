@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import { getPollBySlug } from '../utils/polls';
-import { getCommentsByPoll } from '../actions/comments';
+import { setComments } from '../actions/comments';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
 import Comments from './Comments';
@@ -11,7 +11,7 @@ import Poll from './Poll'
 
 class Show extends Component {
   state = {
-    poll: '',
+    poll: {},
     slug: ''
   }
 
@@ -21,9 +21,9 @@ class Show extends Component {
     getPollBySlug(slug)
       .then(response => {
         const poll = response.data.poll;
-        this.props.getCommentsByPoll(poll.id);
         if (poll) {
           this.setState({ poll })
+          this.props.setComments(poll.comments);
         }
       })
   }
@@ -41,7 +41,7 @@ class Show extends Component {
         />
         <section>
           <Poll poll={poll} />
-          <AddCommentForm parentId={poll && poll.id}/>
+          <AddCommentForm parentId={poll.id}/>
           <Comments comments={comments} />
         </section>
       </MuiThemeProvider>
@@ -63,7 +63,7 @@ function mapStateToProps ({ comments }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getCommentsByPoll: (id) => dispatch(getCommentsByPoll(id))
+    setComments: (comments) => dispatch(setComments(comments))
   }
 }
 

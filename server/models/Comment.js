@@ -19,6 +19,10 @@ const commentSchema = new mongoose.Schema({
   text: {
     type: String,
     required: 'Your comment must have text!'
+  },
+  votes: {
+    type: Number,
+    default: 0
   }
 }, {
   toJSON: { virtuals: true },
@@ -38,6 +42,7 @@ function autopopulate(next) {
 };
 
 commentSchema.pre('find', autopopulate);
+commentSchema.pre('findById', autopopulate);
 commentSchema.pre('findOne', autopopulate);
 
 module.exports = mongoose.model('Comment', commentSchema);
