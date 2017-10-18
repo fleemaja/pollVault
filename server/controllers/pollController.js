@@ -3,10 +3,6 @@ const Poll = mongoose.model('Poll');
 const Choice = mongoose.model('Choice');
 const Vote = mongoose.model('Vote');
 
-exports.addPoll = (req, res) => {
-  res.render('editPoll', { title: 'Add Poll'} );
-};
-
 const createChoices = async (choices, pollId) => {
   await Promise.all(choices.map(async (choice) => {
     await (new Choice({
@@ -35,7 +31,8 @@ exports.getPolls = async (req, res) => {
     .find()
     .skip(skip)
     .limit(limit)
-    .sort({ created: 'desc' });
+    .sort({ created: 'desc' })
+    .populate('author comments choices votes');
 
   const countPromise = Poll.count();
 
@@ -44,12 +41,12 @@ exports.getPolls = async (req, res) => {
   const pages = Math.ceil(count / limit);
 
   if (!polls.length && skip) {
-    req.flash('info', `You asked for page ${page}. But that does not exist so I put you on page ${pages}`);
-    res.redirect(`/polls/page/${pages}`);
+    //req.flash('info', `You asked for page ${page}. But that does not exist so I put you on page ${pages}`);
+    //res.redirect(`/polls/page/${pages}`);
     return;
   }
-
-  res.render('polls', { title: 'Polls', polls, page, pages, count } )
+  res.json({ polls, page, pages, count })
+  //res.render('polls', { title: 'Polls', polls, page, pages, count } )
 };
 
 const confirmOwner = (poll, user) => {

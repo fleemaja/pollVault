@@ -11,7 +11,16 @@ export const setCurrentUser = user => ({
 });
 
 export const apiSignupUser = (user) => dispatch => (
-  UsersStorage.signup(user)
+  UsersStorage
+    .signup(user)
+    .then(res => {
+        const token = res.data.token;
+        localStorage.setItem('jwtToken', token);
+        setAuthorizationToken(token);
+        dispatch(setCurrentUser(jwtDecode(token)));
+        return res
+      }
+    )
 );
 
 export const apiLoginUser = (user) => dispatch => (

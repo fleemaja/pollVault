@@ -29,7 +29,7 @@ exports.login = function(req, res, next) {
         id: user._id,
         username: user.username
       }, process.env.jwtSecret);
-      res.json({ token });
+      res.json({ success: true, token });
 		})
 	})(req, res, next)
 }

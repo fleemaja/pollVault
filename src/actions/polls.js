@@ -43,7 +43,7 @@ export function votePoll(id, option) {
 export const fetchPolls = () => dispatch => (
   PollsStorage
     .getPolls()
-    .then(polls => dispatch(receivePolls(polls)))
+    .then(response => dispatch(receivePolls(response.data.polls)))
 );
 
 export const apiAddPoll = (poll) => dispatch => (

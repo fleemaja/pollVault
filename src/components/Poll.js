@@ -50,7 +50,7 @@ class Poll extends Component {
           <h2>{ poll.title }</h2>
         </Link>
         {
-          poll.options.map(o =>
+          poll.choices.map(o =>
             <Option
               vote={() => this.vote(o.text)}
               option={o}
