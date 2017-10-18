@@ -18,6 +18,7 @@ router.post('/api/add/:id', authController.authenticate, catchErrors(pollControl
 router.get('/api/poll/:slug', catchErrors(pollController.getPollBySlug));
 
 router.post('/api/comments/:id', authController.authenticate, catchErrors(commentController.addComment));
+router.delete('/api/comments/comment/:id', authController.authenticate, catchErrors(commentController.deleteComment));
 router.post('/api/replies/:id', authController.authenticate, catchErrors(replyController.addReply));
 
 router.get('/api/search', catchErrors(pollController.searchPolls));

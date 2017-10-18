@@ -15,6 +15,18 @@ exports.addComment = async (req, res) => {
   // res.redirect('back');
 };
 
+const confirmOwner = (comment, user) => {
+  if (!comment.author.equals(user._id)) {
+    throw Error('You must own a comment in order to do that!');
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  const comment = await Comment.findById({ _id: req.params.id }).populate('author');
+  confirmOwner(comment, req.user);
+  await Comment.findByIdAndRemove(req.params.id)
+}
+
 exports.upvoteComment = async (req, res) => {
   const upvotes = req.user.upvotes.map(obj => obj.toString());
   const operator = upvotes.includes(req.params.id) ? '$pull' : '$addToSet';

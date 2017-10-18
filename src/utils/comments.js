@@ -7,3 +7,7 @@ export const addComment = async (parentId, comment) => {
   })
   return response;
 }
+
+export function deleteComment(id) {
+  axios.delete(`${api}/api/comments/comment/${id}`)
+}

@@ -51,7 +51,7 @@ exports.getPolls = async (req, res) => {
 
 const confirmOwner = (poll, user) => {
   if (!poll.author.equals(user._id)) {
-    throw Error('You must own a poll in order to edit it!');
+    throw Error('You must own a poll in order to do that!');
   }
 };
 

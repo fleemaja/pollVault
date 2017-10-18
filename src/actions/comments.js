@@ -59,6 +59,7 @@ export const apiEditComment = (id, comment) => dispatch => (
   dispatch(editComment(id, comment))
 );
 
-export const apiCommentDelete = (id) => dispatch => (
-  dispatch(commentDelete(id))
-);
+export const apiCommentDelete = (id) => dispatch => {
+  CommentsStorage.deleteComment(id);
+  dispatch(commentDelete(id));
+};
