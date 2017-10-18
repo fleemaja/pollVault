@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
-import { fetchPoll } from '../actions/polls';
+import { getPollBySlug } from '../utils/polls';
 import { getCommentsByPoll } from '../actions/comments';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
@@ -12,21 +12,24 @@ import Poll from './Poll'
 class Show extends Component {
   state = {
     poll: '',
-    pollId: ''
+    slug: ''
   }
 
   componentWillMount() {
-    const pollId = this.props.match.params.pollId;
-    this.setState({ pollId })
-    const poll = fetchPoll(pollId)
-    this.props.getCommentsByPoll(pollId);
-    if (poll) {
-      this.setState({ poll })
-    }
+    const slug = this.props.match.params.slug;
+    this.setState({ slug });
+    getPollBySlug(slug)
+      .then(response => {
+        const poll = response.data.poll;
+        this.props.getCommentsByPoll(poll.id);
+        if (poll) {
+          this.setState({ poll })
+        }
+      })
   }
 
   render() {
-    const { poll, pollId } = this.state
+    const { poll } = this.state
     const comments = this.props.comments
     return (
       <MuiThemeProvider>
@@ -38,7 +41,7 @@ class Show extends Component {
         />
         <section>
           <Poll poll={poll} />
-          <AddCommentForm parentId={pollId}/>
+          <AddCommentForm parentId={poll && poll.id}/>
           <Comments comments={comments} />
         </section>
       </MuiThemeProvider>

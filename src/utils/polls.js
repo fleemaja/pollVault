@@ -6,9 +6,9 @@ export async function getPolls() {
   return response;
 }
 
-export async function getPoll(id) {
+export async function getPollBySlug(slug) {
   // Only these show pages will work for now since they are hardcoded
-  const response = await axios.get(`${api}/api/polls`)
+  const response = await axios.get(`${api}/api/poll/${slug}`)
   return response;
 }
 

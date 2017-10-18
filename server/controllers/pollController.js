@@ -108,7 +108,8 @@ exports.getPollBySlug = async (req, res, next) => {
   const ip = req.ip;
   const votes = poll.votes.filter((v) => v.ip === ip);
   const vote = votes.length > 0 ? votes[0] : {};
-  res.render('poll', { title: poll.title, poll, vote });
+  res.json({ poll, vote })
+  // res.render('poll', { title: poll.title, poll, vote });
 };
 
 exports.searchPolls = async (req, res) => {

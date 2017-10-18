@@ -46,11 +46,11 @@ class Poll extends Component {
     ];
     return (
       <Paper style={style} zDepth={1} >
-        <Link to={`/polls/${poll.id}`}>
+        <Link to={`/polls/${poll.slug}`}>
           <h2>{ poll.title }</h2>
         </Link>
         {
-          poll.choices.map(o =>
+          poll.choices && poll.choices.map(o =>
             <Option
               vote={() => this.vote(o.text)}
               option={o}

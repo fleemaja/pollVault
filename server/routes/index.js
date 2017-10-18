@@ -15,7 +15,7 @@ router.get('/api/polls/page/:page', catchErrors(pollController.getPolls));
 router.post('/api/add', authController.authenticate, catchErrors(pollController.createPoll));
 router.post('/api/add/:id', authController.authenticate, catchErrors(pollController.updatePoll));
 //router.get('/polls/:id/edit', catchErrors(pollController.editPoll));
-//router.get('/poll/:slug', catchErrors(pollController.getPollBySlug));
+router.get('/api/poll/:slug', catchErrors(pollController.getPollBySlug));
 
 router.post('/api/comments/:id', authController.authenticate, catchErrors(commentController.addComment));
 router.post('/api/replies/:id', authController.authenticate, catchErrors(replyController.addReply));

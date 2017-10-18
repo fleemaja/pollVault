@@ -8,7 +8,7 @@ const App = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/" component={Index} />
-      <Route exact path="/polls/:pollId" component={Show} />
+      <Route exact path="/polls/:slug" component={Show} />
     </Switch>
   </BrowserRouter>
 );

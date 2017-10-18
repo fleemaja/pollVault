@@ -64,7 +64,3 @@ export const apiPollDelete = (id) => dispatch => {
 export const apiVotePoll = (id, option) => dispatch => (
   dispatch(votePoll(id, option))
 );
-
-export const fetchPoll = (id) => (
-  PollsStorage.getPoll(id)
-)

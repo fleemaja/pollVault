@@ -78,6 +78,7 @@ function autopopulate(next) {
 };
 
 pollSchema.pre('find', autopopulate);
+pollSchema.pre('findOne', autopopulate);
 pollSchema.pre('findById', autopopulate);
 
 module.exports = mongoose.model('Poll', pollSchema);
