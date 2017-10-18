@@ -10,11 +10,11 @@ mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
 });
 
+require('./models/Vote');
 require('./models/Choice');
+require('./models/Comment');
 require('./models/Poll');
 require('./models/User');
-require('./models/Vote');
-require('./models/Comment');
 require('./models/Reply');
 
 

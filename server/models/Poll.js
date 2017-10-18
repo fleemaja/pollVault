@@ -73,7 +73,7 @@ pollSchema.virtual('votes', {
 });
 
 function autopopulate(next) {
-  this.populate('comments choices votes');
+  this.populate('author comments choices votes');
   next();
 };
 

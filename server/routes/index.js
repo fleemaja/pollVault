@@ -21,6 +21,10 @@ router.post('/api/comments/:id', authController.authenticate, catchErrors(commen
 router.post('/api/replies/:id', authController.authenticate, catchErrors(replyController.addReply));
 
 router.get('/api/search', catchErrors(pollController.searchPolls));
+router.delete('/api/polls/:id',
+  authController.authenticate,
+  catchErrors(pollController.deletePoll)
+);
 router.post('/api/polls/:id/vote', catchErrors(pollController.makeVote));
 router.post('/api/comments/:id/upvote', catchErrors(commentController.upvoteComment));
 router.post('/api/replies/:id/upvote', catchErrors(replyController.upvoteReply));

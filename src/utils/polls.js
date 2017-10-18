@@ -12,6 +12,10 @@ export async function getPoll(id) {
   return response;
 }
 
+export function deletePoll(id) {
+  axios.delete(`${api}/api/polls/${id}`)
+}
+
 export const addPoll = async (poll) => {
   const response = await axios.post(`${api}/api/add`, {
     title: poll.title,

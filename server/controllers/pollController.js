@@ -65,6 +65,12 @@ exports.getPollsByCategory = async (req, res) => {
   res.json(polls);
 };
 
+exports.deletePoll = async (req, res) => {
+  const poll = await Poll.findById({ _id: req.params.id }).populate('author');
+  confirmOwner(poll, req.user);
+  await Poll.findByIdAndRemove(req.params.id)
+}
+
 exports.editPoll = async (req, res) => {
   const poll = await Poll.findOne({ _id: req.params.id }).populate('choices');
   confirmOwner(poll, req.user);
