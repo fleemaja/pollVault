@@ -72,4 +72,11 @@ pollSchema.virtual('votes', {
   foreignField: 'poll' // which field on the vote
 });
 
+function autopopulate(next) {
+  this.populate('comments choices votes');
+  next();
+};
+
+pollSchema.pre('findById', autopopulate);
+
 module.exports = mongoose.model('Poll', pollSchema);

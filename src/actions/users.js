@@ -18,7 +18,7 @@ export const apiLoginUser = (user) => dispatch => (
   UsersStorage
     .login(user)
     .then(res => {
-        const token = res.token;
+        const token = res.data.token;
         localStorage.setItem('jwtToken', token);
         setAuthorizationToken(token);
         dispatch(setCurrentUser(jwtDecode(token)));

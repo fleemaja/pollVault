@@ -49,7 +49,7 @@ export const fetchPolls = () => dispatch => (
 export const apiAddPoll = (poll) => dispatch => (
   PollsStorage
     .addPoll(poll)
-    .then(p => dispatch(addPoll(p)))
+    .then(res => dispatch(addPoll(res.data.poll)))
 );
 
 export const apiEditPoll = (poll) => dispatch => (

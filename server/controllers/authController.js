@@ -26,9 +26,9 @@ exports.login = function(req, res, next) {
 				return res.json({ success: false, message: loginErr })
 			}
 			const token = jwt.sign({
-          id: user._id,
-          username: user.username
-        }, process.env.jwtSecret);
+        id: user._id,
+        username: user.username
+      }, process.env.jwtSecret);
       res.json({ token });
 		})
 	})(req, res, next)
@@ -36,7 +36,7 @@ exports.login = function(req, res, next) {
 
 exports.logout = (req, res) => {
   req.logout()
-	return res.json({ success: true })
+	res.json({ success: true })
 };
 
 exports.isLoggedIn = (req, res, next) => {
@@ -62,7 +62,7 @@ exports.authenticate = (req, res, next) => {
         res.status(401).json({ error: 'Failed to authenticate' });
       } else {
 				// find user with decoded user's id
-				User.findOne({ id: decoded.id }).then((err, user) => {
+				User.findById(decoded.id).then((user, err) => {
 					if (!user) {
 						res.status(404).json({ error: 'No such user' });
 					} else {

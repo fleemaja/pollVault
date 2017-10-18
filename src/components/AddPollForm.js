@@ -36,9 +36,9 @@ class AddPollForm extends Component {
     e.preventDefault();
 
     const { title, category, inputs } = this.state;
-    const options = inputs.map(i => i['value']).filter(v => v !== '');
-    if (title !== '' && category !== '' && options.length >= 2) {
-      this.props.addPoll({ title, category, options })
+    const choices = inputs.map(i => i['value']).filter(v => v !== '');
+    if (title !== '' && category !== '' && choices.length >= 2) {
+      this.props.addPoll({ title, category, choices })
       this.props.handleClose()
       this.setState(this.initialState);
     }

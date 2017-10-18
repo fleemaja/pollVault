@@ -16,6 +16,9 @@ const choiceSchema = new mongoose.Schema({
     ref: 'Poll',
     required: 'Choice must be a part of a poll.'
   }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Define our indices

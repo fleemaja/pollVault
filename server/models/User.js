@@ -26,6 +26,9 @@ const userSchema = new Schema({
   upvotes: [
     { type: mongoose.Schema.ObjectId, ref: 'Comment' }
   ]
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 userSchema.virtual('gravatar').get(function() {
