@@ -4,30 +4,24 @@ import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
-import { apiPollDelete, apiVotePoll } from '../actions/polls';
+import { apiVotePoll } from '../actions/polls';
 import Dialog from 'material-ui/Dialog';
-import EditPollForm from './EditPollForm';
+import DeletePollConfirmation from './DeletePollConfirmation';
 import Option from './Option';
 
 class Poll extends Component {
 
   state = {
-    editPollModalOpen: false
+    deletePollModalOpen: false
   }
 
   handleOpen = () => {
-    this.setState({editPollModalOpen: true});
+    this.setState({deletePollModalOpen: true});
   };
 
   handleClose = () => {
-    this.setState({editPollModalOpen: false});
+    this.setState({deletePollModalOpen: false});
   };
-
-  deletePoll = () => {
-    const poll = this.props.poll;
-    const pollId = poll.id;
-    this.props.deletePoll(pollId);
-  }
 
   vote = (option) => {
     const poll = this.props.poll;
@@ -36,7 +30,10 @@ class Poll extends Component {
   }
 
   render() {
-    const poll = this.props.poll
+    const poll = this.props.poll;
+    const pollOwner = poll.author && poll.author.id;
+    const currentUser = this.props.auth.user.id;
+    const isOwnedByUser = pollOwner === currentUser;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -57,24 +54,25 @@ class Poll extends Component {
             />
           )
         }
-        <RaisedButton
-          label='Edit'
-          onClick={this.handleOpen}
-         />
-        <Dialog
-          title="Edit Poll"
-          actions={actions}
-          modal={true}
-          open={this.state.editPollModalOpen}
-        >
-          <EditPollForm
-            poll={poll}
-            handleClose={this.handleClose.bind(this)} />
-        </Dialog>
-        <RaisedButton
-          label='Delete'
-          onClick={this.deletePoll.bind(this)}
-        />
+        {
+          isOwnedByUser &&
+          <section>
+            <RaisedButton
+              label='Delete'
+              onClick={this.handleOpen}
+             />
+            <Dialog
+              title="Delete Poll?"
+              actions={actions}
+              modal={true}
+              open={this.state.deletePollModalOpen}
+            >
+              <DeletePollConfirmation
+                poll={poll}
+                handleClose={this.handleClose.bind(this)} />
+            </Dialog>
+          </section>
+        }
       </Paper>
     )
   }
@@ -88,14 +86,17 @@ const style = {
   display: 'inline-block'
 };
 
+function mapStateToProps ({ auth }) {
+  return { auth }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
-    deletePoll: (id) => dispatch(apiPollDelete(id)),
     vote: (id, option) => dispatch(apiVotePoll(id, option))
   }
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Poll);

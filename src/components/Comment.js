@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
-import { apiCommentDelete, apiVoteComment } from '../actions/comments';
+import { apiVoteComment } from '../actions/comments';
 import Dialog from 'material-ui/Dialog';
-import EditCommentForm from './EditCommentForm';
+import DeleteCommentConfirmation from './DeleteCommentConfirmation';
 import Like from 'material-ui/svg-icons/action/thumb-up';
 import Dislike from 'material-ui/svg-icons/action/thumb-down';
 import Avatar from 'material-ui/Avatar';
@@ -12,22 +12,16 @@ import Avatar from 'material-ui/Avatar';
 class Comment extends Component {
 
   state = {
-    editCommentModalOpen: false
+    deleteCommentModalOpen: false
   }
 
   handleOpen = () => {
-    this.setState({editCommentModalOpen: true});
+    this.setState({deleteCommentModalOpen: true});
   };
 
   handleClose = () => {
-    this.setState({editCommentModalOpen: false});
+    this.setState({deleteCommentModalOpen: false});
   };
-
-  deleteComment = () => {
-    const comment = this.props.comment;
-    const commentId = comment.id;
-    this.props.deleteComment(commentId);
-  }
 
   vote = (voteType) => {
     const comment = this.props.comment;
@@ -46,7 +40,7 @@ class Comment extends Component {
     ];
     return (
       <section style={{textAlign: 'left', marginBottom: 20}}>
-        <Avatar style={{marginRight: 10}}>A</Avatar>
+        <Avatar style={{marginRight: 10}}>{ comment.author.username.substring(0, 3) }</Avatar>
         <strong>{ comment.author.username }</strong>
         <span style={{marginLeft: 10}}>4 hours ago</span>
         <p>{ comment.text }</p>
@@ -62,23 +56,19 @@ class Comment extends Component {
            onClick={() => this.vote('down')}
           />
         <RaisedButton
-          label='Edit'
+          label='Delete'
           onClick={this.handleOpen}
          />
         <Dialog
-          title="Edit Comment"
+          title="Delete Comment?"
           actions={actions}
           modal={true}
-          open={this.state.editCommentModalOpen}
+          open={this.state.deleteCommentModalOpen}
         >
-          <EditCommentForm
+          <DeleteCommentConfirmation
             comment={comment}
             handleClose={this.handleClose.bind(this)} />
         </Dialog>
-        <RaisedButton
-          label='Delete'
-          onClick={this.deleteComment.bind(this)}
-        />
       </section>
     )
   }
@@ -86,7 +76,6 @@ class Comment extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteComment: (id) => dispatch(apiCommentDelete(id)),
     vote: (id, voteType) => dispatch(apiVoteComment(id, voteType))
   }
 }
