@@ -19,10 +19,6 @@ const commentSchema = new mongoose.Schema({
   text: {
     type: String,
     required: 'Your comment must have text!'
-  },
-  votes: {
-    type: Number,
-    default: 0
   }
 }, {
   toJSON: { virtuals: true },
@@ -36,8 +32,14 @@ commentSchema.virtual('replies', {
   foreignField: 'comment' // which field on the comment
 });
 
+commentSchema.virtual('votes', {
+  ref: 'CommentVote', // what model to link
+  localField: '_id', // which field on the poll
+  foreignField: 'comment' // which field on the vote
+});
+
 function autopopulate(next) {
-  this.populate('author replies');
+  this.populate('author replies votes');
   next();
 };
 

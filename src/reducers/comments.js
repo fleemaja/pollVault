@@ -26,10 +26,15 @@ export function comments(state = [], action) {
           : comment
       )
     case VOTE_COMMENT :
-      const vote = action.voteType === 'up' ? 1 : -1;
       return state.map(comment =>
         (comment.id === action.id)
-          ? {...comment, 'votes': comment.votes + vote}
+          ? {
+              ...comment,
+              'votes': [
+                action.vote,
+                ...comment.votes
+              ]
+            }
           : comment
       )
     default :

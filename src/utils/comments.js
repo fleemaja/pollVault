@@ -11,3 +11,10 @@ export const addComment = async (parentId, comment) => {
 export function deleteComment(id) {
   axios.delete(`${api}/api/comments/comment/${id}`)
 }
+
+export const voteComment = async (id, isUpvote) => {
+  const response = await axios.post(`${api}/api/comments/${id}/vote`, {
+    isUpvote
+  })
+  return response;
+}

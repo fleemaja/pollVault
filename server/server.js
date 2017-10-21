@@ -13,6 +13,7 @@ mongoose.connection.on('error', (err) => {
 require('./models/Vote');
 require('./models/Choice');
 require('./models/Comment');
+require('./models/CommentVote');
 require('./models/Poll');
 require('./models/User');
 require('./models/Reply');

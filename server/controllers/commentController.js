@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Comment = mongoose.model('Comment');
 const User = mongoose.model('User');
+const CommentVote = mongoose.model('CommentVote');
 
 exports.addComment = async (req, res) => {
   req.body.author = req.user._id;
@@ -9,7 +10,7 @@ exports.addComment = async (req, res) => {
   await newComment.save();
   const populatedComment =
     await Comment.findById(newComment._id)
-                 .populate('author replies');
+                 .populate('author replies votes');
   res.json({ comment: populatedComment })
   // req.flash('success', 'Comment Saved!');
   // res.redirect('back');
@@ -27,13 +28,11 @@ exports.deleteComment = async (req, res) => {
   await Comment.findByIdAndRemove(req.params.id)
 }
 
-exports.upvoteComment = async (req, res) => {
-  const upvotes = req.user.upvotes.map(obj => obj.toString());
-  const operator = upvotes.includes(req.params.id) ? '$pull' : '$addToSet';
-  const user = await User
-    .findByIdAndUpdate(req.user._id,
-    { [operator]: { upvotes: req.params.id }},
-    { new: true }
-  );
-  res.json(upvotes);
+exports.voteComment = async (req, res) => {
+  req.body.author = req.user._id;
+  req.body.comment = req.params.id;
+  const newCommentVote = new CommentVote(req.body);
+  await newCommentVote.save();
+  const commentId = req.params.id;
+  res.json({ commentId, newCommentVote })
 };

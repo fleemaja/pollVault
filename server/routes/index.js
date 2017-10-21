@@ -27,8 +27,8 @@ router.delete('/api/polls/:id',
   catchErrors(pollController.deletePoll)
 );
 router.post('/api/polls/:id/vote', catchErrors(pollController.makeVote));
-router.post('/api/comments/:id/upvote', catchErrors(commentController.upvoteComment));
-router.post('/api/replies/:id/upvote', catchErrors(replyController.upvoteReply));
+router.post('/api/comments/:id/vote', authController.authenticate, catchErrors(commentController.voteComment));
+router.post('/api/replies/:id/vote', authController.authenticate, catchErrors(replyController.voteReply));
 router.get('/api/polls/:category', catchErrors(pollController.getPollsByCategory));
 
 // AUTHENTICATION

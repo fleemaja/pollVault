@@ -23,10 +23,10 @@ class Comment extends Component {
     this.setState({deleteCommentModalOpen: false});
   };
 
-  vote = (voteType) => {
+  vote = (isUpvote) => {
     const comment = this.props.comment;
     const commentId = comment.id;
-    this.props.vote(commentId, voteType);
+    this.props.vote(commentId, isUpvote);
   }
 
   render() {
@@ -38,22 +38,26 @@ class Comment extends Component {
         onClick={this.handleClose}
       />
     ];
+    const voteScore = comment.votes.reduce((accumulator, currentVote) => {
+      const voteVal = currentVote.isUpvote ? 1 : -1;
+      return accumulator + voteVal;
+    }, 0);
     return (
       <section style={{textAlign: 'left', marginBottom: 20}}>
         <Avatar style={{marginRight: 10}}>{ comment.author.username.substring(0, 3) }</Avatar>
         <strong>{ comment.author.username }</strong>
         <span style={{marginLeft: 10}}>4 hours ago</span>
         <p>{ comment.text }</p>
-        <strong>{ comment.votes}</strong>
+        <strong>{ voteScore }</strong>
         <FlatButton
           title='Upvote'
           icon={<Like />}
-          onClick={() => this.vote('up')}
+          onClick={() => this.vote(true)}
          />
          <FlatButton
            title='Downvote'
            icon={<Dislike />}
-           onClick={() => this.vote('down')}
+           onClick={() => this.vote(false)}
           />
         <RaisedButton
           label='Delete'
@@ -76,7 +80,7 @@ class Comment extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    vote: (id, voteType) => dispatch(apiVoteComment(id, voteType))
+    vote: (id, isUpvote) => dispatch(apiVoteComment(id, isUpvote))
   }
 }
 
