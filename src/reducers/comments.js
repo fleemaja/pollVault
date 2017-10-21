@@ -30,10 +30,15 @@ export function comments(state = [], action) {
         (comment.id === action.id)
           ? {
               ...comment,
-              'votes': [
-                action.vote,
-                ...comment.votes
-              ]
+              'votes': action.userHasAlreadyVotedBefore ?
+                comment.votes.map(v => (
+                  (v.author === action.vote.author) ?
+                    { ...v, isUpvote: action.vote.isUpvote} :
+                    v
+                )) : [
+                  action.vote,
+                  ...comment.votes
+                ]
             }
           : comment
       )

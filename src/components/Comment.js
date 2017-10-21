@@ -30,7 +30,7 @@ class Comment extends Component {
   }
 
   render() {
-    const comment = this.props.comment;
+    const { comment, auth } = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -42,6 +42,15 @@ class Comment extends Component {
       const voteVal = currentVote.isUpvote ? 1 : -1;
       return accumulator + voteVal;
     }, 0);
+    let userVoted = false;
+    let userVoteIsUpvote;
+    if (auth.isAuthenticated) {
+      const voteFilter = comment.votes.filter(v => v.author === auth.user.id);
+      if (voteFilter.length > 0) {
+        userVoted = true;
+        userVoteIsUpvote = voteFilter[0].isUpvote;
+      }
+    }
     return (
       <section style={{textAlign: 'left', marginBottom: 20}}>
         <Avatar style={{marginRight: 10}}>{ comment.author.username.substring(0, 3) }</Avatar>
@@ -52,11 +61,13 @@ class Comment extends Component {
         <FlatButton
           title='Upvote'
           icon={<Like />}
+          style={{ opacity: userVoteIsUpvote ? 1 : 0.5 }}
           onClick={() => this.vote(true)}
          />
          <FlatButton
            title='Downvote'
            icon={<Dislike />}
+           style={{ opacity: (userVoted && !userVoteIsUpvote) ? 1 : 0.5 }}
            onClick={() => this.vote(false)}
           />
         <RaisedButton
@@ -78,6 +89,10 @@ class Comment extends Component {
   }
 }
 
+function mapStateToProps ({ auth }) {
+  return { auth }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     vote: (id, isUpvote) => dispatch(apiVoteComment(id, isUpvote))
@@ -85,6 +100,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Comment);

@@ -20,7 +20,7 @@ const commentVoteSchema = new mongoose.Schema({
 
 // ensures that user only gets one vote per comment
 commentVoteSchema.index(
-  { user: 1, comment: 1 },
+  { author: 1, comment: 1 },
   { unique: true }
 );
 

@@ -29,10 +29,27 @@ exports.deleteComment = async (req, res) => {
 }
 
 exports.voteComment = async (req, res) => {
-  req.body.author = req.user._id;
-  req.body.comment = req.params.id;
-  const newCommentVote = new CommentVote(req.body);
-  await newCommentVote.save();
   const commentId = req.params.id;
-  res.json({ commentId, newCommentVote })
+  req.body.author = req.user._id;
+  req.body.comment = commentId;
+  const newVoteIsUpvote = req.body.isUpvote;
+  let userHasAlreadyVotedBefore = false, oldVote, oldVoteSameAsNew;
+  const comment = await Comment.findById({ _id: commentId }).populate('votes');
+  comment.votes.forEach(v => {
+    if (String(v.author) === String(req.user._id)) {
+      userHasAlreadyVotedBefore = true;
+      oldVote = v;
+      oldVoteSameAsNew = newVoteIsUpvote === v.isUpvote
+    }
+  })
+  if (oldVoteSameAsNew) {
+    res.json({ userHasAlreadyVotedBefore, commentId, newCommentVote: oldVote })
+  } else {
+    if (userHasAlreadyVotedBefore) {
+        await CommentVote.findByIdAndRemove(oldVote.id)
+    }
+    const newCommentVote = new CommentVote(req.body);
+    await newCommentVote.save();
+    res.json({ userHasAlreadyVotedBefore, commentId, newCommentVote })
+  }
 };

@@ -33,11 +33,12 @@ export function editComment(id, comment) {
   }
 };
 
-export function voteComment(id, vote) {
+export function voteComment(id, vote, userHasAlreadyVotedBefore) {
   return {
     type: VOTE_COMMENT,
     id,
-    vote
+    vote,
+    userHasAlreadyVotedBefore
   }
 }
 
@@ -54,7 +55,7 @@ export const apiAddComment = (parentId, comment) => dispatch => (
 export const apiVoteComment = (id, isUpvote) => dispatch => (
   CommentsStorage
       .voteComment(id, isUpvote)
-      .then(res => dispatch(voteComment(res.data.commentId, res.data.newCommentVote)))
+      .then(res => dispatch(voteComment(res.data.commentId, res.data.newCommentVote, res.data.userHasAlreadyVotedBefore)))
 );
 
 export const apiEditComment = (id, comment) => dispatch => (
