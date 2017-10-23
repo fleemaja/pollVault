@@ -49,6 +49,7 @@ class Poll extends Component {
     const choiceId = this.state.choiceId
     return (
       <Paper style={style} zDepth={1} >
+        <p>{`Poll has voted BOOL: ${ poll.hasVoted }`}</p>
         <Link to={`/polls/${poll.slug}`}>
           <h2>{ poll.title }</h2>
         </Link>

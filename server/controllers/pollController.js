@@ -22,6 +22,11 @@ exports.createPoll = async (req, res) => {
   res.json({ poll: populatedPoll })
 };
 
+const ipHasVotedOnThisPoll = (ip, poll) => {
+  const candidates = poll.votes.filter(v => v.ip === ip);
+  return candidates.length > 0;
+}
+
 exports.getPolls = async (req, res) => {
   const page = req.params.page || 1;
   const limit = 12;
@@ -45,7 +50,13 @@ exports.getPolls = async (req, res) => {
     //res.redirect(`/polls/page/${pages}`);
     return;
   }
-  res.json({ polls, page, pages, count })
+  const pollsWithVoteStatus = polls.map(p => {
+    const hasVoted = ipHasVotedOnThisPoll(req.ip, p);
+    let poll = p.toObject();
+    poll.hasVoted = hasVoted;
+    return poll;
+  });
+  res.json({ polls: pollsWithVoteStatus, page, pages, count })
   //res.render('polls', { title: 'Polls', polls, page, pages, count } )
 };
 

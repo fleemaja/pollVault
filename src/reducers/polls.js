@@ -14,7 +14,7 @@ export function polls(state = [], action) {
       ]
     case ADD_POLL :
       return [
-        action.poll,
+        { ...action.poll, hasVoted: false },
         ...state
       ]
     case DELETE_POLL :
@@ -28,7 +28,7 @@ export function polls(state = [], action) {
     case VOTE_POLL :
       return state.map(poll =>
         (poll.id === action.id)
-          ? {...poll,
+          ? {...poll, hasVoted: true,
              choices: poll.choices.map((choice) =>
               (choice.id === action.choice.id) ? action.choice : choice
             )}
