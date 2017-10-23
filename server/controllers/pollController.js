@@ -117,10 +117,10 @@ exports.makeVote = async (req, res) => {
 exports.getPollBySlug = async (req, res, next) => {
   const poll = await Poll.findOne({ slug: req.params.slug }).populate('author comments choices votes');
   if (!poll) return next();
-  const ip = req.ip;
-  const votes = poll.votes.filter((v) => v.ip === ip);
-  const vote = votes.length > 0 ? votes[0] : {};
-  res.json({ poll, vote })
+  const hasVoted = ipHasVotedOnThisPoll(req.ip, poll);
+  let p = poll.toObject();
+  p.hasVoted = hasVoted;
+  res.json({ poll: p })
   // res.render('poll', { title: poll.title, poll, vote });
 };
 

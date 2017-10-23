@@ -8,6 +8,7 @@ import { apiVotePoll } from '../actions/polls';
 import Dialog from 'material-ui/Dialog';
 import DeletePollConfirmation from './DeletePollConfirmation';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import Results from './Results';
 
 class Poll extends Component {
 
@@ -49,27 +50,31 @@ class Poll extends Component {
     const choiceId = this.state.choiceId
     return (
       <Paper style={style} zDepth={1} >
-        <p>{`Poll has voted BOOL: ${ poll.hasVoted }`}</p>
         <Link to={`/polls/${poll.slug}`}>
           <h2>{ poll.title }</h2>
         </Link>
-        <RadioButtonGroup
-          name="choice"
-          id="choice"
-          onChange={this.handleChoiceChange.bind(this)}>
-          {
-            poll.choices && poll.choices.map(o =>
-              <RadioButton
-                value={o.id}
-                label={`${ o.text } - ${ o.votes }`}
-              />
-            )
-          }
-        </RadioButtonGroup>
-        <RaisedButton
-          label="Vote"
-          disabled={choiceId === ''}
-          onClick={() => this.makeVote(choiceId)} />
+        {
+          poll.hasVoted ? <Results choices={poll.choices}/> :
+          <section>
+            <RadioButtonGroup
+              name="choice"
+              id="choice"
+              onChange={this.handleChoiceChange.bind(this)}>
+              {
+                poll.choices && poll.choices.map(o =>
+                  <RadioButton
+                    value={o.id}
+                    label={`${ o.text } - ${ o.votes }`}
+                  />
+                )
+              }
+            </RadioButtonGroup>
+            <RaisedButton
+              label="Vote"
+              disabled={choiceId === ''}
+              onClick={() => this.makeVote(choiceId)} />
+          </section>
+        }
         {
           isOwnedByUser &&
           <section>
