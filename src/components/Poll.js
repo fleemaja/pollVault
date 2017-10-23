@@ -7,11 +7,12 @@ import { connect } from 'react-redux';
 import { apiVotePoll } from '../actions/polls';
 import Dialog from 'material-ui/Dialog';
 import DeletePollConfirmation from './DeletePollConfirmation';
-import Option from './Option';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 
 class Poll extends Component {
 
   state = {
+    choiceId: '',
     deletePollModalOpen: false
   }
 
@@ -23,10 +24,14 @@ class Poll extends Component {
     this.setState({deletePollModalOpen: false});
   };
 
-  vote = (option) => {
+  handleChoiceChange = (e) => {
+    this.setState({ choiceId: e.target.value })
+  }
+
+  makeVote = (choiceId) => {
     const poll = this.props.poll;
     const pollId = poll.id;
-    this.props.vote(pollId, option);
+    this.props.vote(pollId, choiceId);
   }
 
   render() {
@@ -41,24 +46,35 @@ class Poll extends Component {
         onClick={this.handleClose}
       />
     ];
+    const choiceId = this.state.choiceId
     return (
       <Paper style={style} zDepth={1} >
         <Link to={`/polls/${poll.slug}`}>
           <h2>{ poll.title }</h2>
         </Link>
-        {
-          poll.choices && poll.choices.map(o =>
-            <Option
-              vote={() => this.vote(o.text)}
-              option={o}
-            />
-          )
-        }
+        <RadioButtonGroup
+          name="choice"
+          id="choice"
+          onChange={this.handleChoiceChange.bind(this)}>
+          {
+            poll.choices && poll.choices.map(o =>
+              <RadioButton
+                value={o.id}
+                label={`${ o.text } - ${ o.votes }`}
+              />
+            )
+          }
+        </RadioButtonGroup>
+        <RaisedButton
+          label="Vote"
+          disabled={choiceId === ''}
+          onClick={() => this.makeVote(choiceId)} />
         {
           isOwnedByUser &&
           <section>
             <RaisedButton
               label='Delete'
+              secondary={true}
               onClick={this.handleOpen}
              />
             <Dialog
@@ -92,7 +108,7 @@ function mapStateToProps ({ auth }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    vote: (id, option) => dispatch(apiVotePoll(id, option))
+    vote: (pollId, choiceId) => dispatch(apiVotePoll(pollId, choiceId))
   }
 }
 

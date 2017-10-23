@@ -32,11 +32,11 @@ export function editPoll(poll) {
   }
 };
 
-export function votePoll(id, option) {
+export function votePoll(id, choice) {
   return {
     type: VOTE_POLL,
     id,
-    option
+    choice
   }
 };
 
@@ -61,6 +61,8 @@ export const apiPollDelete = (id) => dispatch => {
   dispatch(pollDelete(id));
 };
 
-export const apiVotePoll = (id, option) => dispatch => (
-  dispatch(votePoll(id, option))
-);
+export const apiVotePoll = (pollId, choiceId) => dispatch => {
+  PollsStorage
+    .vote(pollId, choiceId)
+    .then(res => dispatch(votePoll(res.data.id, res.data.choice)))
+};

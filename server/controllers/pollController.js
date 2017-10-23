@@ -100,6 +100,7 @@ exports.makeVote = async (req, res) => {
   const updatedChoice = await Choice.findOneAndUpdate({ _id: choice }, req.body, {
     new: true
   }).exec();
+  res.json({ id: poll, choice: updatedChoice });
 };
 
 exports.getPollBySlug = async (req, res, next) => {

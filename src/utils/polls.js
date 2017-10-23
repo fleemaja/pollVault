@@ -24,3 +24,10 @@ export const addPoll = async (poll) => {
   })
   return response;
 }
+
+export const vote = async (pollId, choiceId) => {
+  const response = await axios.post(`${api}/api/polls/${pollId}/vote`, {
+    choiceId
+  })
+  return response;
+}
