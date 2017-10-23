@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 
 class Results extends Component {
   render() {
+    const ipVote = this.props.ipVote
     const choices = this.props.choices
-    const totalVotes = this.props.choices.reduce((accumulator, choice) => (
+    const totalVotes = choices.reduce((accumulator, choice) => (
       accumulator + choice.votes
     ), 0);
     return (
       <section>
         {
           choices.map(c => {
+            const isUserVote = ipVote === c.id;
+            const backgroundColor = isUserVote ? '#c0f8ff' : '#ddd';
             const percentOfVote = `${Math.round(c.votes/totalVotes * 100)}%`;
             return (
-              <section style={{...style, width: percentOfVote}}>
+              <section style={{...style, width: percentOfVote, backgroundColor }}>
                 <span style={{marginLeft: 5}}>{ c.text } - { percentOfVote }</span>
               </section>
             )
@@ -24,8 +27,6 @@ class Results extends Component {
 }
 
 const style = {
-  width: '50%',
-  backgroundColor: '#ddd',
   borderRadius: '5px',
   textAlign: 'left',
   whiteSpace: 'nowrap',

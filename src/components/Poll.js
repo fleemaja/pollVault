@@ -54,7 +54,7 @@ class Poll extends Component {
           <h2>{ poll.title }</h2>
         </Link>
         {
-          poll.hasVoted ? <Results choices={poll.choices}/> :
+          poll.hasVoted ? <Results ipVote={poll.ipVote} choices={poll.choices} /> :
           <section>
             <RadioButtonGroup
               name="choice"

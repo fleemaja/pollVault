@@ -22,9 +22,9 @@ exports.createPoll = async (req, res) => {
   res.json({ poll: populatedPoll })
 };
 
-const ipHasVotedOnThisPoll = (ip, poll) => {
+const getIpVote = (ip, poll) => {
   const candidates = poll.votes.filter(v => v.ip === ip);
-  return candidates.length > 0;
+  return candidates.length > 0 ? candidates[0].choice : null;
 }
 
 exports.getPolls = async (req, res) => {
@@ -51,9 +51,11 @@ exports.getPolls = async (req, res) => {
     return;
   }
   const pollsWithVoteStatus = polls.map(p => {
-    const hasVoted = ipHasVotedOnThisPoll(req.ip, p);
+    const userVote = getIpVote(req.ip, p);
+    const hasVoted = userVote ? true : false;
     let poll = p.toObject();
     poll.hasVoted = hasVoted;
+    poll.ipVote = userVote;
     return poll;
   });
   res.json({ polls: pollsWithVoteStatus, page, pages, count })
@@ -117,9 +119,11 @@ exports.makeVote = async (req, res) => {
 exports.getPollBySlug = async (req, res, next) => {
   const poll = await Poll.findOne({ slug: req.params.slug }).populate('author comments choices votes');
   if (!poll) return next();
-  const hasVoted = ipHasVotedOnThisPoll(req.ip, poll);
+  const userVote = getIpVote(req.ip, p);
+  const hasVoted = userVote ? true : false;
   let p = poll.toObject();
   p.hasVoted = hasVoted;
+  p.ipVote = userVote;
   res.json({ poll: p })
   // res.render('poll', { title: poll.title, poll, vote });
 };
