@@ -18,6 +18,7 @@ import Login from './Login';
 import FlashMessagesList from './FlashMessagesList';
 import { apiLogoutUser } from '../actions/users';
 import { apiSearchPolls, fetchPolls } from '../actions/polls';
+import { categories } from '../helpers';
 import { connect } from 'react-redux';
 
 class Index extends Component {
@@ -126,31 +127,28 @@ class Index extends Component {
                 hintText="Search"
               />
             </section>
-            <label for="category" style={{marginTop: '40px'}}>
-              <p>Category</p>
-              <RadioButtonGroup
-                name="category"
-                id="category"
-                defaultSelected="all"
-                onChange={this.handleCategoryChange.bind(this)}>
-                <RadioButton
-                  value="all"
-                  label="All Categories"
-                />
-                <RadioButton
-                  value="sports"
-                  label="Sports"
-                />
-                <RadioButton
-                  value="food"
-                  label="Food"
-                />
-                <RadioButton
-                  value="movies"
-                  label="Movies"
-                />
-              </RadioButtonGroup>
-            </label>
+            <section style={{margin: 20}}>
+              <label for="category" style={{marginTop: '40px'}}>
+                <p>Category</p>
+                <RadioButtonGroup
+                  name="category"
+                  id="category"
+                  defaultSelected="all"
+                  onChange={this.handleCategoryChange.bind(this)}>
+                  <RadioButton
+                    value="all"
+                    label="All Categories"
+                  />
+                  {
+                    categories.map(c => (
+                      <RadioButton
+                        label={c}
+                        value={c} />
+                    ))
+                  }
+                </RadioButtonGroup>
+              </label>
+            </section>
             <RaisedButton
               label='+ Add New Poll'
               primary={true}
