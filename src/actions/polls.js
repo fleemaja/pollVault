@@ -46,6 +46,12 @@ export const fetchPolls = () => dispatch => (
     .then(response => dispatch(receivePolls(response.data.polls)))
 );
 
+export const apiSearchPolls = (searchQuery) => dispatch => (
+  PollsStorage
+    .searchPolls(searchQuery)
+    .then(response => dispatch(receivePolls(response.data.polls)))
+)
+
 export const apiAddPoll = (poll) => dispatch => (
   PollsStorage
     .addPoll(poll)

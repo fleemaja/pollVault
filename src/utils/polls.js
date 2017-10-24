@@ -12,6 +12,11 @@ export async function getPollBySlug(slug) {
   return response;
 }
 
+export async function searchPolls(searchQuery) {
+  const response = axios.get(`${api}/api/search?q=${searchQuery}`);
+  return response;
+}
+
 export function deletePoll(id) {
   axios.delete(`${api}/api/polls/${id}`)
 }

@@ -119,7 +119,7 @@ exports.makeVote = async (req, res) => {
 exports.getPollBySlug = async (req, res, next) => {
   const poll = await Poll.findOne({ slug: req.params.slug }).populate('author comments choices votes');
   if (!poll) return next();
-  const userVote = getIpVote(req.ip, p);
+  const userVote = getIpVote(req.ip, poll);
   const hasVoted = userVote ? true : false;
   let p = poll.toObject();
   p.hasVoted = hasVoted;
@@ -140,6 +140,17 @@ exports.searchPolls = async (req, res) => {
   .sort({
     score: { $meta: 'textScore' }
   })
-  .limit(10);
-  res.json(polls);
+  .limit(10)
+  .populate('author comments choices votes');
+
+  const pollsWithVoteStatus = polls.map(p => {
+    const userVote = getIpVote(req.ip, p);
+    const hasVoted = userVote ? true : false;
+    let poll = p.toObject();
+    poll.hasVoted = hasVoted;
+    poll.ipVote = userVote;
+    return poll;
+  });
+
+  res.json({ polls: pollsWithVoteStatus });
 };

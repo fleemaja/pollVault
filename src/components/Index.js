@@ -17,6 +17,7 @@ import Signup from './Signup';
 import Login from './Login';
 import FlashMessagesList from './FlashMessagesList';
 import { apiLogoutUser } from '../actions/users';
+import { apiSearchPolls, fetchPolls } from '../actions/polls';
 import { connect } from 'react-redux';
 
 class Index extends Component {
@@ -26,7 +27,8 @@ class Index extends Component {
     signupModalOpen: false,
     loginModalOpen: false,
     sortKey: 'votes',
-    category: 'all'
+    category: 'all',
+    searchQuery: ''
   }
 
   handleOpen = () =>
@@ -56,8 +58,19 @@ class Index extends Component {
   handleCategoryChange = (e) =>
     this.setState({ category: e.target.value })
 
+  handleSearchQueryChange = (e) => {
+    const searchQuery = e.target.value;
+    this.setState({ searchQuery });
+    if (searchQuery !== '') {
+      this.props.searchPolls(searchQuery)
+    } else {
+      this.props.fetchPolls();
+    }
+  }
+
   render() {
     const auth = this.props.auth
+    const searchQuery = this.state.searchQuery
     const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
     const actions = [
       <FlatButton
@@ -107,8 +120,10 @@ class Index extends Component {
             <section style={{position: 'relative', display: 'inline-block', marginTop: 25}}>
              <Search style={{position: 'absolute', left: 0, top: 15, width: 20, height: 20}}/>
              <TextField
-                  style={{textIndent: 30}}
-                  hintText="Search"
+                style={{textIndent: 30}}
+                value={searchQuery}
+                onChange={this.handleSearchQueryChange.bind(this)}
+                hintText="Search"
               />
             </section>
             <label for="category" style={{marginTop: '40px'}}>
@@ -218,7 +233,9 @@ function mapStateToProps ({ auth }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logoutUser: () => dispatch(apiLogoutUser())
+    logoutUser: () => dispatch(apiLogoutUser()),
+    fetchPolls: () => dispatch(fetchPolls()),
+    searchPolls: (searchQuery) => dispatch(apiSearchPolls(searchQuery))
   }
 }
 
