@@ -8,14 +8,18 @@ import RightArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Search from 'material-ui/svg-icons/action/search';
 import Polls from './Polls';
 import Dialog from 'material-ui/Dialog';
+import Avatar from 'material-ui/Avatar';
 import AddPollForm from './AddPollForm';
 import SelectField from 'material-ui/SelectField';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
 import Signup from './Signup';
 import Login from './Login';
 import FlashMessagesList from './FlashMessagesList';
+import UserAvatarForm from './UserAvatarForm';
 import { apiLogoutUser } from '../actions/users';
 import { apiSearchPolls, fetchPolls } from '../actions/polls';
 import { categories } from '../helpers';
@@ -27,6 +31,9 @@ class Index extends Component {
     addPollModalOpen: false,
     signupModalOpen: false,
     loginModalOpen: false,
+    userMenuOpen: false,
+    userAvatarModalOpen: false,
+    anchorEl: null,
     sortKey: 'votes',
     category: 'all',
     searchQuery: ''
@@ -50,6 +57,15 @@ class Index extends Component {
   handleLoginClose = () =>
     this.setState({loginModalOpen: false});
 
+  handleUserMenuClose = () =>
+    this.setState({userMenuOpen: false});
+
+  handleUserAvatarOpen = () =>
+    this.setState({userAvatarModalOpen: true})
+
+  handleUserAvatarClose = () =>
+    this.setState({userAvatarModalOpen: false})
+
   handleDrawerToggle = () =>
     this.setState({drawerOpen: !this.state.drawerOpen})
 
@@ -69,8 +85,16 @@ class Index extends Component {
     }
   }
 
+  handleUserMenuTap = (e) => {
+    this.setState({
+      userMenuOpen: true,
+      anchorEl: e.currentTarget,
+    });
+  };
+
   render() {
     const auth = this.props.auth
+    const user = auth.user
     const searchQuery = this.state.searchQuery
     const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
     const actions = [
@@ -92,6 +116,13 @@ class Index extends Component {
         label="Cancel"
         primary={true}
         onClick={this.handleLoginClose}
+      />
+    ];
+    const avatarActions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleUserAvatarClose}
       />
     ];
     return (
@@ -176,15 +207,39 @@ class Index extends Component {
             </SelectField>
             {
               auth.isAuthenticated ?
-                <section>
-                  <p>
-                    Logged in as <strong>{ auth.user.username }</strong>
-                  </p>
-                  <RaisedButton
-                    label='Logout'
-                    onClick={() => this.props.logoutUser()}
-                    style={{marginLeft: '40px', marginTop: '40px'}}
-                   />
+                <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
+                  <Avatar
+                    src={user.photo ? `/uploads/${user.photo}` : ''}>
+                    { user.username.substring(0, 3) }
+                  </Avatar>
+                  <span>
+                    Logged in as <strong>{ user.username }</strong>
+                  </span>
+                  <Popover
+                    open={this.state.userMenuOpen}
+                    anchorEl={this.state.anchorEl}
+                    anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                    onRequestClose={this.handleUserMenuClose}
+                  >
+                    <Menu>
+                      <MenuItem
+                        onClick={this.handleUserAvatarOpen}
+                        primaryText="Change Avatar" />
+                      <MenuItem
+                        onClick={() => this.props.logoutUser()}
+                        primaryText="Logout" />
+                    </Menu>
+                  </Popover>
+                  <Dialog
+                    title="Change User Avatar"
+                    actions={avatarActions}
+                    autoScrollBodyContent={true}
+                    modal={true}
+                    open={this.state.userAvatarModalOpen}
+                  >
+                    <UserAvatarForm handleClose={this.handleUserAvatarClose.bind(this)}/>
+                  </Dialog>
                  </section> :
                  <section>
                    <RaisedButton
