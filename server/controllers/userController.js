@@ -78,8 +78,6 @@ exports.register = async (req, res, next) => {
 
 exports.updateAccount = async (req, res) => {
   const updates = {
-    username: req.body.username,
-    email: req.body.email,
     photo: req.body.photo
   };
   const user = await User.findOneAndUpdate(
@@ -88,5 +86,11 @@ exports.updateAccount = async (req, res) => {
     { new: true, runValidators: true, context: 'query' }
   );
   // req.flash('success', 'Updated the profile!');
-  res.json({'success': 'Updated the profile!'})
+  res.json({ user })
 };
+
+exports.getPhoto = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const photo = user.photo;
+  res.json({ photo })
+}

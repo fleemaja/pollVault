@@ -60,8 +60,10 @@ class Index extends Component {
   handleUserMenuClose = () =>
     this.setState({userMenuOpen: false});
 
-  handleUserAvatarOpen = () =>
+  handleUserAvatarOpen = () => {
+    this.handleUserMenuClose();
     this.setState({userAvatarModalOpen: true})
+  }
 
   handleUserAvatarClose = () =>
     this.setState({userAvatarModalOpen: false})
@@ -120,7 +122,7 @@ class Index extends Component {
     ];
     const avatarActions = [
       <FlatButton
-        label="Cancel"
+        label="Close"
         primary={true}
         onClick={this.handleUserAvatarClose}
       />

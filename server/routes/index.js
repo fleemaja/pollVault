@@ -43,9 +43,15 @@ router.post('/api/register',
   authController.login
 );
 router.post('/api/account',
+  authController.authenticate,
   userController.upload,
   catchErrors(userController.resize),
   catchErrors(userController.updateAccount)
+);
+
+router.get('/api/account/photo',
+  authController.authenticate,
+  catchErrors(userController.getPhoto)
 );
 
 module.exports = router;

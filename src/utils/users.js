@@ -20,3 +20,19 @@ export const login = (user) =>
 
 export const logout = () =>
   axios.get(`${api}/api/logout`)
+
+export const updateUserAvatar = (photo) => {
+  const formData = new FormData();
+  formData.append("photo", photo);
+  const response = axios.post(`${api}/api/account`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+  })
+  return response;
+}
+
+export const getCurrentUserPhoto = () => {
+  const response = axios.get(`${api}/api/account/photo`);
+  return response;
+}

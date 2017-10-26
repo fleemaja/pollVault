@@ -46,3 +46,9 @@ export const apiLogoutUser = () => dispatch => {
       return res
     })
 }
+
+export const apiUpdateUserAvatar = (photo) => dispatch => (
+  UsersStorage
+    .updateUserAvatar(photo)
+    .then(response => dispatch(setCurrentUser(response.data.user)))
+)
