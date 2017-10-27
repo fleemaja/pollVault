@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
 import { getPollBySlug } from '../utils/polls';
 import { setComments } from '../actions/comments';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -48,14 +47,6 @@ class Show extends Component {
     )
   }
 }
-
-const style = {
-  width: 600,
-  margin: 20,
-  padding: 20,
-  textAlign: 'center',
-  display: 'inline-block'
-};
 
 function mapStateToProps ({ comments }) {
   return { comments }

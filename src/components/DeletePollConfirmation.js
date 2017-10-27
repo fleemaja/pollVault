@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { apiPollDelete } from '../actions/polls';
 import { connect } from 'react-redux';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class DeletePollConfirmation extends Component {

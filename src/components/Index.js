@@ -61,7 +61,6 @@ class Index extends Component {
     this.setState({userMenuOpen: false});
 
   handleUserAvatarOpen = () => {
-    this.handleUserMenuClose();
     this.setState({userAvatarModalOpen: true})
   }
 

@@ -102,10 +102,8 @@ class Poll extends Component {
 
 const style = {
   width: 300,
-  margin: '20px 10px',
-  padding: 20,
-  textAlign: 'center',
-  display: 'inline-block'
+  marginBottom: 40,
+  padding: 20
 };
 
 function mapStateToProps ({ auth }) {

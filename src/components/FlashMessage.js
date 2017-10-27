@@ -11,7 +11,7 @@ class FlashMessage extends Component {
     });
   };
   render() {
-    const { id, type, text } = this.props.message;
+    const { text } = this.props.message;
     return (
       <Snackbar
           open={this.state.open}

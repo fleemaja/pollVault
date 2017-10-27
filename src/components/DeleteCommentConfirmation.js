@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { apiCommentDelete } from '../actions/comments';
 import { connect } from 'react-redux';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class DeleteCommentConfirmation extends Component {

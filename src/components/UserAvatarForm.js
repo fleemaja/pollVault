@@ -39,16 +39,15 @@ class UserAvatarForm extends Component {
   render() {
     const user = this.props.auth.user
     const userPhoto = user.photo
-    const { photo, imagePreviewUrl } = this.state
+    const { imagePreviewUrl } = this.state
     return (
       <form>
         {
           imagePreviewUrl ?
           <Avatar src={imagePreviewUrl} /> :
-          <Avatar
-            src={userPhoto ? `/uploads/${userPhoto}` : ''}>
-            { user.username.substring(0, 3) }
-          </Avatar>
+            (userPhoto ?
+              <Avatar src={`uploads/${userPhoto}`} /> :
+              <Avatar>{ user.username.charAt(0) }</Avatar>)
         }
         <label for="photo">
           <span>Choose Photo</span>

@@ -66,6 +66,9 @@ export const apiUpdateUserAvatar = (photo) => dispatch => (
   UsersStorage
     .updateUserAvatar(photo)
     .then(res => {
+      UsersStorage
+        .getCurrentUserPhoto()
+        .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
       return res;
     })
 )
