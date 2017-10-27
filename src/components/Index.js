@@ -210,10 +210,11 @@ class Index extends Component {
             {
               auth.isAuthenticated ?
                 <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
-                  <Avatar
-                    src={user.photo ? `/uploads/${user.photo}` : ''}>
-                    { user.username.substring(0, 3) }
-                  </Avatar>
+                  {
+                    user.photo ?
+                    <Avatar src={`uploads/${user.photo}`} /> :
+                    <Avatar>{ user.username.charAt(0) }</Avatar>
+                  }
                   <span>
                     Logged in as <strong>{ user.username }</strong>
                   </span>

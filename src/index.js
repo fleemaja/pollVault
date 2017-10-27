@@ -11,7 +11,8 @@ import thunk from 'redux-thunk';
 
 import { setAuthorizationToken } from './utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
-import { setCurrentUser } from './actions/users';
+import { setCurrentUser, setCurrentUserPhoto } from './actions/users';
+import { getCurrentUserPhoto } from './utils/users';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -35,6 +36,8 @@ const store = createStore(
 if (localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+  getCurrentUserPhoto()
+    .then(res => store.dispatch(setCurrentUserPhoto(res.data.photo)))
 }
 
 ReactDOM.render(

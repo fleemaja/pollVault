@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from '../actions/users';
+import { SET_CURRENT_USER, SET_CURRENT_USER_PHOTO } from '../actions/users';
 import { isEmpty } from '../helpers';
 
 export function auth(state = { isAuthenticated: false, user: {} }, action) {
@@ -8,6 +8,11 @@ export function auth(state = { isAuthenticated: false, user: {} }, action) {
         isAuthenticated: !isEmpty(action.user),
         user: action.user
       };
+    case SET_CURRENT_USER_PHOTO :
+      return {
+        ...state,
+        user: { ...state.user, photo: action.photo }
+      }
     default :
       return state
   }

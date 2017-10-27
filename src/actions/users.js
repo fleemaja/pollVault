@@ -4,10 +4,16 @@ import { setAuthorizationToken } from '../utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
 
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const SET_CURRENT_USER_PHOTO = "SET_CURRENT_USER_PHOTO";
 
 export const setCurrentUser = user => ({
   type: SET_CURRENT_USER,
   user
+});
+
+export const setCurrentUserPhoto = photo => ({
+  type: SET_CURRENT_USER_PHOTO,
+  photo
 });
 
 export const apiSignupUser = (user) => dispatch => (
@@ -17,8 +23,11 @@ export const apiSignupUser = (user) => dispatch => (
         const token = res.data.token;
         localStorage.setItem('jwtToken', token);
         setAuthorizationToken(token);
-        dispatch(setCurrentUser(jwtDecode(token)));
-        return res
+        dispatch(setCurrentUser(jwtDecode(token)))
+        UsersStorage
+          .getCurrentUserPhoto()
+          .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+        return res;
       }
     )
 );
@@ -31,7 +40,10 @@ export const apiLoginUser = (user) => dispatch => (
         localStorage.setItem('jwtToken', token);
         setAuthorizationToken(token);
         dispatch(setCurrentUser(jwtDecode(token)));
-        return res
+        UsersStorage
+          .getCurrentUserPhoto()
+          .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+        return res;
       }
     )
 );
@@ -43,12 +55,17 @@ export const apiLogoutUser = () => dispatch => {
       localStorage.removeItem('jwtToken');
       setAuthorizationToken(false);
       dispatch(setCurrentUser({}));
-      return res
+      UsersStorage
+        .getCurrentUserPhoto()
+        .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+      return res;
     })
 }
 
 export const apiUpdateUserAvatar = (photo) => dispatch => (
   UsersStorage
     .updateUserAvatar(photo)
-    .then(response => dispatch(setCurrentUser(response.data.user)))
+    .then(res => {
+      return res;
+    })
 )
