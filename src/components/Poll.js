@@ -6,9 +6,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { apiVotePoll } from '../actions/polls';
 import Dialog from 'material-ui/Dialog';
+import Avatar from 'material-ui/Avatar';
 import DeletePollConfirmation from './DeletePollConfirmation';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Results from './Results';
+import Moment from 'moment';
 
 class Poll extends Component {
 
@@ -37,9 +39,10 @@ class Poll extends Component {
 
   render() {
     const poll = this.props.poll;
-    const pollOwner = poll.author && poll.author.id;
+    const author = poll.author;
+    const pollOwnerId = author && author.id;
     const currentUser = this.props.auth.user.id;
-    const isOwnedByUser = pollOwner === currentUser;
+    const isOwnedByUser = pollOwnerId === currentUser;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -47,9 +50,20 @@ class Poll extends Component {
         onClick={this.handleClose}
       />
     ];
-    const choiceId = this.state.choiceId
+    const choiceId = this.state.choiceId;
+    const time = Moment(`${poll.created}`).format("x");
+    const timeAgo = Moment(time, "x").fromNow();
     return (
       <Paper style={style} zDepth={1} >
+        {
+          author && (
+            author.photo ?
+              <Avatar src={`uploads/${author.photo}`} /> :
+              <Avatar>{ author.username.charAt(0) }</Avatar>
+          )
+        }
+        <strong style={{margin: '0 10px'}}>{ author && author.username }</strong>
+        <span>{ timeAgo }</span>
         <Link to={`/polls/${poll.slug}`}>
           <h2>{ poll.title }</h2>
         </Link>

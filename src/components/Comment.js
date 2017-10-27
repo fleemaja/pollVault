@@ -8,6 +8,7 @@ import DeleteCommentConfirmation from './DeleteCommentConfirmation';
 import Like from 'material-ui/svg-icons/action/thumb-up';
 import Dislike from 'material-ui/svg-icons/action/thumb-down';
 import Avatar from 'material-ui/Avatar';
+import Moment from 'moment';
 
 class Comment extends Component {
 
@@ -51,11 +52,13 @@ class Comment extends Component {
         userVoteIsUpvote = voteFilter[0].isUpvote;
       }
     }
+    const time = Moment(`${comment.created}`).format("x");
+    const timeAgo = Moment(time, "x").fromNow();
     return (
       <section style={{textAlign: 'left', marginBottom: 20}}>
         <Avatar style={{marginRight: 10}}>{ comment.author.username.substring(0, 3) }</Avatar>
         <strong>{ comment.author.username }</strong>
-        <span style={{marginLeft: 10}}>4 hours ago</span>
+        <span style={{marginLeft: 10}}>{ timeAgo }</span>
         <p>{ comment.text }</p>
         <strong>{ voteScore }</strong>
         <FlatButton
