@@ -1,6 +1,7 @@
 import {
   RECEIVE_COMMENTS,
   ADD_COMMENT,
+  ADD_COMMENT_REPLY,
   DELETE_COMMENT,
   EDIT_COMMENT,
   VOTE_COMMENT
@@ -17,6 +18,8 @@ export function comments(state = [], action) {
         action.comment,
         ...state
       ]
+    case ADD_COMMENT_REPLY :
+      return state
     case DELETE_COMMENT :
       return state.filter(comment => (comment.id !== action.id))
     case EDIT_COMMENT :

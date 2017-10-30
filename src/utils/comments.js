@@ -18,3 +18,10 @@ export const voteComment = async (id, isUpvote) => {
   })
   return response;
 }
+
+export const addReply = async (parentId, reply) => {
+  const response = await axios.post(`${api}/api/replies/${parentId}`, {
+    text: reply
+  })
+  return response;
+}

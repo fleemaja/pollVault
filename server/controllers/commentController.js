@@ -11,7 +11,7 @@ exports.addComment = async (req, res) => {
   const populatedComment =
     await Comment.findById(newComment._id)
                  .populate('author replies votes');
-  res.json({ comment: populatedComment })
+  res.json({ comment: populatedComment });
   // req.flash('success', 'Comment Saved!');
   // res.redirect('back');
 };

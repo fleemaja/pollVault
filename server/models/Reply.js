@@ -20,10 +20,19 @@ const replySchema = new mongoose.Schema({
     type: String,
     required: 'Your reply must have text!'
   }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+replySchema.virtual('votes', {
+  ref: 'ReplyVote', // what model to link
+  localField: '_id', // which field on the poll
+  foreignField: 'reply' // which field on the vote
 });
 
 function autopopulate(next) {
-  this.populate('author');
+  this.populate('author votes');
   next();
 };
 

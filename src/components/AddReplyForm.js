@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { apiAddReply } from '../actions/replies';
+import { apiAddReply } from '../actions/comments';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -17,7 +17,7 @@ class AddReplyForm extends Component {
     const { reply } = this.state;
     const commentId = this.props.commentId;
     if (commentId !== '' && reply !== '') {
-      this.props.addReply({ commentId, reply })
+      this.props.addReply(commentId, reply)
       this.props.hideReplyForm();
       this.setState({ reply: '' });
     }

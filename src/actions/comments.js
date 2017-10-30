@@ -2,6 +2,7 @@ import * as CommentsStorage from '../utils/comments'
 
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
+export const ADD_COMMENT_REPLY = "ADD_COMMENT_REPLY";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const VOTE_COMMENT = "VOTE_COMMENT";
@@ -15,6 +16,13 @@ export function addComment(comment) {
   return {
     type: ADD_COMMENT,
     comment
+  }
+};
+
+export function addReply(reply) {
+  return {
+    type: ADD_COMMENT_REPLY,
+    reply
   }
 };
 
@@ -50,6 +58,12 @@ export const apiAddComment = (parentId, comment) => dispatch => (
   CommentsStorage
       .addComment(parentId, comment)
       .then(res => dispatch(addComment(res.data.comment)))
+);
+
+export const apiAddReply = (parentId, reply) => dispatch => (
+  CommentsStorage
+    .addReply(parentId, reply)
+    .then(res => dispatch(addReply(res.data.reply)))
 );
 
 export const apiVoteComment = (id, isUpvote) => dispatch => (

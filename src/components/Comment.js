@@ -10,6 +10,7 @@ import Dislike from 'material-ui/svg-icons/action/thumb-down';
 import Avatar from 'material-ui/Avatar';
 import Moment from 'moment';
 import AddReplyForm from './AddReplyForm';
+import Replies from './Replies';
 
 class Comment extends Component {
 
@@ -93,12 +94,12 @@ class Comment extends Component {
           label="Reply"
           onClick={this.displayReplyForm.bind(this)}
          />
-       {
-         displayReplyForm &&
-         <AddReplyForm
-           commentId={comment.id}
-           hideReplyForm={this.hideReplyForm.bind(this)} />
-       }
+        {
+          displayReplyForm &&
+          <AddReplyForm
+            commentId={comment.id}
+            hideReplyForm={this.hideReplyForm.bind(this)} />
+        }
         {
           isOwnedByUser &&
           <section>
@@ -118,6 +119,7 @@ class Comment extends Component {
             </Dialog>
           </section>
         }
+        <Replies replies={comment.replies} />
       </section>
     )
   }

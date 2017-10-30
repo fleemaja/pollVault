@@ -17,6 +17,7 @@ require('./models/CommentVote');
 require('./models/Poll');
 require('./models/User');
 require('./models/Reply');
+require('./models/ReplyVote');
 
 
 // Start our app!
