@@ -119,7 +119,7 @@ class Comment extends Component {
             </Dialog>
           </section>
         }
-        <Replies replies={comment.replies} />
+        <Replies replies={comment.replies} commentId={comment.id} />
       </section>
     )
   }

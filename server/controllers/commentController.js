@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Comment = mongoose.model('Comment');
-const User = mongoose.model('User');
 const CommentVote = mongoose.model('CommentVote');
 
 exports.addComment = async (req, res) => {

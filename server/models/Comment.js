@@ -39,7 +39,15 @@ commentSchema.virtual('votes', {
 });
 
 function autopopulate(next) {
-  this.populate('author replies votes');
+  this
+    .populate('author replies votes')
+    .populate({
+       path: 'replies',
+       populate: {
+         path: 'votes',
+         model: 'ReplyVote'
+       }
+    })
   next();
 };
 

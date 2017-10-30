@@ -3,8 +3,10 @@ import {
   ADD_COMMENT,
   ADD_COMMENT_REPLY,
   DELETE_COMMENT,
+  DELETE_COMMENT_REPLY,
   EDIT_COMMENT,
-  VOTE_COMMENT
+  VOTE_COMMENT,
+  VOTE_COMMENT_REPLY
 } from '../actions/comments';
 
 export function comments(state = [], action) {
@@ -32,6 +34,15 @@ export function comments(state = [], action) {
       ))
     case DELETE_COMMENT :
       return state.filter(comment => (comment.id !== action.id))
+    case DELETE_COMMENT_REPLY :
+      return state.map(comment => (
+        (comment.id === action.commentId)
+        ? {
+            ...comment,
+            'replies': comment.replies.filter(r => r.id !== action.replyId)
+          }
+        : comment
+      ))
     case EDIT_COMMENT :
       return state.map(comment =>
         (comment.id === action.id)
@@ -52,6 +63,31 @@ export function comments(state = [], action) {
                   action.vote,
                   ...comment.votes
                 ]
+            }
+          : comment
+      )
+    case VOTE_COMMENT_REPLY :
+      // YIKES
+      return state.map(comment =>
+        (comment.id === action.commentId)
+          ? {
+              ...comment,
+              replies: comment.replies.map(reply => (
+                (reply.id === action.replyId)
+                ? {
+                    ...reply,
+                    'votes': action.userHasAlreadyVotedBefore ?
+                      reply.votes.map(v => (
+                        (v.author === action.vote.author) ?
+                          { ...v, isUpvote: action.vote.isUpvote} :
+                          v
+                      )) : [
+                        action.vote,
+                        ...reply.votes
+                      ]
+                  }
+                : reply
+              ))
             }
           : comment
       )

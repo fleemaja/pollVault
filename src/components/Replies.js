@@ -4,15 +4,17 @@ import Reply from './Reply';
 class Replies extends Component {
 
   render() {
-    const { replies } = this.props;
+    const { replies, commentId } = this.props;
     return (
-      <section style={{marginLeft: 40}}>
+      <section style={{marginLeft: 50}}>
         <section>
           <h3>
             { replies.length } Replies
           </h3>
           {
-            replies.map(r => <Reply reply={r} />)
+            replies.map(r =>
+              <Reply reply={r} commentId={commentId} />
+            )
           }
         </section>
       </section>
