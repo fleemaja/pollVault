@@ -19,7 +19,17 @@ export function comments(state = [], action) {
         ...state
       ]
     case ADD_COMMENT_REPLY :
-      return state
+      return state.map(comment => (
+        (comment.id === action.reply.comment)
+          ? {
+              ...comment,
+              replies: [
+                ...comment.replies,
+                action.reply
+              ]
+            }
+          : comment
+      ))
     case DELETE_COMMENT :
       return state.filter(comment => (comment.id !== action.id))
     case EDIT_COMMENT :

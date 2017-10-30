@@ -6,9 +6,9 @@ class Replies extends Component {
   render() {
     const { replies } = this.props;
     return (
-      <section>
+      <section style={{marginLeft: 40}}>
         <section>
-          <h3 style={{margin: 20, display: 'inline-block', verticalAlign: 'middle', color: '#333'}}>
+          <h3>
             { replies.length } Replies
           </h3>
           {
