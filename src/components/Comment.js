@@ -9,11 +9,13 @@ import Like from 'material-ui/svg-icons/action/thumb-up';
 import Dislike from 'material-ui/svg-icons/action/thumb-down';
 import Avatar from 'material-ui/Avatar';
 import Moment from 'moment';
+import AddReplyForm from './AddReplyForm';
 
 class Comment extends Component {
 
   state = {
-    deleteCommentModalOpen: false
+    deleteCommentModalOpen: false,
+    displayReplyForm: false
   }
 
   handleOpen = () => {
@@ -30,8 +32,21 @@ class Comment extends Component {
     this.props.vote(commentId, isUpvote);
   }
 
+  displayReplyForm = () => {
+    this.setState({ displayReplyForm: true })
+  }
+
+  hideReplyForm = () => {
+    this.setState({ displayReplyForm: false })
+  }
+
   render() {
     const { comment, auth } = this.props;
+    const { displayReplyForm } = this.state;
+    const author = comment.author;
+    const commentOwnerId = author && author.id;
+    const currentUser = auth.user.id;
+    const isOwnedByUser = commentOwnerId === currentUser;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -73,20 +88,36 @@ class Comment extends Component {
            style={{ opacity: (userVoted && !userVoteIsUpvote) ? 1 : 0.5 }}
            onClick={() => this.vote(false)}
           />
-        <RaisedButton
-          label='Delete'
-          onClick={this.handleOpen}
+        <FlatButton
+          title="Reply"
+          label="Reply"
+          onClick={this.displayReplyForm.bind(this)}
          />
-        <Dialog
-          title="Delete Comment?"
-          actions={actions}
-          modal={true}
-          open={this.state.deleteCommentModalOpen}
-        >
-          <DeleteCommentConfirmation
-            comment={comment}
-            handleClose={this.handleClose.bind(this)} />
-        </Dialog>
+       {
+         displayReplyForm &&
+         <AddReplyForm
+           commentId={comment.id}
+           hideReplyForm={this.hideReplyForm.bind(this)} />
+       }
+        {
+          isOwnedByUser &&
+          <section>
+            <RaisedButton
+              label='Delete'
+              onClick={this.handleOpen}
+             />
+            <Dialog
+              title="Delete Comment?"
+              actions={actions}
+              modal={true}
+              open={this.state.deleteCommentModalOpen}
+            >
+              <DeleteCommentConfirmation
+                comment={comment}
+                handleClose={this.handleClose.bind(this)} />
+            </Dialog>
+          </section>
+        }
       </section>
     )
   }

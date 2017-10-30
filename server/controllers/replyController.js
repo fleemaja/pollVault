@@ -7,8 +7,11 @@ exports.addReply = async (req, res) => {
   req.body.comment = req.params.id;
   const newReply = new Reply(req.body);
   await newReply.save();
-  req.flash('success', 'Reply Saved!');
-  res.redirect('back');
+  const populatedReply = await Reply.findById(newReply._id)
+                                    .populate('author votes');
+  res.json({ reply: populatedReply });
+  // req.flash('success', 'Reply Saved!');
+  // res.redirect('back');
 };
 
 exports.upvoteReply = async (req, res) => {

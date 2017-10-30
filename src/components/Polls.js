@@ -20,10 +20,10 @@ class Polls extends Component {
     const category = this.props.category;
     const sortKey = this.props.sortKey;
     return (
-      <section style={{width: this.props.contentWidth, backgroundColor: 'tomato'}}>
+      <section style={{width: this.props.contentWidth, paddingTop: 40, backgroundColor: '#fcfdfe'}}>
         <Masonry
           options={masonryOptions}
-          style={{margin: '0 auto', marginTop: 40}}>
+          style={{margin: '0 auto'}}>
           {
             this.props.polls
               .filter(p => category === 'all' || p.category === category)

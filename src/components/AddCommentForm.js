@@ -3,6 +3,7 @@ import { apiAddComment } from '../actions/comments';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Avatar from 'material-ui/Avatar';
 
 class AddCommentForm extends Component {
   state = {
@@ -35,17 +36,19 @@ class AddCommentForm extends Component {
     const { text } = this.state
     return (
       <section style={{margin: 20}}>
-        <h2>Add Comment</h2>
         <form>
+          <Avatar />
           <TextField
             value={text}
             name='text'
             onChange={this.handleInput.bind(this)}
-            hintText="Comment"
-            floatingLabelText="Comment"
+            hintText="Add A Public Comment"
             style={{display: 'block'}}
           />
-          <RaisedButton label="Submit" onClick={this.handleSubmit.bind(this)} />
+          <RaisedButton
+            label="Submit"
+            disabled={text === ''}
+            onClick={this.handleSubmit.bind(this)} />
         </form>
       </section>
     )
