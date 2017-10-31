@@ -130,7 +130,7 @@ class Index extends Component {
       <MuiThemeProvider>
 
         <AppBar
-          style={{backgroundColor: '#fff', width: contentWidth}}
+          style={{backgroundColor: '#fff', width: contentWidth, position: 'fixed', top: 0}}
           titleStyle={{color: '#333'}}
           title="PollVault"
           showMenuIconButton={false}
@@ -141,142 +141,143 @@ class Index extends Component {
               onClick={this.handleDrawerToggle.bind(this)} />
           }
         />
-        <FlashMessagesList />
+        <section style={{marginTop: 64}}>
+          <FlashMessagesList />
 
-        <Polls
-          sortKey={this.state.sortKey}
-          category={this.state.category}
-          contentWidth={contentWidth} />
+          <Polls
+            sortKey={this.state.sortKey}
+            category={this.state.category}
+            contentWidth={contentWidth} />
 
-        <section>
-          <Drawer open={this.state.drawerOpen} openSecondary={true}>
-            <section style={{position: 'relative', display: 'inline-block', marginTop: 25}}>
-             <Search style={{position: 'absolute', left: 0, top: 15, width: 20, height: 20}}/>
-             <TextField
-                style={{textIndent: 30}}
-                value={searchQuery}
-                onChange={this.handleSearchQueryChange.bind(this)}
-                hintText="Search"
-              />
-            </section>
-            <section style={{margin: 20}}>
-              <label for="category" style={{marginTop: '40px'}}>
-                <p>Category</p>
-                <RadioButtonGroup
-                  name="category"
-                  id="category"
-                  defaultSelected="all"
-                  onChange={this.handleCategoryChange.bind(this)}>
-                  <RadioButton
-                    value="all"
-                    label="All Categories"
-                  />
-                  {
-                    categories.map(c => (
-                      <RadioButton
-                        label={c}
-                        value={c} />
-                    ))
-                  }
-                </RadioButtonGroup>
-              </label>
-            </section>
-            <RaisedButton
-              label='+ Add New Poll'
-              primary={true}
-              onClick={this.handleOpen}
-              style={{marginLeft: '40px', marginTop: '40px'}}
-             />
-            <Dialog
-              title="Add New Poll"
-              autoScrollBodyContent={true}
-              actions={actions}
-              modal={true}
-              open={this.state.addPollModalOpen}
-            >
-              <AddPollForm handleClose={this.handleClose.bind(this)}/>
-            </Dialog>
-
-            <SelectField
-              floatingLabelText="Sorting"
-              value={this.state.sortKey}
-              onChange={this.handleSortKeyChange}
-              style={{width: 150, marginLeft: '40px'}}
-            >
-              <MenuItem value='votes' primaryText='Most Votes' />
-              <MenuItem value='timestamp' primaryText='Most Recent' />
-            </SelectField>
-            {
-              auth.isAuthenticated ?
-                <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
-                  {
-                    user.photo ?
-                    <Avatar src={`uploads/${user.photo}`} /> :
-                    <Avatar>{ user.username.charAt(0) }</Avatar>
-                  }
-                  <span>
-                    Logged in as <strong>{ user.username }</strong>
-                  </span>
-                  <Popover
-                    open={this.state.userMenuOpen}
-                    anchorEl={this.state.anchorEl}
-                    anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    onRequestClose={this.handleUserMenuClose}
-                  >
-                    <Menu>
-                      <MenuItem
-                        onClick={this.handleUserAvatarOpen}
-                        primaryText="Change Avatar" />
-                      <MenuItem
-                        onClick={() => this.props.logoutUser()}
-                        primaryText="Logout" />
-                    </Menu>
-                  </Popover>
-                  <Dialog
-                    title="Change User Avatar"
-                    actions={avatarActions}
-                    autoScrollBodyContent={true}
-                    modal={true}
-                    open={this.state.userAvatarModalOpen}
-                  >
-                    <UserAvatarForm handleClose={this.handleUserAvatarClose.bind(this)}/>
-                  </Dialog>
-                 </section> :
-                 <section>
-                   <RaisedButton
-                     label='Signup'
-                     onClick={this.handleSignupOpen}
-                     style={{marginLeft: '40px', marginTop: '40px'}}
+          <section>
+            <Drawer open={this.state.drawerOpen} openSecondary={true}>
+              <section style={{position: 'relative', display: 'inline-block', marginTop: 25}}>
+               <Search style={{position: 'absolute', left: 0, top: 15, width: 20, height: 20}}/>
+               <TextField
+                  style={{textIndent: 30}}
+                  value={searchQuery}
+                  onChange={this.handleSearchQueryChange.bind(this)}
+                  hintText="Search"
+                />
+              </section>
+              <section style={{margin: 20}}>
+                <label for="category" style={{marginTop: '40px'}}>
+                  <p>Category</p>
+                  <RadioButtonGroup
+                    name="category"
+                    id="category"
+                    defaultSelected="all"
+                    onChange={this.handleCategoryChange.bind(this)}>
+                    <RadioButton
+                      value="all"
+                      label="All Categories"
                     />
-                   <Dialog
-                     title="Signup"
-                     actions={signupActions}
-                     autoScrollBodyContent={true}
-                     modal={true}
-                     open={this.state.signupModalOpen}
-                   >
-                     <Signup handleClose={this.handleSignupClose.bind(this)}/>
-                   </Dialog>
-                   <RaisedButton
-                     label='Login'
-                     onClick={this.handleLoginOpen}
-                     style={{marginLeft: '40px', marginTop: '40px'}}
-                    />
-                   <Dialog
-                     title="Login"
-                     actions={loginActions}
-                     autoScrollBodyContent={true}
-                     modal={true}
-                     open={this.state.loginModalOpen}
-                   >
-                     <Login handleClose={this.handleLoginClose.bind(this)}/>
-                   </Dialog>
-                </section>
-            }
-          </Drawer>
+                    {
+                      categories.map(c => (
+                        <RadioButton
+                          label={c}
+                          value={c} />
+                      ))
+                    }
+                  </RadioButtonGroup>
+                </label>
+              </section>
+              <RaisedButton
+                label='+ Add New Poll'
+                primary={true}
+                onClick={this.handleOpen}
+                style={{marginLeft: '40px', marginTop: '40px'}}
+               />
+              <Dialog
+                title="Add New Poll"
+                autoScrollBodyContent={true}
+                actions={actions}
+                modal={true}
+                open={this.state.addPollModalOpen}
+              >
+                <AddPollForm handleClose={this.handleClose.bind(this)}/>
+              </Dialog>
+
+              <SelectField
+                floatingLabelText="Sorting"
+                value={this.state.sortKey}
+                onChange={this.handleSortKeyChange}
+                style={{width: 150, marginLeft: '40px'}}
+              >
+                <MenuItem value='votes' primaryText='Most Votes' />
+                <MenuItem value='timestamp' primaryText='Most Recent' />
+              </SelectField>
+              {
+                auth.isAuthenticated ?
+                  <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
+                    {
+                      user.photo ?
+                      <Avatar src={`uploads/${user.photo}`} /> :
+                      <Avatar>{ user.username.charAt(0) }</Avatar>
+                    }
+                    <span>
+                      Logged in as <strong>{ user.username }</strong>
+                    </span>
+                    <Popover
+                      open={this.state.userMenuOpen}
+                      anchorEl={this.state.anchorEl}
+                      anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                      targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                      onRequestClose={this.handleUserMenuClose}
+                    >
+                      <Menu>
+                        <MenuItem
+                          onClick={this.handleUserAvatarOpen}
+                          primaryText="Change Avatar" />
+                        <MenuItem
+                          onClick={() => this.props.logoutUser()}
+                          primaryText="Logout" />
+                      </Menu>
+                    </Popover>
+                    <Dialog
+                      title="Change User Avatar"
+                      actions={avatarActions}
+                      autoScrollBodyContent={true}
+                      modal={true}
+                      open={this.state.userAvatarModalOpen}
+                    >
+                      <UserAvatarForm handleClose={this.handleUserAvatarClose.bind(this)}/>
+                    </Dialog>
+                   </section> :
+                   <section>
+                     <RaisedButton
+                       label='Signup'
+                       onClick={this.handleSignupOpen}
+                       style={{marginLeft: '40px', marginTop: '40px'}}
+                      />
+                     <Dialog
+                       title="Signup"
+                       actions={signupActions}
+                       autoScrollBodyContent={true}
+                       modal={true}
+                       open={this.state.signupModalOpen}
+                     >
+                       <Signup handleClose={this.handleSignupClose.bind(this)}/>
+                     </Dialog>
+                     <RaisedButton
+                       label='Login'
+                       onClick={this.handleLoginOpen}
+                       style={{marginLeft: '40px', marginTop: '40px'}}
+                      />
+                     <Dialog
+                       title="Login"
+                       actions={loginActions}
+                       autoScrollBodyContent={true}
+                       modal={true}
+                       open={this.state.loginModalOpen}
+                     >
+                       <Login handleClose={this.handleLoginClose.bind(this)}/>
+                     </Dialog>
+                  </section>
+              }
+            </Drawer>
+          </section>
         </section>
-
       </MuiThemeProvider>
     );
   }

@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm';
 import AppBar from 'material-ui/AppBar';
-import Poll from './Poll'
+import Poll from './Poll';
+import AppTitle from './AppTitle';
 
 class Show extends Component {
   state = {
@@ -35,7 +36,7 @@ class Show extends Component {
         <AppBar
           style={{backgroundColor: '#fff'}}
           titleStyle={{color: '#333'}}
-          title="PollVault"
+          title={<AppTitle />}
           showMenuIconButton={false}
         />
         <section>
