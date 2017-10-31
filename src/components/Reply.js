@@ -10,6 +10,7 @@ import Dislike from 'material-ui/svg-icons/action/thumb-down';
 import Moment from 'moment';
 import AddReplyForm from './AddReplyForm';
 import DeleteReplyConfirmation from './DeleteReplyConfirmation';
+import { letterToHexColor } from '../helpers';
 
 class Reply extends Component {
   state = {
@@ -69,12 +70,15 @@ class Reply extends Component {
     }
     const time = Moment(`${reply.created}`).format("x");
     const timeAgo = Moment(time, "x").fromNow();
+    const letter = author.username.charAt(0);
     return (
       <section>
         {
-          author.photo
-          ? <Avatar src={`uploads/${author.photo}`} size={30} />
-          : <Avatar size={30}>{ author.username.charAt(0) }</Avatar>
+          author && (
+            author.photo ?
+              <Avatar size={30} src={`../uploads/${author.photo}`} /> :
+              <Avatar size={30} style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+          )
         }
         <strong style={{margin: '0 10px'}} >{ author.username }</strong>
         <span>{ timeAgo }</span>

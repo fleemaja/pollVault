@@ -11,6 +11,7 @@ import DeletePollConfirmation from './DeletePollConfirmation';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Results from './Results';
 import Moment from 'moment';
+import { letterToHexColor } from '../helpers';
 
 class Poll extends Component {
 
@@ -53,13 +54,14 @@ class Poll extends Component {
     const choiceId = this.state.choiceId;
     const time = Moment(`${poll.created}`).format("x");
     const timeAgo = Moment(time, "x").fromNow();
+    const letter = author && author.username.charAt(0);
     return (
       <Paper style={style} zDepth={1} >
         {
           author && (
             author.photo ?
               <Avatar src={`uploads/${author.photo}`} /> :
-              <Avatar>{ author.username.charAt(0) }</Avatar>
+              <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
           )
         }
         <strong style={{margin: '0 10px'}}>{ author && author.username }</strong>

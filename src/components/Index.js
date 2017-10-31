@@ -22,7 +22,7 @@ import FlashMessagesList from './FlashMessagesList';
 import UserAvatarForm from './UserAvatarForm';
 import { apiLogoutUser } from '../actions/users';
 import { apiSearchPolls, fetchPolls } from '../actions/polls';
-import { categories } from '../helpers';
+import { categories, letterToHexColor } from '../helpers';
 import { connect } from 'react-redux';
 
 class Index extends Component {
@@ -126,6 +126,7 @@ class Index extends Component {
         onClick={this.handleUserAvatarClose}
       />
     ];
+    const letter = user.username.charAt(0);
     return (
       <MuiThemeProvider>
 
@@ -213,7 +214,7 @@ class Index extends Component {
                     {
                       user.photo ?
                       <Avatar src={`uploads/${user.photo}`} /> :
-                      <Avatar>{ user.username.charAt(0) }</Avatar>
+                      <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{  }</Avatar>
                     }
                     <span>
                       Logged in as <strong>{ user.username }</strong>

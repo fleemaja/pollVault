@@ -11,6 +11,7 @@ import Avatar from 'material-ui/Avatar';
 import Moment from 'moment';
 import AddReplyForm from './AddReplyForm';
 import Replies from './Replies';
+import { letterToHexColor } from '../helpers';
 
 class Comment extends Component {
 
@@ -70,9 +71,16 @@ class Comment extends Component {
     }
     const time = Moment(`${comment.created}`).format("x");
     const timeAgo = Moment(time, "x").fromNow();
+    const letter = author.username.charAt(0);
     return (
       <section style={{textAlign: 'left', marginBottom: 20}}>
-        <Avatar style={{marginRight: 10}}>{ comment.author.username.substring(0, 3) }</Avatar>
+        {
+          author && (
+            author.photo ?
+              <Avatar src={`../uploads/${author.photo}`} /> :
+              <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+          )
+        }
         <strong>{ comment.author.username }</strong>
         <span style={{marginLeft: 10}}>{ timeAgo }</span>
         <p>{ comment.text }</p>

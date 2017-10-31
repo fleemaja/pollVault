@@ -102,18 +102,18 @@ class AddPollForm extends Component {
               )
             }
           </SelectField>
-          {
-            inputs.map(i =>
-              <TextField
-                value={i['value']}
-                name={i['name']}
-                onChange={this.handleOptionInput.bind(this)}
-                hintText={"Choice " + i['name'].split("-")[1]}
-                floatingLabelText={"Choice " + i['name'].split("-")[1]}
-                style={{display: 'block'}}
-              />
-            )
-          }
+          <section>
+            {
+              inputs.map(i => <TextField
+                    value={i['value']}
+                    name={i['name']}
+                    onChange={this.handleOptionInput.bind(this)}
+                    hintText={"Choice " + i['name'].split("-")[1]}
+                    floatingLabelText={"Choice " + i['name'].split("-")[1]}
+                  />
+              )
+            }
+          </section>
           {
             numberOfInputs < 4 &&
               <FlatButton
