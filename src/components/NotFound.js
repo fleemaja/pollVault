@@ -14,7 +14,7 @@ class NotFound extends Component {
           showMenuIconButton={false}
         />
         <section style={{textAlign: 'center'}}>
-          <h1 style={{fontSize: 128}}>{ "( > _ < )" }</h1>
+          <p style={{fontSize: 128}}>{ "( > _ < )" }</p>
           <p>Page Not Found</p>
         </section>
       </MuiThemeProvider>
