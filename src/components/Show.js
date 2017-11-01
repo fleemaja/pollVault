@@ -10,11 +10,13 @@ import AppBar from 'material-ui/AppBar';
 import Poll from './Poll';
 import AppTitle from './AppTitle';
 import FlashMessagesList from './FlashMessagesList';
+import CircularProgress from 'material-ui/CircularProgress';
 
 class Show extends Component {
   state = {
     poll: {},
-    slug: ''
+    slug: '',
+    isLoading: true
   }
 
   componentWillMount() {
@@ -24,7 +26,7 @@ class Show extends Component {
       .then(response => {
         const poll = response.data.poll;
         if (poll) {
-          this.setState({ poll })
+          this.setState({ poll, isLoading: false })
           this.props.setComments(poll.comments);
         }
       })
@@ -39,7 +41,7 @@ class Show extends Component {
   }
 
   render() {
-    const { poll } = this.state
+    const { poll, isLoading } = this.state
     const comments = this.props.comments
     return (
       <MuiThemeProvider>
@@ -50,11 +52,18 @@ class Show extends Component {
           showMenuIconButton={false}
         />
         <FlashMessagesList />
-        <section>
-          <Poll poll={poll} />
-          <AddCommentForm parentId={poll.id}/>
-          <Comments comments={comments} />
-        </section>
+        {
+          isLoading
+          ? <CircularProgress
+              size={180}
+              thickness={15}
+              style={{left: 'calc(50% - 90px)', top: 'calc(50% - 26px)', position: 'absolute'}} />
+          : <section>
+              <Poll poll={poll} />
+              <AddCommentForm parentId={poll.id}/>
+              <Comments comments={comments} />
+            </section>
+        }
       </MuiThemeProvider>
     )
   }
