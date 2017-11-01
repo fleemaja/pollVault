@@ -29,8 +29,12 @@ class Show extends Component {
         }
       })
       .catch(error => {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        this.props.addFlashMessage(msg)
+        if (error.response) {
+          this.props.history.push('/404');
+        } else {
+          const msg = { type: "error", text: "Network Error. Check your internet connection" };
+          this.props.addFlashMessage(msg)
+        }
       })
   }
 

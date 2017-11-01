@@ -30,15 +30,19 @@ export const apiSignupUser = (user) => dispatch => (
           .getCurrentUserPhoto()
           .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
           .catch(error => {
-            const msg = { type: "error", text: "Network Error. Check your internet connection" };
-            dispatch(addFlashMessage(msg))
+            if (!error.response) {
+              const msg = { type: "error", text: "Network Error. Check your internet connection" };
+              dispatch(addFlashMessage(msg))
+            }
           })
         return res;
       }
     )
     .catch(error => {
-      const msg = { type: "error", text: "Network Error. Check your internet connection" };
-      dispatch(addFlashMessage(msg))
+      if (!error.response) {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      }
     })
 );
 
@@ -54,15 +58,19 @@ export const apiLoginUser = (user) => dispatch => (
           .getCurrentUserPhoto()
           .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
           .catch(error => {
-            const msg = { type: "error", text: "Network Error. Check your internet connection" };
-            dispatch(addFlashMessage(msg))
+            if (!error.response) {
+              const msg = { type: "error", text: "Network Error. Check your internet connection" };
+              dispatch(addFlashMessage(msg))
+            }
           })
         return res;
       }
     )
     .catch(error => {
-      const msg = { type: "error", text: "Network Error. Check your internet connection" };
-      dispatch(addFlashMessage(msg))
+      if (!error.response) {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      }
     })
 );
 
@@ -77,14 +85,18 @@ export const apiLogoutUser = () => dispatch => {
         .getCurrentUserPhoto()
         .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
         .catch(error => {
-          const msg = { type: "error", text: "Network Error. Check your internet connection" };
-          dispatch(addFlashMessage(msg))
+          if (!error.response) {
+            const msg = { type: "error", text: "Network Error. Check your internet connection" };
+            dispatch(addFlashMessage(msg))
+          }
         })
       return res;
     })
     .catch(error => {
-      const msg = { type: "error", text: "Network Error. Check your internet connection" };
-      dispatch(addFlashMessage(msg))
+      if (!error.response) {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      }
     })
 }
 
@@ -96,13 +108,17 @@ export const apiUpdateUserAvatar = (photo) => dispatch => (
         .getCurrentUserPhoto()
         .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
         .catch(error => {
-          const msg = { type: "error", text: "Network Error. Check your internet connection" };
-          dispatch(addFlashMessage(msg))
+          if (!error.response) {
+            const msg = { type: "error", text: "Network Error. Check your internet connection" };
+            dispatch(addFlashMessage(msg))
+          }
         })
       return res;
     })
     .catch(error => {
-      const msg = { type: "error", text: "Network Error. Check your internet connection" };
-      dispatch(addFlashMessage(msg))
+      if (!error.response) {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      }
     })
 )

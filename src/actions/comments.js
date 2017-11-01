@@ -81,8 +81,10 @@ export const apiAddComment = (parentId, comment) => dispatch => (
       .addComment(parentId, comment)
       .then(res => dispatch(addComment(res.data.comment)))
       .catch(error => {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
+        if (!error.response) {
+          const msg = { type: "error", text: "Network Error. Check your internet connection" };
+          dispatch(addFlashMessage(msg))
+        }
       })
 );
 
@@ -91,8 +93,10 @@ export const apiAddReply = (parentId, reply) => dispatch => (
     .addReply(parentId, reply)
     .then(res => dispatch(addReply(res.data.reply)))
     .catch(error => {
-      const msg = { type: "error", text: "Network Error. Check your internet connection" };
-      dispatch(addFlashMessage(msg))
+      if (!error.response) {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      }
     })
 );
 
@@ -101,8 +105,10 @@ export const apiVoteComment = (id, isUpvote) => dispatch => (
       .voteComment(id, isUpvote)
       .then(res => dispatch(voteComment(res.data.commentId, res.data.newCommentVote, res.data.userHasAlreadyVotedBefore)))
       .catch(error => {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
+        if (!error.response) {
+          const msg = { type: "error", text: "Network Error. Check your internet connection" };
+          dispatch(addFlashMessage(msg))
+        }
       })
 );
 
@@ -111,8 +117,10 @@ export const apiVoteReply = (id, isUpvote) => dispatch => (
       .voteCommentReply(id, isUpvote)
       .then(res => dispatch(voteCommentReply(res.data.commentId, res.data.replyId, res.data.newReplyVote, res.data.userHasAlreadyVotedBefore)))
       .catch(error => {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
+        if (!error.response) {
+          const msg = { type: "error", text: "Network Error. Check your internet connection" };
+          dispatch(addFlashMessage(msg))
+        }
       })
 );
 
@@ -121,8 +129,10 @@ export const apiCommentDelete = (id) => dispatch => {
     .deleteComment(id)
     .then(res => dispatch(commentDelete(res.data.id)))
     .catch(error => {
-      const msg = { type: "error", text: "Network Error. Check your internet connection" };
-      dispatch(addFlashMessage(msg))
+      if (!error.response) {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      }
     })
 };
 
@@ -131,7 +141,9 @@ export const apiReplyDelete = (commentId, replyId) => dispatch => {
     .deleteCommentReply(replyId)
     .then(res => dispatch(replyDelete(commentId, replyId)))
     .catch(error => {
-      const msg = { type: "error", text: "Network Error. Check your internet connection" };
-      dispatch(addFlashMessage(msg))
+      if (!error.response) {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      }
     })
 }

@@ -15,7 +15,7 @@ class NotFound extends Component {
         />
         <section style={{textAlign: 'center'}}>
           <p style={{fontSize: 128}}>{ "( > _ < )" }</p>
-          <p>Page Not Found</p>
+          <p>404 - Page Not Found</p>
         </section>
       </MuiThemeProvider>
     )
