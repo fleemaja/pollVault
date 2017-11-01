@@ -1,4 +1,6 @@
-import * as CommentsStorage from '../utils/comments'
+import * as CommentsStorage from '../utils/comments';
+
+import { addFlashMessage } from './flashMessages';
 
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
@@ -78,36 +80,58 @@ export const apiAddComment = (parentId, comment) => dispatch => (
   CommentsStorage
       .addComment(parentId, comment)
       .then(res => dispatch(addComment(res.data.comment)))
+      .catch(error => {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      })
 );
 
 export const apiAddReply = (parentId, reply) => dispatch => (
   CommentsStorage
     .addReply(parentId, reply)
     .then(res => dispatch(addReply(res.data.reply)))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 );
 
 export const apiVoteComment = (id, isUpvote) => dispatch => (
   CommentsStorage
       .voteComment(id, isUpvote)
       .then(res => dispatch(voteComment(res.data.commentId, res.data.newCommentVote, res.data.userHasAlreadyVotedBefore)))
+      .catch(error => {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      })
 );
 
 export const apiVoteReply = (id, isUpvote) => dispatch => (
   CommentsStorage
       .voteCommentReply(id, isUpvote)
       .then(res => dispatch(voteCommentReply(res.data.commentId, res.data.replyId, res.data.newReplyVote, res.data.userHasAlreadyVotedBefore)))
-);
-
-export const apiEditComment = (id, comment) => dispatch => (
-  dispatch(editComment(id, comment))
+      .catch(error => {
+        const msg = { type: "error", text: "Network Error. Check your internet connection" };
+        dispatch(addFlashMessage(msg))
+      })
 );
 
 export const apiCommentDelete = (id) => dispatch => {
-  CommentsStorage.deleteComment(id);
-  dispatch(commentDelete(id));
+  CommentsStorage
+    .deleteComment(id)
+    .then(res => dispatch(commentDelete(res.data.id)))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 };
 
 export const apiReplyDelete = (commentId, replyId) => dispatch => {
-  CommentsStorage.deleteCommentReply(replyId);
-  dispatch(replyDelete(commentId, replyId));
+  CommentsStorage
+    .deleteCommentReply(replyId)
+    .then(res => dispatch(replyDelete(commentId, replyId)))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 }

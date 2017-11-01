@@ -18,7 +18,8 @@ export async function searchPolls(searchQuery) {
 }
 
 export function deletePoll(id) {
-  axios.delete(`${api}/api/polls/${id}`)
+  const response = axios.delete(`${api}/api/polls/${id}`);
+  return response;
 }
 
 export const addPoll = async (poll) => {

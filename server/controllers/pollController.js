@@ -82,6 +82,7 @@ exports.deletePoll = async (req, res) => {
   const poll = await Poll.findById({ _id: req.params.id }).populate('author');
   confirmOwner(poll, req.user);
   await Poll.findByIdAndRemove(req.params.id)
+  res.json({ id: req.params.id })
 }
 
 exports.editPoll = async (req, res) => {

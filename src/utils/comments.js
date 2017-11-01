@@ -9,11 +9,13 @@ export const addComment = async (parentId, comment) => {
 }
 
 export function deleteComment(id) {
-  axios.delete(`${api}/api/comments/comment/${id}`)
+  const response = axios.delete(`${api}/api/comments/comment/${id}`);
+  return response;
 }
 
 export function deleteCommentReply(id) {
-  axios.delete(`${api}/api/replies/reply/${id}`)
+  const response = axios.delete(`${api}/api/replies/reply/${id}`);
+  return response;
 }
 
 export const voteComment = async (id, isUpvote) => {

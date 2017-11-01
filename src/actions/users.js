@@ -1,5 +1,7 @@
 import * as UsersStorage from '../utils/users';
 
+import { addFlashMessage } from './flashMessages';
+
 import { setAuthorizationToken } from '../utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
 
@@ -27,9 +29,17 @@ export const apiSignupUser = (user) => dispatch => (
         UsersStorage
           .getCurrentUserPhoto()
           .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+          .catch(error => {
+            const msg = { type: "error", text: "Network Error. Check your internet connection" };
+            dispatch(addFlashMessage(msg))
+          })
         return res;
       }
     )
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 );
 
 export const apiLoginUser = (user) => dispatch => (
@@ -43,9 +53,17 @@ export const apiLoginUser = (user) => dispatch => (
         UsersStorage
           .getCurrentUserPhoto()
           .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+          .catch(error => {
+            const msg = { type: "error", text: "Network Error. Check your internet connection" };
+            dispatch(addFlashMessage(msg))
+          })
         return res;
       }
     )
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 );
 
 export const apiLogoutUser = () => dispatch => {
@@ -58,7 +76,15 @@ export const apiLogoutUser = () => dispatch => {
       UsersStorage
         .getCurrentUserPhoto()
         .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+        .catch(error => {
+          const msg = { type: "error", text: "Network Error. Check your internet connection" };
+          dispatch(addFlashMessage(msg))
+        })
       return res;
+    })
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
     })
 }
 
@@ -69,6 +95,14 @@ export const apiUpdateUserAvatar = (photo) => dispatch => (
       UsersStorage
         .getCurrentUserPhoto()
         .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+        .catch(error => {
+          const msg = { type: "error", text: "Network Error. Check your internet connection" };
+          dispatch(addFlashMessage(msg))
+        })
       return res;
+    })
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
     })
 )

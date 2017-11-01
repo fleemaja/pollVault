@@ -24,6 +24,7 @@ exports.deleteReply = async (req, res) => {
   const reply = await Reply.findById({ _id: req.params.id }).populate('author');
   confirmOwner(reply, req.user);
   await Reply.findByIdAndRemove(req.params.id)
+  res.json({ id: req.params.id })
 }
 
 exports.voteReply = async (req, res) => {

@@ -1,4 +1,6 @@
-import * as PollsStorage from '../utils/polls'
+import * as PollsStorage from '../utils/polls';
+
+import { addFlashMessage } from './flashMessages';
 
 export const RECEIVE_POLLS = "RECEIVE_POLLS";
 export const ADD_POLL = "ADD_POLL";
@@ -44,31 +46,48 @@ export const fetchPolls = () => dispatch => (
   PollsStorage
     .getPolls()
     .then(response => dispatch(receivePolls(response.data.polls)))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 );
 
 export const apiSearchPolls = (searchQuery) => dispatch => (
   PollsStorage
     .searchPolls(searchQuery)
     .then(response => dispatch(receivePolls(response.data.polls)))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 )
 
 export const apiAddPoll = (poll) => dispatch => (
   PollsStorage
     .addPoll(poll)
     .then(res => dispatch(addPoll(res.data.poll)))
-);
-
-export const apiEditPoll = (poll) => dispatch => (
-  dispatch(editPoll(poll))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 );
 
 export const apiPollDelete = (id) => dispatch => {
-  PollsStorage.deletePoll(id);
-  dispatch(pollDelete(id));
+  PollsStorage
+    .deletePoll(id)
+    .then(res => dispatch(pollDelete(res.data.id)))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 };
 
 export const apiVotePoll = (pollId, choiceId) => dispatch => {
   PollsStorage
     .vote(pollId, choiceId)
     .then(res => dispatch(votePoll(res.data.id, res.data.choice)))
+    .catch(error => {
+      const msg = { type: "error", text: "Network Error. Check your internet connection" };
+      dispatch(addFlashMessage(msg))
+    })
 };

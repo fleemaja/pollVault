@@ -126,7 +126,7 @@ class Index extends Component {
         onClick={this.handleUserAvatarClose}
       />
     ];
-    const letter = user.username.charAt(0);
+    const letter = user.username && user.username.charAt(0);
     return (
       <MuiThemeProvider>
 
@@ -214,7 +214,7 @@ class Index extends Component {
                     {
                       user.photo ?
                       <Avatar src={`uploads/${user.photo}`} /> :
-                      <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{  }</Avatar>
+                      <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
                     }
                     <span>
                       Logged in as <strong>{ user.username }</strong>
