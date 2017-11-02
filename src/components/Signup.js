@@ -18,8 +18,16 @@ class Signup extends Component {
   }
 
   async handleInput(e) {
-    const inputVal = { [e.target.name]: e.target.value };
-    this.setState(inputVal);
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+    const newState = { ...this.state, [name]: value }
+    const { errors, isValid } = await validateInput(newState);
+    let errorVal = '';
+    if (errors[name]) {
+      errorVal = errors[name]
+    }
+    const newErrors = { ...this.state.errors, [name]: errorVal }
+    this.setState({ errors: newErrors })
   }
 
   async isValid() {

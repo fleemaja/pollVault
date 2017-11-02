@@ -6,20 +6,20 @@ import {
 const Validator = require('validator');
 
 function isEmpty(obj) {
-  return Object.keys(obj).length === 0
+  return Object.keys(obj).length === 0 && obj.constructor === Object
 }
 
 export default async function validateInput(data) {
   let errors = {};
   const usernameUser = await isUsernameAlreadyRegistered(data.username);
   const emailUser = await isEmailAlreadyRegistered(data.email);
-  if (!isEmpty(usernameUser)) {
+  if (usernameUser.data.user) {
     errors.username = 'That Username is already registered'
   }
   if (Validator.isEmpty(data.username)) {
     errors.username = 'Username is required'
   }
-  if (!isEmpty(emailUser)) {
+  if (emailUser.data.user) {
     errors.email = 'That Email is already registered'
   }
   if (!Validator.isEmail(data.email)) {
