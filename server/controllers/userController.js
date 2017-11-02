@@ -108,3 +108,13 @@ exports.getPhoto = async (req, res) => {
   const photo = user.photo;
   res.json({ photo })
 }
+
+exports.findUser = async (req, res) => {
+  let user;
+  if (req.query.email) {
+    user = await User.findOne({ email: req.query.email })
+  } else if (req.query.username) {
+    user = await User.findOne({ username: req.query.username })
+  }
+  res.json({ user })
+}

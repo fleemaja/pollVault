@@ -32,6 +32,8 @@ router.post('/api/comments/:id/vote', authController.authenticate, catchErrors(c
 router.post('/api/replies/:id/vote', authController.authenticate, catchErrors(replyController.voteReply));
 router.get('/api/polls/:category', catchErrors(pollController.getPollsByCategory));
 
+router.get('/api/users', catchErrors(userController.findUser));
+
 // AUTHENTICATION
 router.post('/api/login',
   userController.validateLogin,

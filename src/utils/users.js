@@ -36,3 +36,13 @@ export const getCurrentUserPhoto = () => {
   const response = axios.get(`${api}/api/account/photo`);
   return response;
 }
+
+export const isUsernameAlreadyRegistered = (username) => {
+  const response = axios.get(`${api}/api/users?username=${username}`);
+  return response;
+}
+
+export const isEmailAlreadyRegistered = (email) => {
+  const response = axios.get(`${api}/api/users?email=${email}`);
+  return response;
+}

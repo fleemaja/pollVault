@@ -17,12 +17,13 @@ class Signup extends Component {
     isLoading: false
   }
 
-  handleInput(e) {
-    this.setState({ [e.target.name]: e.target.value })
+  async handleInput(e) {
+    const inputVal = { [e.target.name]: e.target.value };
+    this.setState(inputVal);
   }
 
-  isValid() {
-    const { errors, isValid } = validateInput(this.state);
+  async isValid() {
+    const { errors, isValid } = await validateInput(this.state);
 
     if (!isValid) {
       this.setState({ errors })
