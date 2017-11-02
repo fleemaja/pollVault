@@ -42,6 +42,9 @@ export const apiSignupUser = (user) => dispatch => (
       if (!error.response) {
         const msg = { type: "error", text: "Network Error. Check your internet connection" };
         dispatch(addFlashMessage(msg))
+        return { success: false }
+      } else {
+        return { success: false, errorMessages: error.response.data }
       }
     })
 );

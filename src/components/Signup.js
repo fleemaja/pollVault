@@ -37,15 +37,22 @@ class Signup extends Component {
       this.setState({ errors: {}, isLoading: true })
       this.props.signupUser(this.state)
         .then(res => {
-          if (res.data.success) {
-            this.props.addFlashMessage({
-              type: 'success',
-              text: 'You Have Successfully Signed Up! You are now Logged in'
-            })
-            this.props.handleClose()
+          if (res.data) {
+            if (res.data.success) {
+              this.props.addFlashMessage({
+                type: 'success',
+                text: 'You Have Successfully Signed Up! You are now Logged in'
+              })
+              this.props.handleClose()
+            } else {
+              const errors = { message: res.message }
+              this.setState({ errors, isLoading: false })
+            }
           } else {
-            const errors = { message: res.message }
-            this.setState({ errors, isLoading: false })
+            if (res.errorMessages) {
+              const errors = res.errorMessages;
+              this.setState({ errors, isLoading: false })
+            }
           }
         })
     }

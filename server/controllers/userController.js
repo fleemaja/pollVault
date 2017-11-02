@@ -33,23 +33,37 @@ exports.resize = async (req, res, next) => {
   next();
 };
 
-exports.validateRegister = (req, res, next) => {
+exports.validateRegister = async (req, res, next) => {
   req.sanitizeBody('username');
   req.checkBody('username', 'You must supply a username').notEmpty();
+  const userWithUsername = await User.findOne({ username: req.body.username });
   req.checkBody('email', 'That email is not valid').isEmail();
   req.sanitizeBody('email').normalizeEmail({
     remove_dots: false,
     remove_extension: false,
     gmail_remove_subaddress: false
   });
+  const userWithEmail = await User.findOne({ email: req.body.email });
   req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
+  req.checkBody('password', 'Your password must be at least 6 characters.').isLength({ min: 6 });
   req.checkBody('password-confirm', 'Confirmed Password cannot be Blank!').notEmpty();
   req.checkBody('password-confirm', 'Oops! Your passwords do not match!').equals(req.body.password);
-
-  const errors = req.validationErrors();
+  let errors = req.validationErrors() || [];
+  if (userWithUsername) {
+    const error = { location: 'body', param: 'username', msg: 'This username is already registered', value: req.body.username }
+    errors.push(error)
+  }
+  if (userWithEmail) {
+    const error = { location: 'body', param: 'email', msg: 'This email is already registered', value: req.body.email }
+    errors.push(error)
+  }
   if (errors) {
+    let formattedErrors = {};
+    errors.forEach(e => {
+      formattedErrors[e.param] = e.msg;
+    })
     // req.flash('error', errors.map(err => err.msg));
-    res.status(400).json(errors)
+    res.status(400).json(formattedErrors)
     return;
   }
   next();
