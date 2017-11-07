@@ -1,8 +1,12 @@
 import axios from 'axios';
 const api = 'http://localhost:5001';
 
-export async function getPolls() {
-  const response = await axios.get(`${api}/api/polls`)
+export async function getPolls(category, searchQuery, sortType) {
+  let params = `sort=${sortType}`;
+  if (searchQuery !== '') {
+    params = `sort=search&search=${searchQuery}`;
+  }
+  const response = await axios.get(`${api}/api/polls/${category}?${params}`)
   return response;
 }
 

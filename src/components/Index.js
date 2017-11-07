@@ -21,7 +21,7 @@ import Login from './Login';
 import FlashMessagesList from './FlashMessagesList';
 import UserAvatarForm from './UserAvatarForm';
 import { apiLogoutUser } from '../actions/users';
-import { apiSearchPolls, fetchPolls } from '../actions/polls';
+import { fetchPolls } from '../actions/polls';
 import { categories, letterToHexColor } from '../helpers';
 import { connect } from 'react-redux';
 
@@ -34,7 +34,7 @@ class Index extends Component {
     userMenuOpen: false,
     userAvatarModalOpen: false,
     anchorEl: null,
-    sortKey: 'votes',
+    sortKey: 'popular',
     category: 'all',
     searchQuery: ''
   }
@@ -70,20 +70,28 @@ class Index extends Component {
   handleDrawerToggle = () =>
     this.setState({drawerOpen: !this.state.drawerOpen})
 
-  handleSortKeyChange = (event, index, value) =>
-    this.setState({sortKey: value});
+  handleSortKeyChange = (event, index, value) => {
+    const sortKey = value;
+    const { searchQuery, category } = this.state;
 
-  handleCategoryChange = (e) =>
-    this.setState({ category: e.target.value })
+    this.setState({ sortKey });
+    this.props.fetchPolls(category, searchQuery, sortKey);
+  }
+
+  handleCategoryChange = (e) => {
+    const category = e.target.value;
+    const { searchQuery, sortKey } = this.state;
+
+    this.setState({ category });
+    this.props.fetchPolls(category, searchQuery, sortKey);
+  }
 
   handleSearchQueryChange = (e) => {
     const searchQuery = e.target.value;
+    const { category, sortKey } = this.state;
+
     this.setState({ searchQuery });
-    if (searchQuery !== '') {
-      this.props.searchPolls(searchQuery)
-    } else {
-      this.props.fetchPolls();
-    }
+    this.props.fetchPolls(category, searchQuery, sortKey);
   }
 
   handleUserMenuTap = (e) => {
@@ -146,8 +154,9 @@ class Index extends Component {
           <FlashMessagesList />
 
           <Polls
-            sortKey={this.state.sortKey}
+            sortType={this.state.sortKey}
             category={this.state.category}
+            searchQuery={this.state.searchQuery}
             contentWidth={contentWidth} />
 
           <section>
@@ -205,8 +214,8 @@ class Index extends Component {
                 onChange={this.handleSortKeyChange}
                 style={{width: 150, marginLeft: '40px'}}
               >
-                <MenuItem value='votes' primaryText='Most Votes' />
-                <MenuItem value='timestamp' primaryText='Most Recent' />
+                <MenuItem value='popular' primaryText='Most Votes' />
+                <MenuItem value='recent' primaryText='Most Recent' />
               </SelectField>
               {
                 auth.isAuthenticated ?
@@ -291,8 +300,7 @@ function mapStateToProps ({ auth }) {
 function mapDispatchToProps(dispatch) {
   return {
     logoutUser: () => dispatch(apiLogoutUser()),
-    fetchPolls: () => dispatch(fetchPolls()),
-    searchPolls: (searchQuery) => dispatch(apiSearchPolls(searchQuery))
+    fetchPolls: (category, searchQuery, sortType) => dispatch(fetchPolls(category, searchQuery, sortType))
   }
 }
 

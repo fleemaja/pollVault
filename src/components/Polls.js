@@ -16,7 +16,8 @@ class Polls extends Component {
   }
 
   componentWillMount = () => {
-    this.props.getPolls();
+    const { category, searchQuery, sortType } = this.props
+    this.props.getPolls(category, searchQuery, sortType);
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -28,9 +29,6 @@ class Polls extends Component {
   }
 
   render() {
-    const sortByKey = (sortKey) => (a, b) => a[sortKey] < b[sortKey];
-    const category = this.props.category;
-    const sortKey = this.props.sortKey;
     const { noResults } = this.state;
     return (
       <section style={{width: this.props.contentWidth, paddingTop: 40}}>
@@ -39,14 +37,12 @@ class Polls extends Component {
           style={{margin: '0 auto'}}>
           {
             this.props.polls
-              .filter(p => category === 'all' || p.category === category)
-              .sort(sortByKey(sortKey))
               .map(p => <Poll poll={p} />)
           }
           {
             noResults &&
             <section style={{textAlign: 'center', color: '#555'}}>
-              <p style={{fontSize: 72, margin: 40}}>¯\_(ツ)_/¯</p>
+              <p style={{fontSize: 72, margin: '40px 0'}}>¯\_(ツ)_/¯</p>
               <p>No results found!</p>
             </section>
           }
@@ -62,7 +58,7 @@ function mapStateToProps ({ polls }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPolls: () => dispatch(fetchPolls())
+    getPolls: (category, searchQuery, sortType) => dispatch(fetchPolls(category, searchQuery, sortType))
   }
 }
 

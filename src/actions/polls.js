@@ -42,9 +42,9 @@ export function votePoll(id, choice) {
   }
 };
 
-export const fetchPolls = () => dispatch => (
+export const fetchPolls = (category, searchQuery, sortType) => dispatch => (
   PollsStorage
-    .getPolls()
+    .getPolls(category, searchQuery, sortType)
     .then(response => dispatch(receivePolls(response.data.polls)))
     .catch(error => {
       if (!error.response) {
@@ -53,18 +53,6 @@ export const fetchPolls = () => dispatch => (
       }
     })
 );
-
-export const apiSearchPolls = (searchQuery) => dispatch => (
-  PollsStorage
-    .searchPolls(searchQuery)
-    .then(response => dispatch(receivePolls(response.data.polls)))
-    .catch(error => {
-      if (!error.response) {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
-      }
-    })
-)
 
 export const apiAddPoll = (poll) => dispatch => (
   PollsStorage

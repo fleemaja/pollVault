@@ -27,17 +27,69 @@ const getIpVote = (ip, poll) => {
   return candidates.length > 0 ? candidates[0].choice : null;
 }
 
+const getSortQuery = (sortType) => {
+  switch (sortType) {
+    case 'search' :
+      return {
+        score: { $meta: 'textScore' }
+      }
+    case 'recent' :
+      return { created: 'desc' }
+    case 'popular' :
+      return { votes: -1 }
+    default :
+      return {}
+  }
+}
+
+const getFindQuery = (categoryQuery, searchQuery) => {
+  if (searchQuery !== '') {
+    return {
+      category: categoryQuery,
+      $text: {
+        $search: searchQuery
+      }
+    }
+  } else {
+    return { category: categoryQuery }
+  }
+}
+
+const getFindQueryOptions = (searchQuery) => {
+  if (searchQuery !== '') {
+    return {
+      score: { $meta: 'textScore' }
+    }
+  } else {
+    return {}
+  }
+}
+
 exports.getPolls = async (req, res) => {
   const page = req.params.page || 1;
   const limit = 12;
   const skip = (page * limit) - limit;
 
+  const category = req.params.category;
+  const categoryQuery = category === 'all' ? { $exists: true } : category;
+
+  const searchQuery = req.query.search || '';
+  const sortType = req.query.sort || '';
+
+  const findQuery = getFindQuery(categoryQuery, searchQuery);
+  const findQueryOptions = getFindQueryOptions(searchQuery);
+  const sortQuery = getSortQuery(sortType);
+
+  console.log(`category: ${category}`)
+  console.log(`searchQuery: ${searchQuery}`)
+  console.log(`sortType: ${sortType}`)
+
   const pollsPromise = Poll
-    .find()
+    .find(findQuery, findQueryOptions)
     .skip(skip)
     .limit(limit)
-    .sort({ created: 'desc' })
-    .populate('author comments choices votes');
+    .populate('author comments choices votes')
+    .sort(sortQuery);
 
   const countPromise = Poll.count();
 
@@ -127,31 +179,4 @@ exports.getPollBySlug = async (req, res, next) => {
   p.ipVote = userVote;
   res.json({ poll: p })
   // res.render('poll', { title: poll.title, poll, vote });
-};
-
-exports.searchPolls = async (req, res) => {
-  const polls = await Poll
-  .find({
-    $text: {
-      $search: req.query.q
-    }
-  }, {
-      score: { $meta: 'textScore' }
-  })
-  .sort({
-    score: { $meta: 'textScore' }
-  })
-  .limit(10)
-  .populate('author comments choices votes');
-
-  const pollsWithVoteStatus = polls.map(p => {
-    const userVote = getIpVote(req.ip, p);
-    const hasVoted = userVote ? true : false;
-    let poll = p.toObject();
-    poll.hasVoted = hasVoted;
-    poll.ipVote = userVote;
-    return poll;
-  });
-
-  res.json({ polls: pollsWithVoteStatus });
 };

@@ -9,7 +9,7 @@ const replyController = require('../controllers/replyController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // API
-router.get('/api/polls', catchErrors(pollController.getPolls));
+router.get('/api/polls/:category', catchErrors(pollController.getPolls));
 router.get('/api/polls/page/:page', catchErrors(pollController.getPolls));
 //router.get('/api/add', authController.authenticate, pollController.addPoll);
 router.post('/api/add', authController.authenticate, catchErrors(pollController.createPoll));
@@ -22,7 +22,6 @@ router.delete('/api/comments/comment/:id', authController.authenticate, catchErr
 router.post('/api/replies/:id', authController.authenticate, catchErrors(replyController.addReply));
 router.delete('/api/replies/reply/:id', authController.authenticate, catchErrors(replyController.deleteReply));
 
-router.get('/api/search', catchErrors(pollController.searchPolls));
 router.delete('/api/polls/:id',
   authController.authenticate,
   catchErrors(pollController.deletePoll)
@@ -30,7 +29,6 @@ router.delete('/api/polls/:id',
 router.post('/api/polls/:id/vote', catchErrors(pollController.makeVote));
 router.post('/api/comments/:id/vote', authController.authenticate, catchErrors(commentController.voteComment));
 router.post('/api/replies/:id/vote', authController.authenticate, catchErrors(replyController.voteReply));
-router.get('/api/polls/:category', catchErrors(pollController.getPollsByCategory));
 
 router.get('/api/users', catchErrors(userController.findUser));
 
