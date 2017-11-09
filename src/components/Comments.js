@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Comment from './Comment';
-import Paper from 'material-ui/Paper';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import ReactList from 'react-list';
 
 class Comments extends Component {
   state = {
@@ -12,9 +12,13 @@ class Comments extends Component {
   handleSortKeyChange = (event, index, value) =>
     this.setState({sortKey: value});
 
+  renderItem = (index, key) => {
+    const comment = this.props.comments[index];
+    return <Comment key={key} comment={comment} />
+  }
+
   render() {
     const comments = this.props.comments;
-    const sortByKey = (sortKey) => (a, b) => a[sortKey] < b[sortKey];
     return (
       <section>
         <section>
@@ -29,13 +33,13 @@ class Comments extends Component {
             <MenuItem value='timestamp' primaryText='Most Recent' />
           </SelectField>
         </section>
-        <Paper style={style} zDepth={1} >
-          {
-            comments
-              .sort(sortByKey(this.state.sortKey))
-              .map(c => <Comment comment={c} />)
-          }
-        </Paper>
+        <section style={style}>
+          <ReactList
+            itemRenderer={this.renderItem.bind(this)}
+            length={comments.length}
+            type='variable'
+          />
+        </section>
       </section>
     )
   }

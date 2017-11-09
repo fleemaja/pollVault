@@ -80,10 +80,6 @@ exports.getPolls = async (req, res) => {
   const findQueryOptions = getFindQueryOptions(searchQuery);
   const sortQuery = getSortQuery(sortType);
 
-  console.log(`category: ${category}`)
-  console.log(`searchQuery: ${searchQuery}`)
-  console.log(`sortType: ${sortType}`)
-
   const pollsPromise = Poll
     .find(findQuery, findQueryOptions)
     .skip(skip)

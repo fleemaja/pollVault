@@ -20,11 +20,13 @@ class Polls extends Component {
   componentWillMount = () => {
     const { category, searchQuery, sortType } = this.props
     window.addEventListener('scroll', this.handleOnScroll);
+    window.addEventListener('resize', this.updateRenderedPolls);
     this.props.getPolls(category, searchQuery, sortType);
   }
 
   componentWillUnmount = () => {
     window.removeEventListener('scroll', this.handleOnScroll);
+    window.removeEventListener('resize', this.updateRenderedPolls);
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -41,6 +43,18 @@ class Polls extends Component {
       } else {
         this.setState({ noResults: true, totalPolls, currentRenderedPolls: 0 })
       }
+    }
+  }
+
+  updateRenderedPolls = () => {
+    const clientWidth = document.documentElement.clientWidth || window.innerWidth;
+    const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+    const estimatedRows = clientHeight/320;
+    const estimatedCols = clientWidth/320;
+    const estimatedRenderedPolls = Math.round(estimatedRows * estimatedCols);
+    const { currentRenderedPolls } = this.state
+    if (currentRenderedPolls < estimatedRenderedPolls) {
+      this.setState({ currentRenderedPolls: estimatedRenderedPolls })
     }
   }
 
