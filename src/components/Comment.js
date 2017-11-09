@@ -43,7 +43,7 @@ class Comment extends Component {
   }
 
   render() {
-    const { comment, auth } = this.props;
+    const { comment, auth, showReplies } = this.props;
     const { displayReplyForm } = this.state;
     const author = comment.author;
     const commentOwnerId = author && author.id;
@@ -127,7 +127,12 @@ class Comment extends Component {
             </Dialog>
           </section>
         }
-        <Replies replies={comment.replies} commentId={comment.id} />
+        <Replies
+          replies={comment.replies}
+          commentId={comment.id}
+          showReplies={showReplies}
+          handleToggleReplies={this.props.handleToggleReplies.bind(this)}
+        />
       </section>
     )
   }

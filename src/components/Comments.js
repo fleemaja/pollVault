@@ -6,15 +6,38 @@ import ReactList from 'react-list';
 
 class Comments extends Component {
   state = {
-    sortKey: 'votes'
+    sortKey: 'votes',
+    showReplies: []
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const commentsLength = nextProps.comments.length;
+    const showReplies = Array.apply(null, Array(commentsLength))
+                             .map(() => false)
+    this.setState({ showReplies })
   }
 
   handleSortKeyChange = (event, index, value) =>
     this.setState({sortKey: value});
 
+  handleToggleReplies = (index) => {
+    const showReplies = [
+      ...this.state.showReplies.slice(0, index),
+      !this.state.showReplies[index],
+      ...this.state.showReplies.slice(index + 1)
+    ]
+    this.setState({ showReplies })
+  }
+
   renderItem = (index, key) => {
     const comment = this.props.comments[index];
-    return <Comment key={key} comment={comment} />
+    const showReplies = this.state.showReplies[index];
+    return <Comment
+             key={key}
+             comment={comment}
+             showReplies={showReplies}
+             handleToggleReplies={() => this.handleToggleReplies(index)}
+           />
   }
 
   render() {
