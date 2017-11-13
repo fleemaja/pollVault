@@ -35,8 +35,6 @@ const getSortQuery = (sortType) => {
       }
     case 'recent' :
       return { created: 'desc' }
-    case 'popular' :
-      return { votes: -1 }
     default :
       return {}
   }
@@ -65,6 +63,23 @@ const getFindQueryOptions = (searchQuery) => {
   }
 }
 
+const sortPollsByVotes = (polls) => (
+  polls.sort((a, b) => a.votes - b.votes)
+)
+
+const getTrendingScore = (poll) => {
+  const decay = 45000,
+        score = poll.votes.length,
+        sign = Math.sign(score),
+        order = Math.log(Math.max(Math.abs(score), 1), 10),
+        secAge = (Date.now() - poll.created) / 1000;
+  return sign*order - secAge / decay;
+}
+
+const sortPollsByTrendingScore = (polls) => (
+  polls.sort((a, b) => Math.abs(getTrendingScore(a)) - Math.abs(getTrendingScore(b)))
+)
+
 exports.getPolls = async (req, res) => {
   const page = req.params.page || 1;
   const limit = 12;
@@ -89,7 +104,13 @@ exports.getPolls = async (req, res) => {
 
   const countPromise = Poll.count();
 
-  const [polls, count] = await Promise.all([pollsPromise, countPromise]);
+  let [polls, count] = await Promise.all([pollsPromise, countPromise]);
+
+  if (sortType === 'popular') {
+    polls = sortPollsByVotes(polls);
+  } else if (sortType === 'trending') {
+    polls = sortPollsByTrendingScore(polls);
+  }
 
   const pages = Math.ceil(count / limit);
 

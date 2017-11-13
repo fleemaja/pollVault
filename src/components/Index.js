@@ -34,7 +34,7 @@ class Index extends Component {
     userMenuOpen: false,
     userAvatarModalOpen: false,
     anchorEl: null,
-    sortKey: 'popular',
+    sortKey: 'trending',
     category: 'all',
     searchQuery: ''
   }
@@ -214,6 +214,7 @@ class Index extends Component {
                 onChange={this.handleSortKeyChange}
                 style={{width: 150, marginLeft: '40px'}}
               >
+                <MenuItem value='trending' primaryText='Trending' />
                 <MenuItem value='popular' primaryText='Most Votes' />
                 <MenuItem value='recent' primaryText='Most Recent' />
               </SelectField>
