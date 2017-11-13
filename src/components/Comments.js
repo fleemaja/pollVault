@@ -2,46 +2,29 @@ import React, { Component } from 'react';
 import Comment from './Comment';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import ReactList from 'react-list';
 
 class Comments extends Component {
   state = {
-    sortKey: 'votes',
-    showReplies: []
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    const commentsLength = nextProps.comments.length;
-    const showReplies = Array.apply(null, Array(commentsLength))
-                             .map(() => false)
-    this.setState({ showReplies })
+    sortKey: 'popular'
   }
 
   handleSortKeyChange = (event, index, value) =>
-    this.setState({sortKey: value});
-
-  handleToggleReplies = (index) => {
-    const showReplies = [
-      ...this.state.showReplies.slice(0, index),
-      !this.state.showReplies[index],
-      ...this.state.showReplies.slice(index + 1)
-    ]
-    this.setState({ showReplies })
-  }
-
-  renderItem = (index, key) => {
-    const comment = this.props.comments[index];
-    const showReplies = this.state.showReplies[index];
-    return <Comment
-             key={key}
-             comment={comment}
-             showReplies={showReplies}
-             handleToggleReplies={() => this.handleToggleReplies(index)}
-           />
-  }
+    this.setState({ sortKey: value });
 
   render() {
     const comments = this.props.comments;
+    const getVoteScore = (comment) => (
+      comment.votes.reduce((accumulator, vote) => {
+        return accumulator + (vote.isUpvote ? 1 : -1)
+      }, 0)
+    );
+    const sortByKey = (sortKey) => (a, b) => {
+      if (sortKey === 'popular') {
+        return getVoteScore(b) - getVoteScore(a)
+      } else {
+        return (new Date(b.created) - new Date(a.created));
+      }
+    };
     return (
       <section>
         <section>
@@ -52,16 +35,16 @@ class Comments extends Component {
             onChange={this.handleSortKeyChange}
             style={{width: 150, marginLeft: '40px', display: 'inline-block', verticalAlign: 'middle',}}
           >
-            <MenuItem value='votes' primaryText='Most Votes' />
-            <MenuItem value='timestamp' primaryText='Most Recent' />
+            <MenuItem value='popular' primaryText='Most Votes' />
+            <MenuItem value='created' primaryText='Most Recent' />
           </SelectField>
         </section>
-        <section style={style}>
-          <ReactList
-            itemRenderer={this.renderItem.bind(this)}
-            length={comments.length}
-            type='variable'
-          />
+        <section style={style} >
+          {
+            comments
+              .sort(sortByKey(this.state.sortKey))
+              .map(c => <Comment comment={c} />)
+          }
         </section>
       </section>
     )
