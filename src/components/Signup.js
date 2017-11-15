@@ -76,6 +76,7 @@ class Signup extends Component {
           <TextField
             value={username}
             name='username'
+            maxLength={64}
             onChange={this.handleInput.bind(this)}
             hintText="Username"
             floatingLabelText="Username"
@@ -85,6 +86,7 @@ class Signup extends Component {
           <TextField
             value={email}
             name='email'
+            maxLength={254}
             onChange={this.handleInput.bind(this)}
             hintText="Email"
             floatingLabelText="Email"

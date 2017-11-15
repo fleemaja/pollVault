@@ -27,7 +27,8 @@ class AddCommentForm extends Component {
     const property = e.target.name;
 
     const updatedState = {}
-    updatedState[property] = newVal
+    // comment maxlength = 500
+    updatedState[property] = newVal;
 
     this.setState(updatedState)
   }
@@ -41,6 +42,7 @@ class AddCommentForm extends Component {
           <TextField
             value={text}
             name='text'
+            maxLength={500}
             onChange={this.handleInput.bind(this)}
             hintText="Add A Public Comment"
             style={{display: 'block'}}

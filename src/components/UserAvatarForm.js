@@ -46,7 +46,7 @@ class UserAvatarForm extends Component {
           imagePreviewUrl ?
           <Avatar src={imagePreviewUrl} /> :
             (userPhoto ?
-              <Avatar src={`uploads/${userPhoto}`} /> :
+              <Avatar src={`../uploads/${userPhoto}`} /> :
               <Avatar>{ user.username.charAt(0) }</Avatar>)
         }
         <label for="photo">

@@ -86,6 +86,7 @@ class AddPollForm extends Component {
             value={title}
             name="title"
             onChange={this.handleInput.bind(this)}
+            maxLength={140}
             hintText="Poll Title"
             floatingLabelText="Poll Title"
             style={{display: 'block'}}
@@ -107,6 +108,7 @@ class AddPollForm extends Component {
               inputs.map(i => <TextField
                     value={i['value']}
                     name={i['name']}
+                    maxLength={140}
                     onChange={this.handleOptionInput.bind(this)}
                     hintText={"Choice " + i['name'].split("-")[1]}
                     floatingLabelText={"Choice " + i['name'].split("-")[1]}
