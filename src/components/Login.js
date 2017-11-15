@@ -35,14 +35,14 @@ class Login extends Component {
       this.setState({ errors: {}, isLoading: true })
       this.props.loginUser(this.state)
         .then(res => {
-          if (res.success) {
+          if (res.data.success) {
             this.props.addFlashMessage({
               type: 'success',
               text: 'You Have Successfully Logged in!'
             })
             this.props.handleClose()
           } else {
-            const errors = { message: res.message }
+            const errors = { message: res.data.message };
             this.setState({ errors, isLoading: false })
           }
         })
@@ -51,10 +51,14 @@ class Login extends Component {
 
   render() {
     const { username, password, errors } = this.state
-
+    const validForm = username !== '' && password !== '';
     return (
       <section style={{margin: 20}}>
-        <form>
+        <form onChange={this.handleFormChange}>
+          {
+            errors.message &&
+            <p style={{color: 'red'}}>{ errors.message }</p>
+          }
           <TextField
             value={username}
             name='username'
@@ -76,7 +80,7 @@ class Login extends Component {
           />
           <RaisedButton
             style={{marginTop: 40}}
-            disabled={this.state.isLoading}
+            disabled={this.state.isLoading || !validForm}
             label="Submit"
             onClick={this.handleSubmit.bind(this)} />
         </form>

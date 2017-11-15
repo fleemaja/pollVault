@@ -121,7 +121,7 @@ class AddPollForm extends Component {
           <section>
             {
               inputs.map(i => {
-                const choiceNum = parseInt(i['name'].split("-")[1]);
+                const choiceNum = parseInt(i['name'].split("-")[1], 10);
                 return (<TextField
                       value={i['value']}
                       name={i['name']}

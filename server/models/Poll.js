@@ -6,10 +6,22 @@ const pollSchema = new mongoose.Schema({
   title: {
     type: String,
     trim: true,
-    required: 'Please enter a poll title'
+    required: 'Please enter a poll title',
+    maxlength: 140
   },
   slug: String,
-  category: String,
+  category: {
+    type: String,
+    enum: [
+      'Sports and Fitness',
+      'TV and Movies',
+      'Music and Art',
+      'Food and Travel',
+      'Science and Technology',
+      'News and Politics',
+      'Miscellaneous'
+    ]
+  },
   created: {
     type: Date,
     default: Date.now

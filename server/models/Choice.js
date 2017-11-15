@@ -5,7 +5,8 @@ const choiceSchema = new mongoose.Schema({
   text: {
     type: String,
     trim: true,
-    required: 'Poll choice must have text'
+    required: 'Poll choice must have text',
+    maxlength: 140
   },
   votes: {
     type: Number,

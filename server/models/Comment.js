@@ -18,16 +18,12 @@ const commentSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    required: 'Your comment must have text!'
+    required: 'Your comment must have text!',
+    maxlength: 500
   }
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
-});
-
-commentSchema.pre('save', async function(next) {
-  this.text = this.text.substring(0, 500); // restrict length of comment
-  next();
 });
 
 // find comments where the poll _id property === comment poll property

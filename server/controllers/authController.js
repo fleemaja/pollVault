@@ -9,7 +9,9 @@ exports.login = function(req, res, next) {
 	// Do username and password validation for the server
 	passport.authenticate("local", function(err, user, info) {
 
-		if(err) return next(err)
+		if(err) {
+			return res.json({ success: false, message: err })
+		}
 		if(!user) {
 			return res.json({ success: false, message: info.message })
 		}

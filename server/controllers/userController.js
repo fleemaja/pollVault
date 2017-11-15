@@ -77,7 +77,7 @@ exports.validateLogin = (req, res, next) => {
   const errors = req.validationErrors();
   if (errors) {
     // req.flash('error', errors.map(err => err.msg));
-    res.status(400).json(errors)
+    res.status(400).json({ success: false, message: errors.join("") })
     return;
   }
   next();

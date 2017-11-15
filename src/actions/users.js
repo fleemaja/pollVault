@@ -53,19 +53,21 @@ export const apiLoginUser = (user) => dispatch => (
   UsersStorage
     .login(user)
     .then(res => {
-        const token = res.data.token;
-        localStorage.setItem('jwtToken', token);
-        setAuthorizationToken(token);
-        dispatch(setCurrentUser(jwtDecode(token)));
-        UsersStorage
-          .getCurrentUserPhoto()
-          .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
-          .catch(error => {
-            if (!error.response) {
-              const msg = { type: "error", text: "Network Error. Check your internet connection" };
-              dispatch(addFlashMessage(msg))
-            }
-          })
+        if (res.data.success) {
+          const token = res.data.token;
+          localStorage.setItem('jwtToken', token);
+          setAuthorizationToken(token);
+          dispatch(setCurrentUser(jwtDecode(token)));
+          UsersStorage
+            .getCurrentUserPhoto()
+            .then(res => dispatch(setCurrentUserPhoto(res.data.photo)))
+            .catch(error => {
+              if (!error.response) {
+                const msg = { type: "error", text: "Network Error. Check your internet connection" };
+                dispatch(addFlashMessage(msg))
+              }
+            })
+        }
         return res;
       }
     )

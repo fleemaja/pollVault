@@ -18,16 +18,12 @@ const replySchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    required: 'Your reply must have text!'
+    required: 'Your reply must have text!',
+    maxlength: 500
   }
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
-});
-
-replySchema.pre('save', async function(next) {
-  this.text = this.text.substring(0, 500); // restrict length of reply
-  next();
 });
 
 replySchema.virtual('votes', {
