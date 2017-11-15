@@ -35,7 +35,11 @@ class Comment extends Component {
   }
 
   displayReplyForm = () => {
-    this.setState({ displayReplyForm: true })
+    if (this.props.auth.isAuthenticated) {
+      this.setState({ displayReplyForm: true })
+    } else {
+      this.props.handleCommentClick();
+    }
   }
 
   hideReplyForm = () => {
@@ -128,6 +132,7 @@ class Comment extends Component {
           </section>
         }
         <Replies
+          handleCommentClick={this.props.handleCommentClick}
           replies={comment.replies}
           commentId={comment.id}
         />

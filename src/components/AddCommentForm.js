@@ -35,7 +35,7 @@ class AddCommentForm extends Component {
   render() {
     const { text } = this.state
     return (
-      <section style={{margin: 20}}>
+      <section style={{margin: 20}} onClick={this.props.handleCommentClick}>
         <form>
           <Avatar />
           <TextField

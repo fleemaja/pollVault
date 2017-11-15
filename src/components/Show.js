@@ -11,12 +11,18 @@ import Poll from './Poll';
 import AppTitle from './AppTitle';
 import FlashMessagesList from './FlashMessagesList';
 import CircularProgress from 'material-ui/CircularProgress';
+import Signup from './Signup';
+import Login from './Login';
+import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
 
 class Show extends Component {
   state = {
     poll: {},
     slug: '',
-    isLoading: true
+    isLoading: true,
+    signupModalOpen: false,
+    loginModalOpen: false
   }
 
   componentWillMount() {
@@ -40,9 +46,41 @@ class Show extends Component {
       })
   }
 
+  handleFormClick = () => {
+    if (!this.props.auth.isAuthenticated) {
+      this.handleSignupOpen();
+    }
+  }
+
+  handleSignupOpen = () =>
+    this.setState({signupModalOpen: true});
+
+  handleSignupClose = () =>
+    this.setState({signupModalOpen: false});
+
+  handleLoginOpen = () =>
+    this.setState({loginModalOpen: true});
+
+  handleLoginClose = () =>
+    this.setState({loginModalOpen: false});
+
   render() {
     const { poll, isLoading } = this.state
     const comments = this.props.comments
+    const signupActions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleSignupClose}
+      />
+    ];
+    const loginActions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleLoginClose}
+      />
+    ];
     return (
       <MuiThemeProvider>
         <AppBar
@@ -60,17 +98,39 @@ class Show extends Component {
               style={{left: 'calc(50% - 90px)', top: 'calc(50% - 26px)', position: 'absolute'}} />
           : <section>
               <Poll poll={poll} />
-              <AddCommentForm parentId={poll.id}/>
-              <Comments comments={comments} />
+              <AddCommentForm
+                handleCommentClick={this.handleFormClick.bind(this)}
+                parentId={poll.id} />
+              <Comments
+                handleCommentClick={this.handleFormClick.bind(this)}
+                comments={comments} />
             </section>
         }
+        <Dialog
+          title="Signup to add polls and comments"
+          actions={signupActions}
+          autoScrollBodyContent={true}
+          modal={true}
+          open={this.state.signupModalOpen}
+        >
+          <Signup handleClose={this.handleSignupClose.bind(this)}/>
+        </Dialog>
+        <Dialog
+          title="Login"
+          actions={loginActions}
+          autoScrollBodyContent={true}
+          modal={true}
+          open={this.state.loginModalOpen}
+        >
+          <Login handleClose={this.handleLoginClose.bind(this)}/>
+        </Dialog>
       </MuiThemeProvider>
     )
   }
 }
 
-function mapStateToProps ({ comments }) {
-  return { comments }
+function mapStateToProps ({ auth, comments }) {
+  return { auth, comments }
 }
 
 function mapDispatchToProps(dispatch) {

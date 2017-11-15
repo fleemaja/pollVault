@@ -39,8 +39,13 @@ class Index extends Component {
     searchQuery: ''
   }
 
-  handleOpen = () =>
-    this.setState({addPollModalOpen: true});
+  handleOpen = () => {
+    if (this.props.auth.isAuthenticated) {
+      this.setState({ addPollModalOpen: true });
+    } else {
+      this.handleSignupOpen();
+    }
+  }
 
   handleClose = () =>
     this.setState({addPollModalOpen: false});
@@ -262,7 +267,7 @@ class Index extends Component {
                        style={{marginLeft: '40px', marginTop: '40px'}}
                       />
                      <Dialog
-                       title="Signup"
+                       title="Signup to add polls and comments"
                        actions={signupActions}
                        autoScrollBodyContent={true}
                        modal={true}

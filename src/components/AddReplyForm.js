@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
+import { letterToHexColor } from '../helpers';
 
 class AddReplyForm extends Component {
   state = {
@@ -41,13 +42,14 @@ class AddReplyForm extends Component {
   render() {
     const { reply } = this.state
     const user = this.props.auth.user;
+    const letter = user.username.charAt(0);
     return (
       <section style={{margin: 20}}>
         <form>
           {
             user.photo ?
-            <Avatar src={`uploads/${user.photo}`} /> :
-            <Avatar>{ user.username.charAt(0) }</Avatar>
+            <Avatar src={`../uploads/${user.photo}`} /> :
+            <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
           }
           <TextField
             value={reply}

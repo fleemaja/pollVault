@@ -33,7 +33,11 @@ class Reply extends Component {
   }
 
   displayReplyForm = () => {
-    this.setState({ displayReplyForm: true })
+    if (this.props.auth.isAuthenticated) {
+      this.setState({ displayReplyForm: true })
+    } else {
+      this.props.handleCommentClick();
+    }
   }
 
   hideReplyForm = () => {

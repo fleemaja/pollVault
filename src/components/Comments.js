@@ -43,7 +43,11 @@ class Comments extends Component {
           {
             comments
               .sort(sortByKey(this.state.sortKey))
-              .map(c => <Comment comment={c} />)
+              .map(c =>
+                <Comment
+                  handleCommentClick={this.props.handleCommentClick}
+                  comment={c} />
+              )
           }
         </section>
       </section>

@@ -38,7 +38,10 @@ class Replies extends Component {
             {
               showReplies &&
               replies.map(r =>
-                <Reply reply={r} commentId={commentId} />
+                <Reply
+                  reply={r}
+                  handleCommentClick={this.props.handleCommentClick}
+                  commentId={commentId} />
               )
             }
           </section>
