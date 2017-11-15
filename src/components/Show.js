@@ -53,13 +53,13 @@ class Show extends Component {
   }
 
   handleSignupOpen = () =>
-    this.setState({signupModalOpen: true});
+    this.setState({signupModalOpen: true, loginModalOpen: false});
 
   handleSignupClose = () =>
     this.setState({signupModalOpen: false});
 
   handleLoginOpen = () =>
-    this.setState({loginModalOpen: true});
+    this.setState({loginModalOpen: true, signupModalOpen: false});
 
   handleLoginClose = () =>
     this.setState({loginModalOpen: false});
@@ -68,6 +68,14 @@ class Show extends Component {
     const { poll, isLoading } = this.state
     const comments = this.props.comments
     const signupActions = [
+      <section style={{display: 'inline', float: 'left'}}>
+        <span>Already signed up?</span>
+        <FlatButton
+          label="Login"
+          primary={true}
+          onClick={this.handleLoginOpen}
+        />
+      </section>,
       <FlatButton
         label="Cancel"
         primary={true}
@@ -75,6 +83,14 @@ class Show extends Component {
       />
     ];
     const loginActions = [
+      <section style={{display: 'inline', float: 'left'}}>
+        <span>No account?</span>
+        <FlatButton
+          label="Signup"
+          primary={true}
+          onClick={this.handleSignupOpen}
+        />
+      </section>,
       <FlatButton
         label="Cancel"
         primary={true}
