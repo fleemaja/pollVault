@@ -25,6 +25,11 @@ const replySchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
+replySchema.pre('save', async function(next) {
+  this.text = this.text.substring(0, 500); // restrict length of reply
+  next();
+});
+
 replySchema.virtual('votes', {
   ref: 'ReplyVote', // what model to link
   localField: '_id', // which field on the poll

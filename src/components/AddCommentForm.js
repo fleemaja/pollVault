@@ -27,7 +27,6 @@ class AddCommentForm extends Component {
     const property = e.target.name;
 
     const updatedState = {}
-    // comment maxlength = 500
     updatedState[property] = newVal;
 
     this.setState(updatedState)

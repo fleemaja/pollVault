@@ -25,6 +25,11 @@ const commentSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
+commentSchema.pre('save', async function(next) {
+  this.text = this.text.substring(0, 500); // restrict length of comment
+  next();
+});
+
 // find comments where the poll _id property === comment poll property
 commentSchema.virtual('replies', {
   ref: 'Reply', // what model to link
