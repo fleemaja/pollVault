@@ -1,5 +1,6 @@
 import {
   RECEIVE_COMMENTS,
+  SORT_COMMENTS,
   ADD_COMMENT,
   ADD_COMMENT_REPLY,
   DELETE_COMMENT,
@@ -9,12 +10,24 @@ import {
   VOTE_COMMENT_REPLY
 } from '../actions/comments';
 
+const getVoteScore = (comment) => (
+  comment.votes.reduce((accumulator, vote) => {
+    return accumulator + (vote.isUpvote ? 1 : -1)
+  }, 0)
+);
+
+const sortByKey = (sortKey) => (a, b) => (
+  (sortKey === 'popular')
+    ? getVoteScore(b) - getVoteScore(a)
+    : (new Date(b.created) - new Date(a.created))
+);
+
 export function comments(state = [], action) {
   switch (action.type) {
     case RECEIVE_COMMENTS :
       return [
         ...action.comments
-      ]
+      ].sort(sortByKey(action.sortType))
     case ADD_COMMENT :
       return [
         action.comment,

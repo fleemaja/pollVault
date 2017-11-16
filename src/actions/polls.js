@@ -46,46 +46,22 @@ export const fetchPolls = (category, searchQuery, sortType) => dispatch => (
   PollsStorage
     .getPolls(category, searchQuery, sortType)
     .then(response => dispatch(receivePolls(response.data.polls)))
-    .catch(error => {
-      if (!error.response) {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
-      }
-    })
 );
 
 export const apiAddPoll = (poll) => dispatch => (
   PollsStorage
     .addPoll(poll)
     .then(res => dispatch(addPoll(res.data.poll)))
-    .catch(error => {
-      if (!error.response) {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
-      }
-    })
 );
 
 export const apiPollDelete = (id) => dispatch => {
   PollsStorage
     .deletePoll(id)
     .then(res => dispatch(pollDelete(res.data.id)))
-    .catch(error => {
-      if (!error.response) {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
-      }
-    })
 };
 
 export const apiVotePoll = (pollId, choiceId) => dispatch => {
   PollsStorage
     .vote(pollId, choiceId)
     .then(res => dispatch(votePoll(res.data.id, res.data.choice)))
-    .catch(error => {
-      if (!error.response) {
-        const msg = { type: "error", text: "Network Error. Check your internet connection" };
-        dispatch(addFlashMessage(msg))
-      }
-    })
 };

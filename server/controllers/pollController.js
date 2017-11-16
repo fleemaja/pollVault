@@ -64,7 +64,7 @@ const getFindQueryOptions = (searchQuery) => {
 }
 
 const sortPollsByVotes = (polls) => (
-  polls.sort((a, b) => a.votes - b.votes)
+  polls.sort((a, b) => b.votes.length - a.votes.length)
 )
 
 const getTrendingScore = (poll) => {

@@ -2,36 +2,31 @@ import React, { Component } from 'react';
 import Comment from './Comment';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { connect } from 'react-redux';
+import { setAndSortComments } from '../actions/comments';
 
 class Comments extends Component {
   state = {
     sortKey: 'popular'
   }
 
-  handleSortKeyChange = (event, index, value) =>
-    this.setState({ sortKey: value });
+  handleSortKeyChange = (event, index, value) => {
+    const { comments } = this.props
+    const sortKey = value
+    this.setState({ sortKey });
+    this.props.setAndSortComments(comments, sortKey)
+  }
 
   render() {
-    const comments = this.props.comments;
-    const getVoteScore = (comment) => (
-      comment.votes.reduce((accumulator, vote) => {
-        return accumulator + (vote.isUpvote ? 1 : -1)
-      }, 0)
-    );
-    const sortByKey = (sortKey) => (a, b) => {
-      if (sortKey === 'popular') {
-        return getVoteScore(b) - getVoteScore(a)
-      } else {
-        return (new Date(b.created) - new Date(a.created));
-      }
-    };
+    const { comments } = this.props;
+    const { sortKey } = this.state;
     return (
       <section>
         <section>
           <h2 style={{margin: 20, display: 'inline-block', verticalAlign: 'middle', color: '#333'}}>{ comments.length } Comments</h2>
           <SelectField
             floatingLabelText="Sort By"
-            value={this.state.sortKey}
+            value={sortKey}
             onChange={this.handleSortKeyChange}
             style={{width: 150, marginLeft: '40px', display: 'inline-block', verticalAlign: 'middle',}}
           >
@@ -42,7 +37,6 @@ class Comments extends Component {
         <section style={style} >
           {
             comments
-              .sort(sortByKey(this.state.sortKey))
               .map(c =>
                 <Comment
                   handleCommentClick={this.props.handleCommentClick}
@@ -63,4 +57,17 @@ const style = {
   display: 'block'
 };
 
-export default Comments;
+function mapStateToProps ({ comments }) {
+  return { comments }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setAndSortComments: (comments, sortType) => dispatch(setAndSortComments(comments, sortType))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Comments);

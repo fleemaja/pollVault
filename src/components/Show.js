@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getPollBySlug } from '../utils/polls';
-import { setComments } from '../actions/comments';
+import { setAndSortComments } from '../actions/comments';
 import { addFlashMessage } from '../actions/flashMessages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
@@ -33,16 +33,11 @@ class Show extends Component {
         const poll = response.data.poll;
         if (poll) {
           this.setState({ poll, isLoading: false })
-          this.props.setComments(poll.comments);
+          this.props.setAndSortComments(poll.comments, 'popular');
         }
       })
       .catch(error => {
-        if (error.response) {
-          this.props.history.push('/404');
-        } else {
-          const msg = { type: "error", text: "Network Error. Check your internet connection" };
-          this.props.addFlashMessage(msg)
-        }
+        this.props.history.push('/404');
       })
   }
 
@@ -66,7 +61,6 @@ class Show extends Component {
 
   render() {
     const { poll, isLoading } = this.state
-    const comments = this.props.comments
     const signupActions = [
       <section style={{display: 'inline', float: 'left'}}>
         <span>Already signed up?</span>
@@ -118,8 +112,7 @@ class Show extends Component {
                 handleCommentClick={this.handleFormClick.bind(this)}
                 parentId={poll.id} />
               <Comments
-                handleCommentClick={this.handleFormClick.bind(this)}
-                comments={comments} />
+                handleCommentClick={this.handleFormClick.bind(this)} />
             </section>
         }
         <Dialog
@@ -145,13 +138,14 @@ class Show extends Component {
   }
 }
 
-function mapStateToProps ({ auth, comments }) {
-  return { auth, comments }
+function mapStateToProps ({ auth }) {
+  return { auth }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setComments: (comments) => dispatch(setComments(comments)),
+    setAndSortComments: (comments, sortType) => 
+      dispatch(setAndSortComments(comments, sortType)),
     addFlashMessage: (msg) => dispatch(addFlashMessage(msg))
   }
 }
