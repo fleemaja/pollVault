@@ -30,19 +30,16 @@ class Polls extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const prevTotalPolls = this.props.polls.length;
     const totalPolls = nextProps.polls.length;
-    if (prevTotalPolls !== totalPolls) {
-      const clientWidth = document.documentElement.clientWidth || window.innerWidth;
-      const clientHeight = document.documentElement.clientHeight || window.innerHeight;
-      const estimatedRows = clientHeight/320;
-      const estimatedCols = clientWidth/320;
-      const currentRenderedPolls = Math.round(estimatedRows * estimatedCols);
-      if (totalPolls > 0) {
-        this.setState({ noResults: false, totalPolls, currentRenderedPolls })
-      } else {
-        this.setState({ noResults: true, totalPolls, currentRenderedPolls: 0 })
-      }
+    const clientWidth = document.documentElement.clientWidth || window.innerWidth;
+    const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+    const estimatedRows = clientHeight/320;
+    const estimatedCols = clientWidth/320;
+    const currentRenderedPolls = Math.round(estimatedRows * estimatedCols);
+    if (totalPolls > 0) {
+      this.setState({ noResults: false, totalPolls, currentRenderedPolls })
+    } else {
+      this.setState({ noResults: true, totalPolls, currentRenderedPolls: 0 })
     }
   }
 
