@@ -80,7 +80,7 @@ class Poll extends Component {
                 poll.choices && poll.choices.map(o =>
                   <RadioButton
                     value={o.id}
-                    label={`${ o.text } - ${ o.votes }`}
+                    label={o.text}
                   />
                 )
               }
@@ -88,6 +88,7 @@ class Poll extends Component {
             <RaisedButton
               label="Vote"
               disabled={choiceId === ''}
+              style={{marginTop: 20}}
               onClick={() => this.makeVote(choiceId)} />
           </section>
         }

@@ -65,6 +65,7 @@ class Login extends Component {
             onChange={this.handleInput.bind(this)}
             hintText="Username"
             floatingLabelText="Username"
+            floatingLabelFixed={true}
             errorText={errors['username']}
             style={{display: 'block'}}
           />
@@ -75,6 +76,7 @@ class Login extends Component {
             onChange={this.handleInput.bind(this)}
             hintText="Password"
             floatingLabelText="Password"
+            floatingLabelFixed={true}
             errorText={errors['password']}
             style={{display: 'block'}}
           />

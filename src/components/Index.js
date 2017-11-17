@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
@@ -24,6 +25,15 @@ import { apiLogoutUser } from '../actions/users';
 import { fetchPolls } from '../actions/polls';
 import { categories, letterToHexColor } from '../helpers';
 import { connect } from 'react-redux';
+import AppTitle from './AppTitle';
+
+const muiTheme = getMuiTheme({
+  fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif',
+  palette: {
+    primary1Color: '#363636',
+    disabledColor: 'rgba(0,0,0,0.74)'
+  }
+});
 
 class Index extends Component {
   state = {
@@ -157,12 +167,12 @@ class Index extends Component {
     ];
     const letter = user.username && user.username.charAt(0);
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
 
         <AppBar
           style={{backgroundColor: '#fff', width: contentWidth, position: 'fixed', top: 0}}
           titleStyle={{color: '#333'}}
-          title="PollVault"
+          title={<AppTitle />}
           showMenuIconButton={false}
           iconElementRight={
             <FlatButton
@@ -191,54 +201,6 @@ class Index extends Component {
                   hintText="Search"
                 />
               </section>
-              <section style={{margin: 20}}>
-                <label for="category" style={{marginTop: '40px'}}>
-                  <p>Category</p>
-                  <RadioButtonGroup
-                    name="category"
-                    id="category"
-                    defaultSelected="all"
-                    onChange={this.handleCategoryChange.bind(this)}>
-                    <RadioButton
-                      value="all"
-                      label="All Categories"
-                    />
-                    {
-                      categories.map(c => (
-                        <RadioButton
-                          label={c}
-                          value={c} />
-                      ))
-                    }
-                  </RadioButtonGroup>
-                </label>
-              </section>
-              <RaisedButton
-                label='+ Add New Poll'
-                primary={true}
-                onClick={this.handleOpen}
-                style={{marginLeft: '40px', marginTop: '40px'}}
-               />
-              <Dialog
-                title="Add New Poll"
-                autoScrollBodyContent={true}
-                actions={actions}
-                modal={true}
-                open={this.state.addPollModalOpen}
-              >
-                <AddPollForm handleClose={this.handleClose.bind(this)}/>
-              </Dialog>
-
-              <SelectField
-                floatingLabelText="Sorting"
-                value={this.state.sortKey}
-                onChange={this.handleSortKeyChange}
-                style={{width: 150, marginLeft: '40px'}}
-              >
-                <MenuItem value='trending' primaryText='Trending' />
-                <MenuItem value='popular' primaryText='Most Votes' />
-                <MenuItem value='recent' primaryText='Most Recent' />
-              </SelectField>
               {
                 auth.isAuthenticated ?
                   <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
@@ -307,6 +269,54 @@ class Index extends Component {
                      </Dialog>
                   </section>
               }
+              <RaisedButton
+                label='+ Add New Poll'
+                primary={true}
+                onClick={this.handleOpen}
+                style={{marginLeft: 20}}
+               />
+              <Dialog
+                title="Add New Poll"
+                autoScrollBodyContent={true}
+                actions={actions}
+                modal={true}
+                open={this.state.addPollModalOpen}
+              >
+                <AddPollForm handleClose={this.handleClose.bind(this)}/>
+              </Dialog>
+              <SelectField
+                floatingLabelText="Sorting"
+                floatingLabelFixed={true}
+                value={this.state.sortKey}
+                onChange={this.handleSortKeyChange}
+                style={{width: 150, marginLeft: '20px'}}
+              >
+                <MenuItem value='trending' primaryText='Trending' />
+                <MenuItem value='popular' primaryText='Most Votes' />
+                <MenuItem value='recent' primaryText='Most Recent' />
+              </SelectField>
+              <section style={{margin: 20}}>
+                <label for="category" style={{marginTop: '40px'}}>
+                  <p>Category</p>
+                  <RadioButtonGroup
+                    name="category"
+                    id="category"
+                    defaultSelected="all"
+                    onChange={this.handleCategoryChange.bind(this)}>
+                    <RadioButton
+                      value="all"
+                      label="All Categories"
+                    />
+                    {
+                      categories.map(c => (
+                        <RadioButton
+                          label={c}
+                          value={c} />
+                      ))
+                    }
+                  </RadioButtonGroup>
+                </label>
+              </section>
             </Drawer>
           </section>
         </section>

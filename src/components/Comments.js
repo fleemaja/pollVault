@@ -26,6 +26,7 @@ class Comments extends Component {
           <h2 style={{margin: 20, display: 'inline-block', verticalAlign: 'middle', color: '#333'}}>{ comments.length } Comments</h2>
           <SelectField
             floatingLabelText="Sort By"
+            floatingLabelFixed={true}
             value={sortKey}
             onChange={this.handleSortKeyChange}
             style={{width: 150, marginLeft: '40px', display: 'inline-block', verticalAlign: 'middle',}}

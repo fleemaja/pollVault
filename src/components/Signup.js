@@ -80,6 +80,7 @@ class Signup extends Component {
             onChange={this.handleInput.bind(this)}
             hintText="Username"
             floatingLabelText="Username"
+            floatingLabelFixed={true}
             errorText={errors['username']}
             style={{display: 'block'}}
           />
@@ -90,6 +91,7 @@ class Signup extends Component {
             onChange={this.handleInput.bind(this)}
             hintText="Email"
             floatingLabelText="Email"
+            floatingLabelFixed={true}
             errorText={errors['email']}
             style={{display: 'block'}}
           />
@@ -100,6 +102,7 @@ class Signup extends Component {
             onChange={this.handleInput.bind(this)}
             hintText="Password"
             floatingLabelText="Password"
+            floatingLabelFixed={true}
             errorText={errors['password']}
             style={{display: 'block'}}
           />
@@ -110,6 +113,7 @@ class Signup extends Component {
             onChange={this.handleInput.bind(this)}
             hintText="Password Confirmation"
             floatingLabelText="Password Confirmation"
+            floatingLabelFixed={true}
             errorText={errors['passwordConfirmation']}
             style={{display: 'block'}}
           />

@@ -100,13 +100,15 @@ class AddPollForm extends Component {
             name="title"
             onChange={this.handleInput.bind(this)}
             maxLength={140}
-            hintText="Poll Title"
             floatingLabelText="Poll Title"
+            floatingLabelFixed={true}
+            underlineStyle={{borderColor: '#363636'}}
             errorText={errors['title']}
             style={{display: 'block'}}
           />
           <SelectField
             floatingLabelText="Category"
+            floatingLabelFixed={true}
             value={category}
             name="category"
             errorText={errors['category']}
@@ -130,6 +132,7 @@ class AddPollForm extends Component {
                       hintText={'Poll requires at least two choices'}
                       errorText={errors['choices'] && errors['choices'][choiceNum - 1]}
                       floatingLabelText={`Choice ${choiceNum}`}
+                      floatingLabelFixed={true}
                     />)
               })
             }
