@@ -85,7 +85,7 @@ class Comment extends Component {
               <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
           )
         }
-        <strong>{ comment.author.username }</strong>
+        <strong style={{marginLeft: 10}}>{ comment.author.username }</strong>
         <span style={{marginLeft: 10}}>{ timeAgo }</span>
         <p>{ comment.text }</p>
         <strong>{ voteScore }</strong>

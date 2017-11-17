@@ -4,6 +4,7 @@ import { setAndSortComments } from '../actions/comments';
 import { addFlashMessage } from '../actions/flashMessages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm';
@@ -115,13 +116,17 @@ class Show extends Component {
               size={180}
               thickness={15}
               style={{left: 'calc(50% - 90px)', top: 'calc(50% - 26px)', position: 'absolute'}} />
-          : <section>
-              <Poll poll={poll} />
-              <AddCommentForm
-                handleCommentClick={this.handleFormClick.bind(this)}
-                parentId={poll.id} />
-              <Comments
-                handleCommentClick={this.handleFormClick.bind(this)} />
+          : <section style={{maxWidth: 900, margin: '0 auto'}}>
+              <section style={{marginLeft: 'calc(50% - 150px)', paddingTop: 40}}>
+                <Poll poll={poll} />
+              </section>
+              <Paper style={{paddingTop: 20}} zIndex={2}>
+                <AddCommentForm
+                  handleCommentClick={this.handleFormClick.bind(this)}
+                  parentId={poll.id} />
+                <Comments
+                  handleCommentClick={this.handleFormClick.bind(this)} />
+              </Paper>
             </section>
         }
         <Dialog

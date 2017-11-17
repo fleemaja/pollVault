@@ -6,6 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import RightArrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import ArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import Search from 'material-ui/svg-icons/action/search';
 import Polls from './Polls';
 import Dialog from 'material-ui/Dialog';
@@ -202,7 +203,7 @@ class Index extends Component {
                   hintText="Search"
                 />
               </section>
-              <section style={{margin: '20px 0'}}>
+              <section style={{margin: '20px 0 20px 20px'}}>
                 {
                   auth.isAuthenticated ?
                     <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
@@ -211,8 +212,11 @@ class Index extends Component {
                         <Avatar src={`uploads/${user.photo}`} /> :
                         <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
                       }
-                      <span>
-                        Logged in as <strong>{ user.username }</strong>
+                      <span style={{marginLeft: 5}}>
+                        <strong>
+                          { user.username }
+                        </strong>
+                        <ArrowDown style={{verticalAlign: 'middle', display: 'inline-block'}}/>
                       </span>
                       <Popover
                         open={this.state.userMenuOpen}
@@ -244,7 +248,6 @@ class Index extends Component {
                        <RaisedButton
                          label='Signup'
                          onClick={this.handleSignupOpen}
-                         style={{marginLeft: '20px'}}
                         />
                        <Dialog
                          title="Signup to add polls and comments"
@@ -290,6 +293,7 @@ class Index extends Component {
               <SelectField
                 floatingLabelText="Sorting"
                 floatingLabelFixed={true}
+                underlineStyle={{borderColor: '#363636'}}
                 value={this.state.sortKey}
                 onChange={this.handleSortKeyChange}
                 style={{width: 150, marginLeft: '20px'}}
@@ -300,7 +304,7 @@ class Index extends Component {
               </SelectField>
               <section style={{margin: 20}}>
                 <label for="category" style={{marginTop: '40px'}}>
-                  <p>Category</p>
+                  <p style={{color: 'rgba(0, 0, 0, 0.74)'}}>Category</p>
                   <RadioButtonGroup
                     name="category"
                     id="category"
