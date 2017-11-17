@@ -31,6 +31,7 @@ const muiTheme = getMuiTheme({
   fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif',
   palette: {
     primary1Color: '#363636',
+    textColor: '#363636',
     disabledColor: 'rgba(0,0,0,0.74)'
   }
 });
@@ -171,7 +172,6 @@ class Index extends Component {
 
         <AppBar
           style={{backgroundColor: '#fff', width: contentWidth, position: 'fixed', top: 0}}
-          titleStyle={{color: '#333'}}
           title={<AppTitle />}
           showMenuIconButton={false}
           iconElementRight={
@@ -242,7 +242,7 @@ class Index extends Component {
                      <RaisedButton
                        label='Signup'
                        onClick={this.handleSignupOpen}
-                       style={{marginLeft: '40px', marginTop: '40px'}}
+                       style={{marginLeft: '20px'}}
                       />
                      <Dialog
                        title="Signup to add polls and comments"
@@ -256,7 +256,7 @@ class Index extends Component {
                      <RaisedButton
                        label='Login'
                        onClick={this.handleLoginOpen}
-                       style={{marginLeft: '40px', marginTop: '40px'}}
+                       style={{marginLeft: '10px'}}
                       />
                      <Dialog
                        title="Login"

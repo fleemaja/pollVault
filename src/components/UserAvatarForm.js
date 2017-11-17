@@ -3,6 +3,7 @@ import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import { apiUpdateUserAvatar } from '../actions/users';
 import { connect } from 'react-redux';
+import { letterToHexColor } from '../helpers';
 
 class UserAvatarForm extends Component {
   state = {
@@ -39,15 +40,18 @@ class UserAvatarForm extends Component {
   render() {
     const user = this.props.auth.user
     const userPhoto = user.photo
+    const letter = user.username.charAt(0);
     const { imagePreviewUrl } = this.state
     return (
       <form>
         {
           imagePreviewUrl ?
           <Avatar src={imagePreviewUrl} /> :
-            (userPhoto ?
-              <Avatar src={`../uploads/${userPhoto}`} /> :
-              <Avatar>{ user.username.charAt(0) }</Avatar>)
+            (
+              userPhoto
+                ? <Avatar src={`../uploads/${userPhoto}`} />
+                : <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+            )
         }
         <label for="photo">
           <span>Choose Photo</span>

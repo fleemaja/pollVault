@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
+import { letterToHexColor } from '../helpers';
 
 class AddCommentForm extends Component {
   state = {
@@ -34,17 +35,31 @@ class AddCommentForm extends Component {
 
   render() {
     const { text } = this.state
+    const { auth } = this.props
+    const author = auth.user
+    const letter = author.username && author.username.charAt(0);
     return (
-      <section style={{margin: 20}} onClick={this.props.handleCommentClick}>
+      <section style={{margin: 20, maxWidth: 900}} onClick={this.props.handleCommentClick}>
         <form>
-          <Avatar />
+          {
+            auth.isAuthenticated
+            ? (
+                author.photo ?
+                  <Avatar src={`../uploads/${author.photo}`} /> :
+                  <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>
+                    { letter }
+                  </Avatar>
+              )
+            : <Avatar />
+          }
           <TextField
             value={text}
             name='text'
             maxLength={500}
+            fullWidth={true}
             onChange={this.handleInput.bind(this)}
             hintText="Add A Public Comment"
-            style={{display: 'block'}}
+            style={{display: 'inline-block'}}
           />
           <RaisedButton
             label="Submit"
@@ -56,6 +71,10 @@ class AddCommentForm extends Component {
   }
 }
 
+function mapStateToProps ({ auth }) {
+  return { auth }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     addComment: (parentId, comment) =>
@@ -64,6 +83,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AddCommentForm);

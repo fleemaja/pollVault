@@ -7,7 +7,10 @@ class AppTitle extends Component {
     return (
       <section>
         <Link to="/">
-          <span style={{fontSize: 30}}>PollVault</span>
+          <span style={{fontSize: 30, color: 'rgba(0,0,0,0.64)'}}>
+            <strong>Poll</strong>
+            <span>Vault</span>
+          </span>
           <Logo />
         </Link>
       </section>

@@ -9,7 +9,6 @@ class NotFound extends Component {
       <MuiThemeProvider>
         <AppBar
           style={{backgroundColor: '#fff'}}
-          titleStyle={{color: '#333'}}
           title={<AppTitle />}
           showMenuIconButton={false}
         />

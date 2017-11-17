@@ -3,6 +3,7 @@ import { getPollBySlug } from '../utils/polls';
 import { setAndSortComments } from '../actions/comments';
 import { addFlashMessage } from '../actions/flashMessages';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { connect } from 'react-redux';
 import Comments from './Comments';
 import AddCommentForm from './AddCommentForm';
@@ -15,6 +16,15 @@ import Signup from './Signup';
 import Login from './Login';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
+
+const muiTheme = getMuiTheme({
+  fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif',
+  palette: {
+    primary1Color: '#363636',
+    textColor: '#363636',
+    disabledColor: 'rgba(0,0,0,0.74)'
+  }
+});
 
 class Show extends Component {
   state = {
@@ -92,10 +102,9 @@ class Show extends Component {
       />
     ];
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <AppBar
           style={{backgroundColor: '#fff'}}
-          titleStyle={{color: '#333'}}
           title={<AppTitle />}
           showMenuIconButton={false}
         />
@@ -144,7 +153,7 @@ function mapStateToProps ({ auth }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setAndSortComments: (comments, sortType) => 
+    setAndSortComments: (comments, sortType) =>
       dispatch(setAndSortComments(comments, sortType)),
     addFlashMessage: (msg) => dispatch(addFlashMessage(msg))
   }
