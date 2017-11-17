@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CheckMark from 'material-ui/svg-icons/maps/beenhere';
 
 class Results extends Component {
   render() {
@@ -12,10 +13,15 @@ class Results extends Component {
         {
           choices.map(c => {
             const isUserVote = ipVote === c.id;
-            const backgroundColor = isUserVote ? '#c0f8ff' : '#ddd';
+            const backgroundColor = isUserVote ? '#cdebf9' : '#ddd';
             const percentOfVote = `${Math.round(c.votes/totalVotes * 100)}%`;
             return (
               <section style={{...style, width: percentOfVote, backgroundColor }}>
+                {
+                  isUserVote &&
+                  <CheckMark
+                    style={{verticalAlign: 'middle', display: 'inline-block'}} />
+                 }
                 <span style={{marginLeft: 5}}>{ c.text } - { percentOfVote }</span>
               </section>
             )

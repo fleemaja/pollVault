@@ -55,6 +55,7 @@ class Poll extends Component {
     const time = Moment(`${poll.created}`).format("x");
     const timeAgo = Moment(time, "x").fromNow();
     const letter = author && author.username.charAt(0);
+    const numVotes = poll.votes.length;
     return (
       <Paper style={style} zDepth={1} >
         {
@@ -112,6 +113,17 @@ class Poll extends Component {
             </Dialog>
           </section>
         }
+        <section style={{color: 'rgba(0, 0, 0, 0.64)', fontSize: 12, marginTop: 20}}>
+          <span>
+            { `${numVotes} ${numVotes === 1 ? 'vote' : 'votes'}` }
+          </span>
+          <span style={{margin: '0 10px'}}>
+            { '-' }
+          </span>
+          <span>
+            { poll.category }
+          </span>
+        </section>
       </Paper>
     )
   }
