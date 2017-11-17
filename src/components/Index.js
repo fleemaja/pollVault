@@ -192,83 +192,86 @@ class Index extends Component {
 
           <section>
             <Drawer open={this.state.drawerOpen} openSecondary={true}>
-              <section style={{position: 'relative', display: 'inline-block', marginTop: 25}}>
-               <Search style={{position: 'absolute', left: 0, top: 15, width: 20, height: 20}}/>
+              <section style={{position: 'relative', display: 'inline-block', padding: '8px 0', borderBottom: '1px solid #ddd'}}>
+               <Search style={{position: 'absolute', left: 20, top: 22, width: 20, height: 20}}/>
                <TextField
-                  style={{textIndent: 30}}
+                  style={{textIndent: 50}}
                   value={searchQuery}
+                  underlineShow={false}
                   onChange={this.handleSearchQueryChange.bind(this)}
                   hintText="Search"
                 />
               </section>
-              {
-                auth.isAuthenticated ?
-                  <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
-                    {
-                      user.photo ?
-                      <Avatar src={`uploads/${user.photo}`} /> :
-                      <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
-                    }
-                    <span>
-                      Logged in as <strong>{ user.username }</strong>
-                    </span>
-                    <Popover
-                      open={this.state.userMenuOpen}
-                      anchorEl={this.state.anchorEl}
-                      anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-                      targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                      onRequestClose={this.handleUserMenuClose}
-                    >
-                      <Menu>
-                        <MenuItem
-                          onClick={this.handleUserAvatarOpen}
-                          primaryText="Change Avatar" />
-                        <MenuItem
-                          onClick={() => this.props.logoutUser()}
-                          primaryText="Logout" />
-                      </Menu>
-                    </Popover>
-                    <Dialog
-                      title="Change User Avatar"
-                      actions={avatarActions}
-                      autoScrollBodyContent={true}
-                      modal={true}
-                      open={this.state.userAvatarModalOpen}
-                    >
-                      <UserAvatarForm handleClose={this.handleUserAvatarClose.bind(this)}/>
-                    </Dialog>
-                   </section> :
-                   <section>
-                     <RaisedButton
-                       label='Signup'
-                       onClick={this.handleSignupOpen}
-                       style={{marginLeft: '20px'}}
-                      />
-                     <Dialog
-                       title="Signup to add polls and comments"
-                       actions={signupActions}
-                       autoScrollBodyContent={true}
-                       modal={true}
-                       open={this.state.signupModalOpen}
-                     >
-                       <Signup handleClose={this.handleSignupClose.bind(this)}/>
-                     </Dialog>
-                     <RaisedButton
-                       label='Login'
-                       onClick={this.handleLoginOpen}
-                       style={{marginLeft: '10px'}}
-                      />
-                     <Dialog
-                       title="Login"
-                       actions={loginActions}
-                       autoScrollBodyContent={true}
-                       modal={true}
-                       open={this.state.loginModalOpen}
-                     >
-                       <Login handleClose={this.handleLoginClose.bind(this)}/>
-                     </Dialog>
-                  </section>
-              }
+              <section style={{margin: '20px 0'}}>
+                {
+                  auth.isAuthenticated ?
+                    <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
+                      {
+                        user.photo ?
+                        <Avatar src={`uploads/${user.photo}`} /> :
+                        <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+                      }
+                      <span>
+                        Logged in as <strong>{ user.username }</strong>
+                      </span>
+                      <Popover
+                        open={this.state.userMenuOpen}
+                        anchorEl={this.state.anchorEl}
+                        anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                        onRequestClose={this.handleUserMenuClose}
+                      >
+                        <Menu>
+                          <MenuItem
+                            onClick={this.handleUserAvatarOpen}
+                            primaryText="Change Avatar" />
+                          <MenuItem
+                            onClick={() => this.props.logoutUser()}
+                            primaryText="Logout" />
+                        </Menu>
+                      </Popover>
+                      <Dialog
+                        title="Change User Avatar"
+                        actions={avatarActions}
+                        autoScrollBodyContent={true}
+                        modal={true}
+                        open={this.state.userAvatarModalOpen}
+                      >
+                        <UserAvatarForm handleClose={this.handleUserAvatarClose.bind(this)}/>
+                      </Dialog>
+                     </section> :
+                     <section>
+                       <RaisedButton
+                         label='Signup'
+                         onClick={this.handleSignupOpen}
+                         style={{marginLeft: '20px'}}
+                        />
+                       <Dialog
+                         title="Signup to add polls and comments"
+                         actions={signupActions}
+                         autoScrollBodyContent={true}
+                         modal={true}
+                         open={this.state.signupModalOpen}
+                       >
+                         <Signup handleClose={this.handleSignupClose.bind(this)}/>
+                       </Dialog>
+                       <RaisedButton
+                         label='Login'
+                         onClick={this.handleLoginOpen}
+                         style={{marginLeft: '10px'}}
+                        />
+                       <Dialog
+                         title="Login"
+                         actions={loginActions}
+                         autoScrollBodyContent={true}
+                         modal={true}
+                         open={this.state.loginModalOpen}
+                       >
+                         <Login handleClose={this.handleLoginClose.bind(this)}/>
+                       </Dialog>
+                    </section>
+                }
+              </section>
               <RaisedButton
                 label='+ Add New Poll'
                 primary={true}
