@@ -27,6 +27,7 @@ class Comments extends Component {
           <SelectField
             floatingLabelText="Sort By"
             floatingLabelFixed={true}
+            underlineStyle={{borderColor: '#363636'}}
             value={sortKey}
             onChange={this.handleSortKeyChange}
             style={{width: 150, marginLeft: '40px', display: 'inline-block', verticalAlign: 'middle',}}

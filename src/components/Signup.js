@@ -78,7 +78,6 @@ class Signup extends Component {
             name='username'
             maxLength={64}
             onChange={this.handleInput.bind(this)}
-            hintText="Username"
             floatingLabelText="Username"
             floatingLabelFixed={true}
             errorText={errors['username']}
@@ -89,7 +88,6 @@ class Signup extends Component {
             name='email'
             maxLength={254}
             onChange={this.handleInput.bind(this)}
-            hintText="Email"
             floatingLabelText="Email"
             floatingLabelFixed={true}
             errorText={errors['email']}
@@ -100,7 +98,6 @@ class Signup extends Component {
             value={password}
             name='password'
             onChange={this.handleInput.bind(this)}
-            hintText="Password"
             floatingLabelText="Password"
             floatingLabelFixed={true}
             errorText={errors['password']}
@@ -111,7 +108,6 @@ class Signup extends Component {
             value={passwordConfirmation}
             name='passwordConfirmation'
             onChange={this.handleInput.bind(this)}
-            hintText="Password Confirmation"
             floatingLabelText="Password Confirmation"
             floatingLabelFixed={true}
             errorText={errors['passwordConfirmation']}

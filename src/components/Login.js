@@ -63,7 +63,6 @@ class Login extends Component {
             value={username}
             name='username'
             onChange={this.handleInput.bind(this)}
-            hintText="Username"
             floatingLabelText="Username"
             floatingLabelFixed={true}
             errorText={errors['username']}
@@ -74,7 +73,6 @@ class Login extends Component {
             value={password}
             name='password'
             onChange={this.handleInput.bind(this)}
-            hintText="Password"
             floatingLabelText="Password"
             floatingLabelFixed={true}
             errorText={errors['password']}

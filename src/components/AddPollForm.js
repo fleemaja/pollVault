@@ -102,7 +102,6 @@ class AddPollForm extends Component {
             maxLength={140}
             floatingLabelText="Poll Title"
             floatingLabelFixed={true}
-            underlineStyle={{borderColor: '#363636'}}
             errorText={errors['title']}
             style={{display: 'block'}}
           />
@@ -129,9 +128,8 @@ class AddPollForm extends Component {
                       name={i['name']}
                       maxLength={140}
                       onChange={this.handleOptionInput.bind(this)}
-                      hintText={'Poll requires at least two choices'}
                       errorText={errors['choices'] && errors['choices'][choiceNum - 1]}
-                      floatingLabelText={`Choice ${choiceNum}`}
+                      floatingLabelText={`Choice ${choiceNum} ${choiceNum > 2 ? "(optional)" : ""}`}
                       floatingLabelFixed={true}
                     />)
               })
