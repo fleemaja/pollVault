@@ -11,18 +11,26 @@ import Moment from 'moment';
 import AddReplyForm from './AddReplyForm';
 import DeleteReplyConfirmation from './DeleteReplyConfirmation';
 import { letterToHexColor } from '../helpers';
+import IconButton from 'material-ui/IconButton';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import Cancel from 'material-ui/svg-icons/navigation/cancel';
 
 class Reply extends Component {
   state = {
+    deleteMenuOpen: false,
+    anchorEl: null,
     deleteReplyModalOpen: false,
     displayReplyForm: false
   }
 
-  handleOpen = () => {
+  handleDeleteModalOpen = () => {
+    this.handleDeleteMenuClose();
     this.setState({ deleteReplyModalOpen: true });
   };
 
-  handleClose = () => {
+  handleDeleteModalClose = () => {
     this.setState({ deleteReplyModalOpen: false });
   };
 
@@ -44,6 +52,16 @@ class Reply extends Component {
     this.setState({ displayReplyForm: false })
   }
 
+  handleDeleteMenuOpen = (e) => {
+    this.setState({
+      deleteMenuOpen: true,
+      anchorEl: e.currentTarget,
+    });
+  };
+
+  handleDeleteMenuClose = () =>
+    this.setState({deleteMenuOpen: false});
+
   render() {
     const { reply, auth } = this.props;
     const { displayReplyForm } = this.state;
@@ -60,7 +78,7 @@ class Reply extends Component {
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleDeleteModalClose}
       />
     ];
     let userVoted = false;
@@ -77,29 +95,37 @@ class Reply extends Component {
     const letter = author.username.charAt(0);
     return (
       <section>
-        {
-          author && (
-            author.photo ?
-              <Avatar size={30} src={`../uploads/${author.photo}`} /> :
-              <Avatar size={30} style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
-          )
-        }
-        <strong style={{margin: '0 10px'}} >{ author.username }</strong>
-        <span>{ timeAgo }</span>
+        <section>
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+            {
+              author && (
+                author.photo ?
+                  <Avatar size={30} src={`../uploads/${author.photo}`} /> :
+                  <Avatar size={30} style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+              )
+            }
+          </section>
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+            <strong style={{margin: '0 10px'}} >{ author.username }</strong>
+            <span>{ timeAgo }</span>
+          </section>
+        </section>
         <p>{ reply.text }</p>
         <strong>{ voteScore }</strong>
-        <FlatButton
-          title='Upvote'
-          icon={<Like />}
-          style={{ opacity: userVoteIsUpvote ? 1 : 0.5 }}
-          onClick={() => this.vote(true)}
-         />
-         <FlatButton
-           title='Downvote'
-           icon={<Dislike />}
-           style={{ opacity: (userVoted && !userVoteIsUpvote) ? 1 : 0.5 }}
-           onClick={() => this.vote(false)}
-          />
+        <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+          <IconButton
+            tooltip="Like"
+            iconStyle={{ opacity: userVoteIsUpvote ? 1 : 0.5 }}
+            onClick={() => this.vote(true)} >
+            <Like />
+          </IconButton>
+          <IconButton
+            tooltip="Dislike"
+            iconStyle={{ opacity: (userVoted && !userVoteIsUpvote) ? 1 : 0.5 }}
+            onClick={() => this.vote(false)} >
+            <Dislike />
+          </IconButton>
+        </section>
         <FlatButton
           title="Reply"
           label="Reply"
@@ -113,11 +139,25 @@ class Reply extends Component {
         }
         {
           isOwnedByUser &&
-          <section>
-            <RaisedButton
-              label='Delete'
-              onClick={this.handleOpen}
-             />
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+            <IconButton
+              tooltip="Delete Reply?"
+              onClick={this.handleDeleteMenuOpen}>
+              <Cancel />
+            </IconButton>
+            <Popover
+              open={this.state.deleteMenuOpen}
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              onRequestClose={this.handleDeleteMenuClose}
+            >
+              <Menu>
+                <MenuItem
+                  onClick={this.handleDeleteModalOpen}
+                  primaryText="Delete Reply?" />
+              </Menu>
+            </Popover>
             <Dialog
               title="Delete Reply?"
               actions={actions}
@@ -127,7 +167,7 @@ class Reply extends Component {
               <DeleteReplyConfirmation
                 reply={reply}
                 commentId={this.props.commentId}
-                handleClose={this.handleClose.bind(this)} />
+                handleClose={this.handleDeleteModalClose.bind(this)} />
             </Dialog>
           </section>
         }

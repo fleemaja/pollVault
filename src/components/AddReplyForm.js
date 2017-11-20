@@ -48,8 +48,8 @@ class AddReplyForm extends Component {
         <form>
           {
             user.photo ?
-            <Avatar src={`../uploads/${user.photo}`} /> :
-            <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+            <Avatar size={30} src={`../uploads/${user.photo}`} /> :
+            <Avatar size={30} style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
           }
           <TextField
             value={reply}
@@ -57,13 +57,16 @@ class AddReplyForm extends Component {
             maxLength={500}
             onChange={this.handleInput.bind(this)}
             hintText="Add a Public Reply"
-            style={{display: 'block'}}
+            style={{display: 'inline-block', width: 'calc(100% - 60px)', marginLeft: 10}}
           />
-          <FlatButton label="Cancel" onClick={this.handleCancel.bind(this)} />
-          <RaisedButton
-            label="Submit"
-            disabled={reply === ''}
-            onClick={this.handleSubmit.bind(this)} />
+          <section style={{display: 'block', float: 'right'}}>
+            <FlatButton label="Cancel" onClick={this.handleCancel.bind(this)} />
+            <RaisedButton
+              label="Reply"
+              disabled={reply === ''}
+              primary={true}
+              onClick={this.handleSubmit.bind(this)} />
+          </section>
         </form>
       </section>
     )

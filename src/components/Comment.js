@@ -7,24 +7,32 @@ import Dialog from 'material-ui/Dialog';
 import DeleteCommentConfirmation from './DeleteCommentConfirmation';
 import Like from 'material-ui/svg-icons/action/thumb-up';
 import Dislike from 'material-ui/svg-icons/action/thumb-down';
+import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
 import Moment from 'moment';
 import AddReplyForm from './AddReplyForm';
 import Replies from './Replies';
 import { letterToHexColor } from '../helpers';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import Cancel from 'material-ui/svg-icons/navigation/cancel';
 
 class Comment extends Component {
 
   state = {
+    deleteMenuOpen: false,
+    anchorEl: null,
     deleteCommentModalOpen: false,
     displayReplyForm: false
   }
 
-  handleOpen = () => {
+  handleDeleteModalOpen = () => {
+    this.handleDeleteMenuClose();
     this.setState({deleteCommentModalOpen: true});
   };
 
-  handleClose = () => {
+  handleDeleteModalClose = () => {
     this.setState({deleteCommentModalOpen: false});
   };
 
@@ -46,6 +54,16 @@ class Comment extends Component {
     this.setState({ displayReplyForm: false })
   }
 
+  handleDeleteMenuOpen = (e) => {
+    this.setState({
+      deleteMenuOpen: true,
+      anchorEl: e.currentTarget,
+    });
+  };
+
+  handleDeleteMenuClose = () =>
+    this.setState({deleteMenuOpen: false});
+
   render() {
     const { comment, auth } = this.props;
     const { displayReplyForm } = this.state;
@@ -57,7 +75,7 @@ class Comment extends Component {
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleDeleteModalClose}
       />
     ];
     const voteScore = comment.votes.reduce((accumulator, currentVote) => {
@@ -78,29 +96,37 @@ class Comment extends Component {
     const letter = author.username.charAt(0);
     return (
       <section style={{textAlign: 'left', marginBottom: 20}}>
-        {
-          author && (
-            author.photo ?
-              <Avatar src={`../uploads/${author.photo}`} /> :
-              <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
-          )
-        }
-        <strong style={{marginLeft: 10}}>{ comment.author.username }</strong>
-        <span style={{marginLeft: 10}}>{ timeAgo }</span>
+        <section>
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+            {
+              author && (
+                author.photo ?
+                  <Avatar src={`../uploads/${author.photo}`} /> :
+                  <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+              )
+            }
+          </section>
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+            <strong style={{marginLeft: 10}}>{ comment.author.username }</strong>
+            <span style={{marginLeft: 10}}>{ timeAgo }</span>
+          </section>
+        </section>
         <p>{ comment.text }</p>
         <strong>{ voteScore }</strong>
-        <FlatButton
-          title='Upvote'
-          icon={<Like />}
-          style={{ opacity: userVoteIsUpvote ? 1 : 0.5 }}
-          onClick={() => this.vote(true)}
-         />
-         <FlatButton
-           title='Downvote'
-           icon={<Dislike />}
-           style={{ opacity: (userVoted && !userVoteIsUpvote) ? 1 : 0.5 }}
-           onClick={() => this.vote(false)}
-          />
+        <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+          <IconButton
+            tooltip="Like"
+            iconStyle={{ opacity: userVoteIsUpvote ? 1 : 0.5 }}
+            onClick={() => this.vote(true)} >
+            <Like />
+          </IconButton>
+          <IconButton
+            tooltip="Dislike"
+            iconStyle={{ opacity: (userVoted && !userVoteIsUpvote) ? 1 : 0.5 }}
+            onClick={() => this.vote(false)} >
+            <Dislike />
+          </IconButton>
+        </section>
         <FlatButton
           title="Reply"
           label="Reply"
@@ -114,11 +140,25 @@ class Comment extends Component {
         }
         {
           isOwnedByUser &&
-          <section>
-            <RaisedButton
-              label='Delete'
-              onClick={this.handleOpen}
-             />
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+            <IconButton
+              tooltip="Delete Comment?"
+              onClick={this.handleDeleteMenuOpen}>
+              <Cancel />
+            </IconButton>
+            <Popover
+              open={this.state.deleteMenuOpen}
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              onRequestClose={this.handleDeleteMenuClose}
+            >
+              <Menu>
+                <MenuItem
+                  onClick={this.handleDeleteModalOpen}
+                  primaryText="Delete Comment?" />
+              </Menu>
+            </Popover>
             <Dialog
               title="Delete Comment?"
               actions={actions}
@@ -127,7 +167,7 @@ class Comment extends Component {
             >
               <DeleteCommentConfirmation
                 comment={comment}
-                handleClose={this.handleClose.bind(this)} />
+                handleClose={this.handleDeleteModalClose.bind(this)} />
             </Dialog>
           </section>
         }

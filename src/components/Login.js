@@ -81,6 +81,7 @@ class Login extends Component {
           <RaisedButton
             style={{marginTop: 40}}
             disabled={this.state.isLoading || !validForm}
+            primary={true}
             label="Submit"
             onClick={this.handleSubmit.bind(this)} />
         </form>

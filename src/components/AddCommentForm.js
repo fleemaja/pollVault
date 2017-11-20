@@ -56,13 +56,14 @@ class AddCommentForm extends Component {
             value={text}
             name='text'
             maxLength={500}
-            fullWidth={true}
             onChange={this.handleInput.bind(this)}
             hintText="Add A Public Comment"
-            style={{display: 'inline-block'}}
+            style={{display: 'inline-block', width: 'calc(100% - 50px)', marginLeft: 10}}
           />
           <RaisedButton
-            label="Submit"
+            label="Comment"
+            style={{float: 'right'}}
+            primary={true}
             disabled={text === ''}
             onClick={this.handleSubmit.bind(this)} />
         </form>

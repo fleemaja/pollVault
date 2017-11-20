@@ -27,6 +27,7 @@ import { fetchPolls } from '../actions/polls';
 import { categories, letterToHexColor } from '../helpers';
 import { connect } from 'react-redux';
 import AppTitle from './AppTitle';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const muiTheme = getMuiTheme({
   fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif',
@@ -92,7 +93,7 @@ class Index extends Component {
     const { searchQuery, category } = this.state;
 
     this.setState({ sortKey });
-    this.props.fetchPolls(category, searchQuery, sortKey);
+    this.props.fetchPolls(category, searchQuery, sortKey)
   }
 
   handleCategoryChange = (e) => {
@@ -100,7 +101,7 @@ class Index extends Component {
     const { searchQuery, sortKey } = this.state;
 
     this.setState({ category });
-    this.props.fetchPolls(category, searchQuery, sortKey);
+    this.props.fetchPolls(category, searchQuery, sortKey)
   }
 
   handleSearchQueryChange = (e) => {
@@ -108,7 +109,7 @@ class Index extends Component {
     const { category, sortKey } = this.state;
 
     this.setState({ searchQuery });
-    this.props.fetchPolls(category, searchQuery, sortKey);
+    this.props.fetchPolls(category, searchQuery, sortKey)
   }
 
   handleUserMenuTap = (e) => {
@@ -121,8 +122,8 @@ class Index extends Component {
   render() {
     const auth = this.props.auth
     const user = auth.user
-    const searchQuery = this.state.searchQuery
-    const contentWidth = this.state.drawerOpen ? 'calc(100% - 256px)' : '100%';
+    const { searchQuery, drawerOpen } = this.state
+    const contentWidth = drawerOpen ? 'calc(100% - 256px)' : '100%';
     const actions = [
       <FlatButton
         label="Cancel"
@@ -184,13 +185,11 @@ class Index extends Component {
         />
         <section style={{marginTop: 64}}>
           <FlashMessagesList />
-
           <Polls
             sortType={this.state.sortKey}
             category={this.state.category}
             searchQuery={this.state.searchQuery}
             contentWidth={contentWidth} />
-
           <section>
             <Drawer open={this.state.drawerOpen} openSecondary={true}>
               <section style={{position: 'relative', display: 'inline-block', padding: '8px 0', borderBottom: '1px solid #ddd'}}>

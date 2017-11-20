@@ -12,19 +12,27 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Results from './Results';
 import Moment from 'moment';
 import { letterToHexColor } from '../helpers';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import Cancel from 'material-ui/svg-icons/navigation/cancel';
 
 class Poll extends Component {
 
   state = {
     choiceId: '',
+    deleteMenuOpen: false,
+    anchorEl: null,
     deletePollModalOpen: false
   }
 
-  handleOpen = () => {
+  handleDeleteModalOpen = () => {
+    this.handleDeleteMenuClose();
     this.setState({deletePollModalOpen: true});
   };
 
-  handleClose = () => {
+  handleDeleteModalClose = () => {
     this.setState({deletePollModalOpen: false});
   };
 
@@ -38,6 +46,16 @@ class Poll extends Component {
     this.props.vote(pollId, choiceId);
   }
 
+  handleDeleteMenuOpen = (e) => {
+    this.setState({
+      deleteMenuOpen: true,
+      anchorEl: e.currentTarget,
+    });
+  };
+
+  handleDeleteMenuClose = () =>
+    this.setState({deleteMenuOpen: false});
+
   render() {
     const poll = this.props.poll;
     const author = poll.author;
@@ -48,7 +66,7 @@ class Poll extends Component {
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleDeleteModalClose}
       />
     ];
     const choiceId = this.state.choiceId;
@@ -58,15 +76,21 @@ class Poll extends Component {
     const numVotes = poll.votes.length;
     return (
       <Paper style={style} zDepth={1} >
-        {
-          author && (
-            author.photo ?
-              <Avatar src={`../uploads/${author.photo}`} /> :
-              <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
-          )
-        }
-        <strong style={{margin: '0 10px'}}>{ author && author.username }</strong>
-        <span>{ timeAgo }</span>
+        <section>
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}} >
+            {
+              author && (
+                author.photo ?
+                  <Avatar src={`../uploads/${author.photo}`} /> :
+                  <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+              )
+            }
+          </section>
+          <section style={{display: 'inline-block', verticalAlign: 'middle'}} >
+            <strong style={{margin: '0 10px'}}>{ author && author.username }</strong>
+            <span>{ timeAgo }</span>
+          </section>
+        </section>
         <Link to={`/polls/${poll.slug}`}>
           <h2>{ poll.title }</h2>
         </Link>
@@ -93,26 +117,6 @@ class Poll extends Component {
               onClick={() => this.makeVote(choiceId)} />
           </section>
         }
-        {
-          isOwnedByUser &&
-          <section>
-            <RaisedButton
-              label='Delete'
-              secondary={true}
-              onClick={this.handleOpen}
-             />
-            <Dialog
-              title="Delete Poll?"
-              actions={actions}
-              modal={true}
-              open={this.state.deletePollModalOpen}
-            >
-              <DeletePollConfirmation
-                poll={poll}
-                handleClose={this.handleClose.bind(this)} />
-            </Dialog>
-          </section>
-        }
         <section style={{color: 'rgba(0, 0, 0, 0.64)', fontSize: 12, marginTop: 20}}>
           <span>
             { `${numVotes} ${numVotes === 1 ? 'vote' : 'votes'}` }
@@ -123,6 +127,39 @@ class Poll extends Component {
           <span>
             { poll.category }
           </span>
+          {
+            isOwnedByUser &&
+            <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
+              <IconButton
+                tooltip="Delete Poll?"
+                onClick={this.handleDeleteMenuOpen}>
+                <Cancel />
+              </IconButton>
+              <Popover
+                open={this.state.deleteMenuOpen}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                onRequestClose={this.handleDeleteMenuClose}
+              >
+                <Menu>
+                  <MenuItem
+                    onClick={this.handleDeleteModalOpen}
+                    primaryText="Delete Poll?" />
+                </Menu>
+              </Popover>
+              <Dialog
+                title="Delete Poll?"
+                actions={actions}
+                modal={true}
+                open={this.state.deletePollModalOpen}
+              >
+                <DeletePollConfirmation
+                  poll={poll}
+                  handleClose={this.handleDeleteModalClose.bind(this)} />
+              </Dialog>
+            </section>
+          }
         </section>
       </Paper>
     )

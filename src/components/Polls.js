@@ -21,7 +21,7 @@ class Polls extends Component {
     const { category, searchQuery, sortType } = this.props
     window.addEventListener('scroll', this.handleOnScroll);
     window.addEventListener('resize', this.updateRenderedPolls);
-    this.props.getPolls(category, searchQuery, sortType);
+    this.props.getPolls(category, searchQuery, sortType)
   }
 
   componentWillUnmount = () => {

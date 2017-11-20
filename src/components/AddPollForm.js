@@ -19,16 +19,11 @@ class AddPollForm extends Component {
       return {
         title: '',
         category: '',
-        numberOfInputs: 2,
         inputs: [
-          {
-            name: 'option-1',
-            value: ''
-          },
-          {
-            name: 'option-2',
-            value: ''
-          }
+          { name: 'option-1', value: '' },
+          { name: 'option-2', value: '' },
+          { name: 'option-3', value: '' },
+          { name: 'option-4', value: '' }
         ],
         errors: {},
         isValid: false
@@ -70,15 +65,6 @@ class AddPollForm extends Component {
   handleCategoryChange = (event, index, value) =>
     this.setState({category: value});
 
-  appendInput() {
-    const { inputs, numberOfInputs } = this.state
-    if (numberOfInputs < 4) {
-      const newInput = { 'name': `option-${numberOfInputs + 1}`, 'value': '' }
-      const newInputs = inputs.concat(newInput)
-      this.setState({ 'inputs': newInputs, 'numberOfInputs': numberOfInputs + 1})
-    }
-  }
-
   handleOptionInput(e) {
     const newVal = e.target.value;
     const property = e.target.name;
@@ -91,7 +77,7 @@ class AddPollForm extends Component {
   }
 
   render() {
-    const { title, category, inputs, numberOfInputs, errors, isValid } = this.state
+    const { title, category, inputs, errors, isValid } = this.state
     return (
       <section style={{margin: 20}}>
         <form onChange={this.validateForm}>
@@ -135,15 +121,10 @@ class AddPollForm extends Component {
               })
             }
           </section>
-          {
-            numberOfInputs < 4 &&
-              <FlatButton
-                label="+ Add a choice"
-                onClick={this.appendInput.bind(this)} />
-          }
           <RaisedButton
             label="Submit"
             disabled={!isValid}
+            primary={true}
             onClick={this.handleSubmit.bind(this)} />
         </form>
       </section>
