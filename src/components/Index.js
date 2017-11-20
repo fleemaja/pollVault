@@ -52,6 +52,13 @@ class Index extends Component {
     searchQuery: ''
   }
 
+  componentWillMount = () => {
+    const clientWidth = document.documentElement.clientWidth || window.innerWidth;
+    if (clientWidth < 768) {
+      this.setState({ drawerOpen: false })
+    }
+  }
+
   handleOpen = () => {
     if (this.props.auth.isAuthenticated) {
       this.setState({ addPollModalOpen: true });
@@ -299,7 +306,7 @@ class Index extends Component {
               >
                 <MenuItem value='trending' primaryText='Trending' />
                 <MenuItem value='popular' primaryText='Most Votes' />
-                <MenuItem value='recent' primaryText='Most Recent' />
+                <MenuItem value='recent' primaryText='Newest' />
               </SelectField>
               <section style={{margin: 20}}>
                 <label for="category" style={{marginTop: '40px'}}>

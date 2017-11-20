@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CheckMark from 'material-ui/svg-icons/maps/beenhere';
+import CheckMark from 'material-ui/svg-icons/action/check-circle';
 
 class Results extends Component {
   state = {
@@ -22,7 +22,7 @@ class Results extends Component {
         {
           choices.map(c => {
             const isUserVote = ipVote === c.id;
-            const backgroundColor = isUserVote ? '#cdebf9' : '#ddd';
+            const backgroundColor = isUserVote ? '#cdebf9' : '#eee';
             const percentOfVote = Math.round(c.votes/totalVotes * 100);
             return (
               <section
@@ -34,12 +34,21 @@ class Results extends Component {
                   transition: 'background-position 1s ease',
                   backgroundPosition: `${mounted ? `${-percentOfVote}% 0` : '0 0'}`
                 }}>
-                {
-                  isUserVote &&
-                  <CheckMark
-                    style={{verticalAlign: 'middle', display: 'inline-block'}} />
-                 }
-                <span style={{marginLeft: 5}}>{ c.text } - { `${percentOfVote}%` }</span>
+                <section style={{marginLeft: 5}}>
+                  <section style={{display: 'inline-block', width: '50px'}}>
+                    <strong style={{verticalAlign: 'middle', display: 'inline-block'}}>
+                      { `${percentOfVote}%` }
+                    </strong>
+                  </section>
+                  <span style={{verticalAlign: 'middle', display: 'inline'}}>
+                    { c.text }
+                  </span>
+                  {
+                    isUserVote &&
+                    <CheckMark
+                      style={{verticalAlign: 'middle', marginLeft: 5, display: 'inline-block'}} />
+                   }
+                </section>
               </section>
             )
           })

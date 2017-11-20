@@ -32,8 +32,8 @@ class Comments extends Component {
             onChange={this.handleSortKeyChange}
             style={{width: 150, marginLeft: '40px', display: 'inline-block', verticalAlign: 'middle',}}
           >
-            <MenuItem value='popular' primaryText='Most Votes' />
-            <MenuItem value='created' primaryText='Most Recent' />
+            <MenuItem value='popular' primaryText='Popular' />
+            <MenuItem value='created' primaryText='Newest' />
           </SelectField>
         </section>
         <section style={style} >
