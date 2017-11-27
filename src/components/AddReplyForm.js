@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import { letterToHexColor } from '../helpers';
+import { addFlashMessage } from '../actions/flashMessages';
 
 class AddReplyForm extends Component {
   state = {
@@ -20,6 +21,10 @@ class AddReplyForm extends Component {
     if (commentId !== '' && reply !== '') {
       this.props.addReply(commentId, reply)
       this.props.hideReplyForm();
+      this.props.addFlashMessage({
+        type: 'success',
+        text: 'Reply Added!'
+      })
       this.setState({ reply: '' });
     }
   }
@@ -79,7 +84,8 @@ function mapStateToProps ({ auth }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addReply: (commentId, reply) => dispatch(apiAddReply(commentId, reply))
+    addReply: (commentId, reply) => dispatch(apiAddReply(commentId, reply)),
+    addFlashMessage: (message) => dispatch(addFlashMessage(message))
   }
 }
 

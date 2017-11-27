@@ -1,5 +1,6 @@
 import {
-  ADD_FLASH_MESSAGE
+  ADD_FLASH_MESSAGE,
+  CLEAR_FLASH_MESSAGES
 } from '../actions/flashMessages';
 import shortid from 'shortid';
 
@@ -14,6 +15,8 @@ export function flashMessages(state = [], action) {
           text: action.message.text
         }
       ]
+    case CLEAR_FLASH_MESSAGES :
+      return []
     default :
       return state
   }

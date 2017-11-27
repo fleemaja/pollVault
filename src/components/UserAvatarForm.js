@@ -44,27 +44,30 @@ class UserAvatarForm extends Component {
     const { imagePreviewUrl } = this.state
     return (
       <form>
-        {
-          imagePreviewUrl ?
-          <Avatar src={imagePreviewUrl} /> :
-            (
-              userPhoto
-                ? <Avatar src={`../uploads/${userPhoto}`} />
-                : <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
-            )
-        }
-        <label for="photo">
-          <span>Choose Photo</span>
+        <section>
+          {
+            imagePreviewUrl ?
+            <Avatar src={imagePreviewUrl} /> :
+              (
+                userPhoto
+                  ? <Avatar src={`../uploads/${userPhoto}`} />
+                  : <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
+              )
+          }
           <input
             onChange={this.previewImageChange.bind(this)}
             type="file"
+            ariaLabel="Choose Photo"
+            style={{ marginLeft: 10 }}
             name="photo"
             id="photo"
             accept="image/gif, image/png, image/jpeg, image/jpg" />
-          <RaisedButton
-            onClick={this.handleSubmit.bind(this)}
-            label="submit" />
-        </label>
+        </section>
+        <RaisedButton
+          primary={true}
+          style={{marginTop: 40}}
+          onClick={this.handleSubmit.bind(this)}
+          label="save" />
       </form>
     )
   }

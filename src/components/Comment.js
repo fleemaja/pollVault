@@ -133,12 +133,6 @@ class Comment extends Component {
           onClick={this.displayReplyForm.bind(this)}
          />
         {
-          displayReplyForm &&
-          <AddReplyForm
-            commentId={comment.id}
-            hideReplyForm={this.hideReplyForm.bind(this)} />
-        }
-        {
           isOwnedByUser &&
           <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
             <IconButton
@@ -170,6 +164,12 @@ class Comment extends Component {
                 handleClose={this.handleDeleteModalClose.bind(this)} />
             </Dialog>
           </section>
+        }
+        {
+          displayReplyForm &&
+          <AddReplyForm
+            commentId={comment.id}
+            hideReplyForm={this.hideReplyForm.bind(this)} />
         }
         <Replies
           handleCommentClick={this.props.handleCommentClick}

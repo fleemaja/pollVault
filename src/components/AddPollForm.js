@@ -8,6 +8,7 @@ import { categories } from '../helpers';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import validateInput from '../utils/validations/polls';
+import { addFlashMessage } from '../actions/flashMessages';
 
 class AddPollForm extends Component {
   constructor(props) {
@@ -45,7 +46,11 @@ class AddPollForm extends Component {
     const { errors, isValid } = validateInput({ title, category, choices });
     if (isValid) {
       this.props.addPoll({ title, category, choices })
-      this.props.handleClose()
+      this.props.handleClose();
+      this.props.addFlashMessage({
+        type: 'success',
+        text: 'Poll Added!'
+      })
       this.setState(this.initialState);
     } else {
       this.setState({ errors })
@@ -134,7 +139,8 @@ class AddPollForm extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addPoll: (poll) => dispatch(apiAddPoll(poll))
+    addPoll: (poll) => dispatch(apiAddPoll(poll)),
+    addFlashMessage: (message) => dispatch(addFlashMessage(message))
   }
 }
 

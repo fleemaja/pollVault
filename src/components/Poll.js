@@ -24,7 +24,14 @@ class Poll extends Component {
     choiceId: '',
     deleteMenuOpen: false,
     anchorEl: null,
-    deletePollModalOpen: false
+    deletePollModalOpen: false,
+    numVotes: 0
+  }
+
+  componentDidMount = () => {
+    const poll = this.props.poll;
+    const numVotes = poll.votes.length;
+    this.setState({ numVotes })
   }
 
   handleDeleteModalOpen = () => {
@@ -44,6 +51,7 @@ class Poll extends Component {
     const poll = this.props.poll;
     const pollId = poll.id;
     this.props.vote(pollId, choiceId);
+    this.setState({ numVotes: this.state.numVotes + 1 })
   }
 
   handleDeleteMenuOpen = (e) => {
@@ -73,7 +81,7 @@ class Poll extends Component {
     const time = Moment(`${poll.created}`).format("x");
     const timeAgo = Moment(time, "x").fromNow();
     const letter = author && author.username.charAt(0);
-    const numVotes = poll.votes.length;
+    const numVotes = this.state.numVotes;
     return (
       <Paper style={style} zDepth={1} >
         <section>

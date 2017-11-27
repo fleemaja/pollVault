@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import { letterToHexColor } from '../helpers';
+import { addFlashMessage } from '../actions/flashMessages';
 
 class AddCommentForm extends Component {
   state = {
@@ -19,6 +20,10 @@ class AddCommentForm extends Component {
     const parentId = this.props.parentId;
     if (parentId !== '' && text !== '') {
       this.props.addComment(parentId, { text });
+      this.props.addFlashMessage({
+        type: 'success',
+        text: 'Comment Added!'
+      })
       this.setState({ text: '' })
     }
   }
@@ -79,7 +84,8 @@ function mapStateToProps ({ auth }) {
 function mapDispatchToProps(dispatch) {
   return {
     addComment: (parentId, comment) =>
-      dispatch(apiAddComment(parentId, comment))
+      dispatch(apiAddComment(parentId, comment)),
+    addFlashMessage: (message) => dispatch(addFlashMessage(message))
   }
 }
 
