@@ -81,9 +81,9 @@ const sortPollsByTrendingScore = (polls) => (
 )
 
 exports.getPolls = async (req, res) => {
-  const page = req.params.page || 1;
-  const limit = 12;
-  const skip = (page * limit) - limit;
+  // const page = req.params.page || 1;
+  // const limit = 12;
+  // const skip = (page * limit) - limit;
 
   const category = req.params.category;
   const categoryQuery = category === 'all' ? { $exists: true } : category;
@@ -97,8 +97,8 @@ exports.getPolls = async (req, res) => {
 
   const pollsPromise = Poll
     .find(findQuery, findQueryOptions)
-    .skip(skip)
-    .limit(limit)
+    // .skip(skip)
+    // .limit(limit)
     .populate('author comments choices votes')
     .sort(sortQuery);
 
@@ -112,13 +112,13 @@ exports.getPolls = async (req, res) => {
     polls = sortPollsByTrendingScore(polls);
   }
 
-  const pages = Math.ceil(count / limit);
+  // const pages = Math.ceil(count / limit);
 
-  if (!polls.length && skip) {
-    //req.flash('info', `You asked for page ${page}. But that does not exist so I put you on page ${pages}`);
-    //res.redirect(`/polls/page/${pages}`);
-    return;
-  }
+  // if (!polls.length && skip) {
+  //   //req.flash('info', `You asked for page ${page}. But that does not exist so I put you on page ${pages}`);
+  //   //res.redirect(`/polls/page/${pages}`);
+  //   return;
+  // }
   const pollsWithVoteStatus = polls.map(p => {
     const userVote = getIpVote(req.ip, p);
     const hasVoted = userVote ? true : false;
@@ -127,7 +127,7 @@ exports.getPolls = async (req, res) => {
     poll.ipVote = userVote;
     return poll;
   });
-  res.json({ polls: pollsWithVoteStatus, page, pages, count })
+  res.json({ polls: pollsWithVoteStatus })
   //res.render('polls', { title: 'Polls', polls, page, pages, count } )
 };
 

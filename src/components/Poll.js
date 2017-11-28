@@ -34,6 +34,12 @@ class Poll extends Component {
     this.setState({ numVotes })
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    const poll = nextProps.poll;
+    const numVotes = poll.votes.length;
+    this.setState({ numVotes })
+  }
+
   handleDeleteModalOpen = () => {
     this.handleDeleteMenuClose();
     this.setState({deletePollModalOpen: true});
