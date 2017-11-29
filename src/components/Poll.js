@@ -46,7 +46,7 @@ class Poll extends Component {
   };
 
   handleDeleteModalClose = () => {
-    this.setState({deletePollModalOpen: false});
+    this.setState({ deletePollModalOpen: false });
   };
 
   handleChoiceChange = (e) => {
@@ -71,7 +71,7 @@ class Poll extends Component {
     this.setState({deleteMenuOpen: false});
 
   render() {
-    const poll = this.props.poll;
+    const { poll, slugPoll } = this.props;
     const author = poll.author;
     const pollOwnerId = author && author.id;
     const currentUser = this.props.auth.user.id;
@@ -143,7 +143,7 @@ class Poll extends Component {
             { poll.category }
           </span>
           {
-            isOwnedByUser &&
+            isOwnedByUser && !slugPoll &&
             <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
               <IconButton
                 tooltip="Delete Poll?"

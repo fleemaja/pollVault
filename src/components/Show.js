@@ -118,7 +118,7 @@ class Show extends Component {
               style={{left: 'calc(50% - 90px)', top: 'calc(50% - 26px)', position: 'absolute'}} />
           : <section style={{maxWidth: 900, margin: '0 auto'}}>
               <section style={{marginLeft: 'calc(50% - 150px)', paddingTop: 40}}>
-                <Poll poll={poll} />
+                <Poll poll={poll} slugPoll={true} />
               </section>
               <Paper style={{paddingTop: 20}} zIndex={2}>
                 <AddCommentForm

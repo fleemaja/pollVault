@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { apiPollDelete } from '../actions/polls';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import { addFlashMessage } from '../actions/flashMessages';
 
 class DeletePollConfirmation extends Component {
 
@@ -10,7 +11,10 @@ class DeletePollConfirmation extends Component {
 
     const id = this.props.poll.id;
     this.props.deletePoll(id);
-
+    this.props.addFlashMessage({
+      type: 'success',
+      text: 'Poll Deleted!'
+    })
     this.props.handleClose();
   }
 
@@ -30,7 +34,8 @@ class DeletePollConfirmation extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deletePoll: (id) => dispatch(apiPollDelete(id))
+    deletePoll: (id) => dispatch(apiPollDelete(id)),
+    addFlashMessage: (message) => dispatch(addFlashMessage(message))
   }
 }
 

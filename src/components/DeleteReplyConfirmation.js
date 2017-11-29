@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { apiReplyDelete } from '../actions/comments';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import { addFlashMessage } from '../actions/flashMessages';
 
 class DeleteReplyConfirmation extends Component {
 
@@ -11,7 +12,10 @@ class DeleteReplyConfirmation extends Component {
     const commentId = this.props.commentId;
     const replyId = this.props.reply.id;
     this.props.deleteReply(commentId, replyId);
-
+    this.props.addFlashMessage({
+      type: 'success',
+      text: 'Reply Deleted!'
+    })
     this.props.handleClose();
   }
 
@@ -32,7 +36,8 @@ class DeleteReplyConfirmation extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteReply: (commentId, replyId) => dispatch(apiReplyDelete(commentId, replyId))
+    deleteReply: (commentId, replyId) => dispatch(apiReplyDelete(commentId, replyId)),
+    addFlashMessage: (message) => dispatch(addFlashMessage(message))
   }
 }
 

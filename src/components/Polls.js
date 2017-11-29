@@ -36,7 +36,7 @@ class Polls extends Component {
         <Masonry
           options={masonryOptions}
           style={{margin: '0 auto'}}>
-          { this.props.polls.map(p => <Poll poll={p} />) }
+          { this.props.polls.map(p => <Poll poll={p} slugPoll={false} />) }
           {
             noResults &&
             <section style={{textAlign: 'center', color: '#555'}}>
