@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
+import WebFont from 'webfontloader';
 
 import { createStore, applyMiddleware, compose } from 'redux'
 import reducer from './reducers'
@@ -33,12 +34,12 @@ const store = createStore(
   )
 )
 
-if (localStorage.jwtToken) {
-  setAuthorizationToken(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
-  getCurrentUserPhoto()
-    .then(res => store.dispatch(setCurrentUserPhoto(res.data.photo)))
-}
+// asyncronously load google font to avoid render blocking stylesheet
+WebFont.load({
+  google: {
+    families: ['Roboto:300,400,700']
+  }
+});
 
 ReactDOM.render(
     <Provider store={store}>
@@ -46,4 +47,12 @@ ReactDOM.render(
     </Provider>,
   document.getElementById('root')
 )
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+  getCurrentUserPhoto()
+    .then(res => store.dispatch(setCurrentUserPhoto(res.data.photo)))
+}
+
 registerServiceWorker();

@@ -36,6 +36,7 @@ export default function register() {
         // Is not local host. Just register service worker
         registerValidSW(swUrl);
       } else {
+        alert("isLocalhost")
         // This is running on localhost. Lets check if a service worker still exists or not.
         checkValidServiceWorker(swUrl);
       }
