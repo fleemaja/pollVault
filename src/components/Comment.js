@@ -101,7 +101,7 @@ class Comment extends Component {
             {
               author && (
                 author.photo ?
-                  <Avatar src={`../uploads/${author.photo}`} /> :
+                  <Avatar src={`../uploads/${author.photo}`} alt="" /> :
                   <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
               )
             }

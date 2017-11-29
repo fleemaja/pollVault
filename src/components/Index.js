@@ -215,7 +215,7 @@ class Index extends Component {
                     <section style={{cursor: 'pointer'}} onClick={this.handleUserMenuTap}>
                       {
                         user.photo ?
-                        <Avatar src={`uploads/${user.photo}`} /> :
+                        <Avatar src={`uploads/${user.photo}`} alt="" /> :
                         <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
                       }
                       <span style={{marginLeft: 5}}>

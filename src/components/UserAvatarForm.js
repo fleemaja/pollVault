@@ -47,10 +47,10 @@ class UserAvatarForm extends Component {
         <section>
           {
             imagePreviewUrl ?
-            <Avatar src={imagePreviewUrl} /> :
+            <Avatar src={imagePreviewUrl} alt="" /> :
               (
                 userPhoto
-                  ? <Avatar src={`../uploads/${userPhoto}`} />
+                  ? <Avatar src={`../uploads/${userPhoto}`} alt="" />
                   : <Avatar style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
               )
           }

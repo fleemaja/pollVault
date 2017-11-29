@@ -53,7 +53,7 @@ class AddReplyForm extends Component {
         <form>
           {
             user.photo ?
-            <Avatar size={30} src={`../uploads/${user.photo}`} /> :
+            <Avatar size={30} src={`../uploads/${user.photo}`} alt="" /> :
             <Avatar size={30} style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
           }
           <TextField

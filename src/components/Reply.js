@@ -100,7 +100,7 @@ class Reply extends Component {
             {
               author && (
                 author.photo ?
-                  <Avatar size={30} src={`../uploads/${author.photo}`} /> :
+                  <Avatar size={30} src={`../uploads/${author.photo}`} alt="" /> :
                   <Avatar size={30} style={{backgroundColor: letterToHexColor[letter.toLowerCase()] || '#ddd', color: '#333'}}>{ letter }</Avatar>
               )
             }
