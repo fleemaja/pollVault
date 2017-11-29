@@ -120,6 +120,7 @@ class Poll extends Component {
                   <RadioButton
                     value={o.id}
                     label={o.text}
+                    aria-label={o.text}
                   />
                 )
               }
@@ -146,6 +147,7 @@ class Poll extends Component {
             <section style={{display: 'inline-block', verticalAlign: 'middle'}}>
               <IconButton
                 tooltip="Delete Poll?"
+                aria-label="Delete Poll?"
                 onClick={this.handleDeleteMenuOpen}>
                 <Cancel />
               </IconButton>

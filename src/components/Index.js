@@ -185,7 +185,8 @@ class Index extends Component {
           showMenuIconButton={false}
           iconElementRight={
             <FlatButton
-              title='Toggle Filters'
+              title='Toggle Menu'
+              aria-label='Toggle Menu'
               icon={this.state.drawerOpen ? <RightArrow color='#333' /> : <Search color='#333' />}
               onClick={this.handleDrawerToggle.bind(this)} />
           }
@@ -207,6 +208,7 @@ class Index extends Component {
                   underlineShow={false}
                   onChange={this.handleSearchQueryChange.bind(this)}
                   hintText="Search"
+                  aria-label="Search"
                 />
               </section>
               <section style={{margin: '20px 0 20px 20px'}}>

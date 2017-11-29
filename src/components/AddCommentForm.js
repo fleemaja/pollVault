@@ -60,6 +60,7 @@ class AddCommentForm extends Component {
           <TextField
             value={text}
             name='text'
+            aria-label="Add A Public Comment"
             maxLength={500}
             onChange={this.handleInput.bind(this)}
             hintText="Add A Public Comment"

@@ -59,6 +59,7 @@ class AddReplyForm extends Component {
           <TextField
             value={reply}
             name="reply"
+            aria-label="Add a Public Reply"
             maxLength={500}
             onChange={this.handleInput.bind(this)}
             hintText="Add a Public Reply"
