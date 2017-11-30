@@ -1,7 +1,5 @@
 import * as CommentsStorage from '../utils/comments';
 
-import { addFlashMessage } from './flashMessages';
-
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const ADD_COMMENT_REPLY = "ADD_COMMENT_REPLY";

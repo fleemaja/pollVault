@@ -24,7 +24,7 @@ export default function validateInput(data) {
       choices[i] = "Choice must be under 140 characters"
     }
   }
-  if (choices.some(x => x != 'null')) {
+  if (choices.some(x => x !== 'null')) {
     errors.choices = choices;
   }
   return {

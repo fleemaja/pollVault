@@ -1,7 +1,5 @@
 import * as PollsStorage from '../utils/polls';
 
-import { addFlashMessage } from './flashMessages';
-
 export const RECEIVE_POLLS = "RECEIVE_POLLS";
 export const ADD_POLL = "ADD_POLL";
 export const DELETE_POLL = "DELETE_POLL";

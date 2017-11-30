@@ -23,7 +23,12 @@ const app = express();
 // app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work great too
 
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
-app.use(express.static('public'));
+// Express only serves static assets in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('build'));
+} else {
+  app.use(express.static('public'));
+}
 app.use(cors());
 
 // Takes the raw requests and turns them into usable properties on req.body

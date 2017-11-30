@@ -27,7 +27,6 @@ import { fetchPolls } from '../actions/polls';
 import { categories, letterToHexColor } from '../helpers';
 import { connect } from 'react-redux';
 import AppTitle from './AppTitle';
-import CircularProgress from 'material-ui/CircularProgress';
 
 const muiTheme = getMuiTheme({
   fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif',

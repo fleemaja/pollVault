@@ -1,7 +1,5 @@
 import * as UsersStorage from '../utils/users';
 
-import { addFlashMessage } from './flashMessages';
-
 import { setAuthorizationToken } from '../utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
 

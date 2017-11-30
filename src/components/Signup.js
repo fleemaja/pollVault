@@ -21,7 +21,7 @@ class Signup extends Component {
     const { name, value } = e.target;
     this.setState({ [name]: value });
     const newState = { ...this.state, [name]: value }
-    const { errors, isValid } = await validateInput(newState);
+    const { errors } = await validateInput(newState);
     let errorVal = '';
     if (errors[name]) {
       errorVal = errors[name]

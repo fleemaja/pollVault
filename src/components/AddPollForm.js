@@ -3,7 +3,6 @@ import { apiAddPoll } from '../actions/polls';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import { categories } from '../helpers';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';

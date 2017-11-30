@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import { apiVoteReply } from '../actions/comments';
 import Dialog from 'material-ui/Dialog';
