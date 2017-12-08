@@ -73,26 +73,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Redirect all HTTP traffic to HTTPS
-// https://stackoverflow.com/questions/32952085/express-js-redirect-to-https-and-send-index-html
-function ensureSecure(req, res, next){
-  if (req.headers["x-forwarded-proto"] === "https") {
-    // OK, continue
-    return next();
-  };
-  res.redirect('https://' + req.hostname + req.url);
-};
-
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
-
-// Handle environments
-if (process.env.NODE_ENV === 'production') {
-  app.all('*', ensureSecure);
-}
 
 // One of our error handlers will see if these errors are just validation errors
 //app.use(errorHandlers.flashValidationErrors);

@@ -1,7 +1,8 @@
 import axios from 'axios';
+const api = 'http://localhost:5001';
 
 export const signup = (user) => {
-  const response = axios.post(`/api/register`, {
+  const response = axios.post(`${api}/api/register`, {
     'username': user.username,
     'email': user.email,
     'password': user.password,
@@ -11,18 +12,18 @@ export const signup = (user) => {
 }
 
 export const login = (user) =>
-  axios.post(`/api/login`, {
+  axios.post(`${api}/api/login`, {
     username: user.username,
     password: user.password
   })
 
 export const logout = () =>
-  axios.get(`/api/logout`)
+  axios.get(`${api}/api/logout`)
 
 export const updateUserAvatar = (photo) => {
   const formData = new FormData();
   formData.append("photo", photo);
-  const response = axios.post(`/api/account`, formData, {
+  const response = axios.post(`${api}/api/account`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -31,16 +32,16 @@ export const updateUserAvatar = (photo) => {
 }
 
 export const getCurrentUserPhoto = () => {
-  const response = axios.get(`/api/account/photo`);
+  const response = axios.get(`${api}/api/account/photo`);
   return response;
 }
 
 export const isUsernameAlreadyRegistered = (username) => {
-  const response = axios.get(`/api/users?username=${username}`);
+  const response = axios.get(`${api}/api/users?username=${username}`);
   return response;
 }
 
 export const isEmailAlreadyRegistered = (email) => {
-  const response = axios.get(`/api/users?email=${email}`);
+  const response = axios.get(`${api}/api/users?email=${email}`);
   return response;
 }

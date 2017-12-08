@@ -57,7 +57,7 @@ exports.validateRegister = async (req, res, next) => {
     const error = { location: 'body', param: 'email', msg: 'This email is already registered', value: req.body.email }
     errors.push(error)
   }
-  if (errors) {
+  if (errors.length > 0) {
     let formattedErrors = {};
     errors.forEach(e => {
       formattedErrors[e.param] = e.msg;
